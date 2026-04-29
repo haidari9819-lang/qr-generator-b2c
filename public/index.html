@@ -3,91 +3,564 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="QR Code kostenlos erstellen - ohne Anmeldung. Einfach URL eingeben, QR Code generieren und per E-Mail erhalten." />
-  <title>QR Code Generator - Kostenlos & ohne Anmeldung</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>QR Code Generator – Kostenlos & ohne Anmeldung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --orange: #e85d04;
+      --orange-dark: #c94f00;
+      --orange-light: #fff3ed;
+      --black: #0f0f0f;
+      --gray: #6b7280;
+      --light: #f9f5f1;
+      --white: #ffffff;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--light);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 48px;
+      background: rgba(249,245,241,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      font-family: "Syne", sans-serif;
+      font-size: 1.4rem; font-weight: 800;
+      color: var(--orange);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo span { color: var(--black); }
+    .nav-cta {
+      background: var(--black); color: white;
+      padding: 10px 22px; border-radius: 100px;
+      text-decoration: none; font-size: 0.9rem; font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--orange); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(232,93,4,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--orange-light); border: 1px solid rgba(232,93,4,0.2);
+      color: var(--orange); padding: 6px 16px; border-radius: 100px;
+      font-size: 0.85rem; font-weight: 600; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.02em;
+      max-width: 800px; margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal; color: var(--orange);
+      position: relative;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--gray);
+      max-width: 500px; line-height: 1.7;
+      margin-bottom: 40px;
+    }
+    .hero-stats {
+      display: flex; gap: 40px; margin-bottom: 56px;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .stat { text-align: center; }
+    .stat-number {
+      font-family: "Syne", sans-serif;
+      font-size: 1.8rem; font-weight: 800; color: var(--black);
+    }
+    .stat-label { font-size: 0.85rem; color: var(--gray); }
+
+    /* GENERATOR CARD */
+    .generator-wrapper {
+      width: 100%; max-width: 680px; margin: 0 auto;
+    }
+    .generator-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 1px 0 rgba(255,255,255,0.8) inset;
+    }
+
+    /* QR TYPE TABS */
+    .type-label { font-size: 0.8rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .qr-types {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;
+    }
+    .qr-type {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 100px;
+      border: 2px solid #e5e7eb; background: white;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      transition: all 0.15s; color: var(--gray);
+    }
+    .qr-type:hover { border-color: var(--orange); color: var(--orange); }
+    .qr-type.active { border-color: var(--orange); background: var(--orange-light); color: var(--orange); }
+
+    /* INPUT FIELDS */
+    .input-group { margin-bottom: 16px; }
+    .input-group label {
+      display: block; font-size: 0.85rem; font-weight: 600;
+      margin-bottom: 8px; color: var(--black);
+    }
+    .input-group input {
+      width: 100%; padding: 14px 18px;
+      border: 2px solid #e5e7eb; border-radius: 12px;
+      font-size: 1rem; font-family: "DM Sans", sans-serif;
+      transition: border 0.2s, box-shadow 0.2s;
+      background: #fafafa;
+    }
+    .input-group input:focus {
+      outline: none; border-color: var(--orange);
+      box-shadow: 0 0 0 4px rgba(232,93,4,0.1);
+      background: white;
+    }
+
+    /* FIELDS */
+    .fields { display: none; }
+    .fields.active { display: block; }
+
+    /* GENERATE BTN */
+    .btn-generate {
+      width: 100%; padding: 16px;
+      background: var(--orange); color: white;
+      border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 700;
+      font-family: "DM Sans", sans-serif;
+      cursor: pointer; margin-top: 8px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(232,93,4,0.3);
+    }
+    .btn-generate:hover { background: var(--orange-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,93,4,0.4); }
+    .btn-generate:active { transform: translateY(0); }
+    .btn-generate:disabled { background: #d1d5db; box-shadow: none; cursor: not-allowed; }
+
+    /* QR RESULT */
+    #result { display: none; margin-top: 28px; }
+    .result-inner {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 24px; background: var(--light); border-radius: 16px;
+    }
+    #qrImage {
+      width: 140px; height: 140px; border-radius: 12px;
+      border: 2px solid #e5e7eb; background: white; flex-shrink: 0;
+    }
+    .result-actions { flex: 1; }
+    .result-actions h3 {
+      font-family: "Syne", sans-serif;
+      font-size: 1rem; margin-bottom: 6px;
+    }
+    .result-actions p { font-size: 0.85rem; color: var(--gray); margin-bottom: 16px; }
+
+    .email-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    .email-row input {
+      flex: 1; padding: 11px 14px;
+      border: 2px solid #e5e7eb; border-radius: 10px;
+      font-size: 0.9rem; font-family: "DM Sans", sans-serif;
+    }
+    .email-row input:focus { outline: none; border-color: var(--orange); }
+    .btn-send {
+      padding: 11px 18px; background: var(--orange); color: white;
+      border: none; border-radius: 10px; font-weight: 600;
+      font-family: "DM Sans", sans-serif; cursor: pointer;
+      font-size: 0.9rem; white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-send:hover { background: var(--orange-dark); }
+
+    .btn-download {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; padding: 10px;
+      border: 2px solid var(--orange); color: var(--orange);
+      border-radius: 10px; text-decoration: none;
+      font-weight: 600; font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .btn-download:hover { background: var(--orange-light); }
+
+    #status {
+      margin-top: 10px; padding: 10px 14px;
+      border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+      display: none;
+    }
+    #status.success { background: #d1fae5; color: #065f46; }
+    #status.error { background: #fee2e2; color: #991b1b; }
+
+    /* FEATURES */
+    .section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.8rem; font-weight: 700; color: var(--orange);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;
+    }
+    .section h2 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; line-height: 1.15;
+      max-width: 500px; margin-bottom: 60px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: white; border-radius: 20px;
+      padding: 32px; border: 1px solid #f0f0f0;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--orange-light); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-family: "Syne", sans-serif;
+      font-size: 1.1rem; margin-bottom: 10px;
+    }
+    .feature-card p { font-size: 0.9rem; color: var(--gray); line-height: 1.6; }
+
+    /* UPSELL */
+    .upsell-section {
+      background: var(--black); color: white;
+      border-radius: 32px; padding: 64px;
+      text-align: center; margin: 0 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .upsell-section::before {
+      content: "";
+      position: absolute; top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(232,93,4,0.3) 0%, transparent 70%);
+    }
+    .upsell-section h2 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; margin-bottom: 16px;
+    }
+    .upsell-section p { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 36px; }
+    .upsell-features {
+      display: flex; justify-content: center; gap: 32px;
+      flex-wrap: wrap; margin-bottom: 40px;
+    }
+    .upsell-feat {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.9rem; color: rgba(255,255,255,0.8);
+    }
+    .upsell-feat::before { content: "✓"; color: var(--orange); font-weight: 700; }
+    .btn-upsell {
+      display: inline-block;
+      background: var(--orange); color: white;
+      padding: 16px 40px; border-radius: 100px;
+      text-decoration: none; font-weight: 700; font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(232,93,4,0.4);
+    }
+    .btn-upsell:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(232,93,4,0.5); }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 32px 24px;
+      font-size: 0.85rem; color: var(--gray);
+      border-top: 1px solid #e5e7eb;
+    }
+    footer a { color: var(--orange); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .generator-card { padding: 24px; }
+      .result-inner { flex-direction: column; }
+      .upsell-section { padding: 40px 24px; margin: 0 16px 60px; }
+      .email-row { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">⚡ QR Generator</div>
-    <a href="https://qr-docs.de" class="header-link">Mehr Features →</a>
-  </header>
+  <nav>
+    <div class="nav-logo">⚡ QR<span>Generator</span></div>
+    <a href="https://qr-docs.de" class="nav-cta">Mehr Features →</a>
+  </nav>
 
-  <main>
-    <section class="hero">
-      <h1>QR Code kostenlos erstellen</h1>
-      <p>Keine Anmeldung. Kein Abo. Einfach URL eingeben und fertig.</p>
-    </section>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">⚡ Kostenlos & ohne Anmeldung</div>
+    <h1>QR Codes erstellen –<br><em>in Sekunden</em></h1>
+    <p>Erstelle professionelle QR Codes für jede URL, WhatsApp, WLAN oder Visitenkarte. Gratis herunterladen oder per E-Mail erhalten.</p>
 
-    <div class="card">
-
-      <!-- Schritt 1 -->
-      <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <label for="target_url">Deine URL oder Text</label>
-          <input 
-            type="text" 
-            id="target_url" 
-            placeholder="https://deine-website.de" 
-          />
-        </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Kostenlos</div>
       </div>
+      <div class="stat">
+        <div class="stat-number">&lt;3s</div>
+        <div class="stat-label">Generierung</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Anmeldung nötig</div>
+      </div>
+    </div>
 
-      <button id="generateBtn" onclick="generateQR()">
-        QR Code generieren
-      </button>
+    <div class="generator-wrapper">
+      <div class="generator-card">
 
-      <!-- QR Vorschau -->
-      <div id="preview" class="hidden">
-        <img id="qrImage" src="" alt="QR Code" />
+        <div class="type-label">QR Code Typ wählen</div>
+        <div class="qr-types">
+          <button class="qr-type active" onclick="setType('website')">🌐 Website</button>
+          <button class="qr-type" onclick="setType('whatsapp')">💬 WhatsApp</button>
+          <button class="qr-type" onclick="setType('wifi')">📶 WLAN</button>
+          <button class="qr-type" onclick="setType('vcard')">👤 Visitenkarte</button>
+          <button class="qr-type" onclick="setType('text')">📝 Text</button>
+        </div>
 
-        <!-- Schritt 2 -->
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <label for="email">E-Mail für den QR Code</label>
-            <input 
-              type="email" 
-              id="email" 
-              placeholder="deine@email.de" 
-            />
+        <!-- Website -->
+        <div class="fields active" id="f-website">
+          <div class="input-group">
+            <label>Website URL</label>
+            <input type="url" id="website-url" placeholder="https://deine-website.de" />
           </div>
         </div>
 
-        <button id="sendBtn" onclick="sendEmail()">
-          QR Code per E-Mail senden 📧
-        </button>
+        <!-- WhatsApp -->
+        <div class="fields" id="f-whatsapp">
+          <div class="input-group">
+            <label>Telefonnummer (mit Ländervorwahl)</label>
+            <input type="tel" id="wa-phone" placeholder="+49 170 1234567" />
+          </div>
+          <div class="input-group">
+            <label>Nachricht (optional)</label>
+            <input type="text" id="wa-msg" placeholder="Hallo! Ich interessiere mich für..." />
+          </div>
+        </div>
 
-        <a id="downloadBtn" href="#" download="qrcode.png" class="download-btn">
-          ⬇ Direkt herunterladen
-        </a>
+        <!-- WiFi -->
+        <div class="fields" id="f-wifi">
+          <div class="input-group">
+            <label>WLAN Name (SSID)</label>
+            <input type="text" id="wifi-ssid" placeholder="Mein WLAN" />
+          </div>
+          <div class="input-group">
+            <label>Passwort</label>
+            <input type="password" id="wifi-pass" placeholder="Passwort" />
+          </div>
+        </div>
+
+        <!-- vCard -->
+        <div class="fields" id="f-vcard">
+          <div class="input-group">
+            <label>Vor- und Nachname</label>
+            <input type="text" id="vc-name" placeholder="Max Mustermann" />
+          </div>
+          <div class="input-group">
+            <label>Telefon</label>
+            <input type="tel" id="vc-phone" placeholder="+49 170 1234567" />
+          </div>
+          <div class="input-group">
+            <label>E-Mail</label>
+            <input type="email" id="vc-email" placeholder="max@firma.de" />
+          </div>
+        </div>
+
+        <!-- Text -->
+        <div class="fields" id="f-text">
+          <div class="input-group">
+            <label>Text</label>
+            <input type="text" id="text-val" placeholder="Beliebiger Text..." />
+          </div>
+        </div>
+
+        <button class="btn-generate" onclick="generateQR()">QR Code generieren ⚡</button>
+
+        <!-- RESULT -->
+        <div id="result">
+          <div class="result-inner">
+            <img id="qrImage" src="" alt="QR Code" />
+            <div class="result-actions">
+              <h3>Dein QR Code ist bereit!</h3>
+              <p>Per E-Mail erhalten oder direkt herunterladen</p>
+              <div class="email-row">
+                <input type="email" id="email" placeholder="deine@email.de" />
+                <button class="btn-send" onclick="sendEmail()">📧 Senden</button>
+              </div>
+              <a id="downloadBtn" href="#" download="qrcode.png" class="btn-download">⬇ Herunterladen</a>
+              <div id="status"></div>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <!-- Status Meldungen -->
-      <div id="status" class="hidden"></div>
-
     </div>
+  </section>
 
-    <!-- Upsell -->
-    <section class="upsell">
-      <h3>Mehr Features mit QR-Docs</h3>
-      <div class="features">
-        <div class="feature">📊 Scan-Statistiken</div>
-        <div class="feature">🎨 Logo einbinden</div>
-        <div class="feature">📁 Codes verwalten</div>
-        <div class="feature">🔒 SHA-256 Versiegelung</div>
+  <!-- FEATURES -->
+  <div class="section">
+    <div class="section-label">Warum QR Generator?</div>
+    <h2>Alles was du brauchst</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>Website QR Code</h3>
+        <p>Verlinke jede Webseite, Landingpage oder Social Media Profil mit einem QR Code.</p>
       </div>
-      <a href="https://qr-docs.de" class="upsell-btn">Kostenlos testen →</a>
-    </section>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>WhatsApp QR Code</h3>
+        <p>Kunden scannen und starten sofort einen WhatsApp Chat mit dir – ohne Nummer eintippen.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📶</div>
+        <h3>WLAN QR Code</h3>
+        <p>Gäste verbinden sich automatisch mit deinem WLAN – kein Passwort eintippen nötig.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👤</div>
+        <h3>Visitenkarte</h3>
+        <p>Digitale Visitenkarte als QR Code – Kontakt wird direkt ins Telefon gespeichert.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📧</div>
+        <h3>Per E-Mail erhalten</h3>
+        <p>QR Code direkt in dein Postfach senden – bereit zum Drucken oder Teilen.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Sofort & kostenlos</h3>
+        <p>Keine Anmeldung, kein Abo, keine versteckten Kosten. Einfach generieren und nutzen.</p>
+      </div>
+    </div>
+  </div>
 
-  </main>
+  <!-- UPSELL -->
+  <div class="upsell-section">
+    <h2>Mehr Features mit QR-Docs</h2>
+    <p>Für Unternehmen die mehr brauchen – Statistiken, Logo, Versiegelung & mehr</p>
+    <div class="upsell-features">
+      <div class="upsell-feat">Scan-Statistiken</div>
+      <div class="upsell-feat">Logo einbinden</div>
+      <div class="upsell-feat">SHA-256 Versiegelung</div>
+      <div class="upsell-feat">Dashboard</div>
+      <div class="upsell-feat">Team-Zugriff</div>
+      <div class="upsell-feat">API Zugang</div>
+    </div>
+    <a href="https://qr-docs.de" class="btn-upsell">Kostenlos bei QR-Docs starten →</a>
+  </div>
 
   <footer>
-    <p>Powered by <a href="https://qr-docs.de">QR-Docs.de</a></p>
+    <p>© 2026 QR Generator · Powered by <a href="https://qr-docs.de">QR-Docs.de</a> · DSGVO konform · Hosting in Deutschland 🇩🇪</p>
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    let currentType = "website";
+    let qrImageUrl = "";
+
+    function setType(type) {
+      currentType = type;
+      document.querySelectorAll(".qr-type").forEach(b => b.classList.remove("active"));
+      event.target.classList.add("active");
+      document.querySelectorAll(".fields").forEach(f => f.classList.remove("active"));
+      document.getElementById("f-" + type).classList.add("active");
+      document.getElementById("result").style.display = "none";
+    }
+
+    function getQRData() {
+      switch(currentType) {
+        case "website": return document.getElementById("website-url").value.trim();
+        case "whatsapp": {
+          const phone = document.getElementById("wa-phone").value.replace(/\s/g,"").replace("+","");
+          const msg = encodeURIComponent(document.getElementById("wa-msg").value);
+          return `https://wa.me/${phone}${msg ? "?text="+msg : ""}`;
+        }
+        case "wifi": {
+          const ssid = document.getElementById("wifi-ssid").value;
+          const pass = document.getElementById("wifi-pass").value;
+          return `WIFI:T:WPA;S:${ssid};P:${pass};;`;
+        }
+        case "vcard": {
+          const name = document.getElementById("vc-name").value;
+          const phone = document.getElementById("vc-phone").value;
+          const email = document.getElementById("vc-email").value;
+          return `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+        }
+        case "text": return document.getElementById("text-val").value.trim();
+        default: return "";
+      }
+    }
+
+    async function generateQR() {
+      const data = getQRData();
+      const btn = document.querySelector(".btn-generate");
+      if (!data) { showStatus("Bitte alle Felder ausfüllen!", "error"); return; }
+      btn.disabled = true; btn.textContent = "Wird generiert...";
+      try {
+        const response = await fetch("/api/generate-qr", {
+          method: "POST", headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ target_url: data })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error("Fehler");
+        qrImageUrl = result.image_url;
+        document.getElementById("qrImage").src = qrImageUrl;
+        document.getElementById("downloadBtn").href = qrImageUrl;
+        document.getElementById("result").style.display = "block";
+      } catch(e) { showStatus("Fehler beim Generieren!", "error"); }
+      finally { btn.disabled = false; btn.textContent = "QR Code generieren ⚡"; }
+    }
+
+    async function sendEmail() {
+      const email = document.getElementById("email").value.trim();
+      const btn = document.querySelector(".btn-send");
+      if (!email) { showStatus("Bitte E-Mail eingeben!", "error"); return; }
+      btn.disabled = true; btn.textContent = "...";
+      try {
+        const response = await fetch("/api/send-email", {
+          method: "POST", headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ email, qr_image_url: qrImageUrl, target_url: getQRData() })
+        });
+        if (!response.ok) throw new Error("Fehler");
+        showStatus("📧 E-Mail erfolgreich gesendet!", "success");
+      } catch(e) { showStatus("Fehler beim Senden!", "error"); }
+      finally { btn.disabled = false; btn.textContent = "📧 Senden"; }
+    }
+
+    function showStatus(msg, type) {
+      const s = document.getElementById("status");
+      s.textContent = msg; s.className = type; s.style.display = "block";
+    }
+  </script>
 </body>
 </html>
