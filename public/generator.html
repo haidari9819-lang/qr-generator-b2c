@@ -123,7 +123,9 @@
   /* STEP 3 */
   .step3-layout{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start}
   .canvas-col{display:flex;flex-direction:column;align-items:center;gap:16px}
-  #qrCanvas{border-radius:12px;border:1.5px solid var(--g200);background:#fff;display:block}
+  #qr-preview{width:280px;height:280px;border-radius:12px;border:1.5px solid var(--g200);background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  #qr-preview canvas{display:block}
+  #qr-preview img{display:none}
   .canvas-name{font-size:.8rem;font-weight:600;color:var(--g500);text-align:center}
   .btn-dl{width:220px;padding:13px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:.92rem;font-weight:700;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:6px}
   .btn-dl:hover{background:var(--navy-d)}
@@ -169,7 +171,8 @@
     .step1-layout,.step2-layout,.step3-layout{grid-template-columns:1fr}
     .qr-preview-col,.preview-col{display:none}
     .type-grid{grid-template-columns:repeat(3,1fr)}
-    #qrCanvas{width:100%!important;height:auto!important}
+    #qr-preview{width:100%!important;height:auto!important;aspect-ratio:1/1}
+    #qr-preview canvas{width:100%!important;height:auto!important}
   }
   @media(max-width:560px){
     .type-grid{grid-template-columns:repeat(2,1fr)}
@@ -362,7 +365,7 @@
   <div id="panel3" class="step-panel">
     <div class="step3-layout">
       <div class="canvas-col">
-        <canvas id="qrCanvas" width="280" height="280"></canvas>
+        <div id="qr-preview"></div>
         <div class="canvas-name" id="qrNameLabel"></div>
         <button class="btn-dl" onclick="downloadQR()">⬇ <span data-i18n="btnDl">PNG herunterladen</span></button>
       </div>
@@ -413,7 +416,7 @@
   <button class="btn-next" id="btnNext" onclick="goNext()"><span id="btnNextLabel" data-i18n="btnNext">Weiter</span> →</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const T={
   de:{backHome:'Zurück zur Startseite',navCta:'Mehr Features →',step1:'QR-Typ wählen',step2:'Inhalt vervollständigen',step3:'QR anpassen',s1Title:'Welchen QR-Code möchtest du erstellen?',s1Sub:'Wähle den passenden Typ – du kannst ihn später noch ändern.',badge:'BELIEBT',tWebsite:'Website',dWebsite:'Eine Website oder Landingpage öffnen',tPdf:'PDF',dPdf:'Ein PDF-Dokument öffnen',tImage:'Bild',dImage:'Ein Bild oder Foto anzeigen',tVcard:'vCard',dVcard:'Eine digitale Visitenkarte teilen',tVideo:'Video',dVideo:'Ein Video mit einem Scan abspielen',tApplink:'App-Link',dApplink:'Weiterleitung zu verschiedenen App Stores',tWhatsapp:'WhatsApp',dWhatsapp:'Sofort einen WhatsApp-Chat starten',tWifi:'WLAN',dWifi:'Mit einem WLAN-Netzwerk verbinden',tFeedback:'Feedback',dFeedback:'Feedback oder eine Bewertung anfragen',s1PreviewText:'Erstelle deinen<br>perfekten QR-Code',s2Title:'Inhalt vervollständigen',lUrl:'URL',phUrl:'https://ihre-website.de',lWebName:'Name der Webseite',phWebName:'z.B. Meine Website',lPhone:'Telefonnummer',lMsg:'Nachricht (optional)',phMsg:'Hallo! Ich interessiere mich für...',lSsid:'Netzwerkname (SSID)',phSsid:'Mein WLAN',lSecurity:'Sicherheitstyp',secNone:'Kein Passwort',lPass:'Passwort',phPass:'Passwort',lHidden:'Verstecktes Netzwerk',lFirst:'Vorname',phFirst:'Max',lLast:'Nachname',phLast:'Mustermann',lEmail:'E-Mail',lWebsite:'Website',lCompany:'Firma',phCompany:'Muster GmbH',dzTitle:'Klicke zum Hochladen oder ziehe hierher',dzSubPdf:'PDF · Max. 10 MB',dzSubImg:'JPG, PNG, GIF · Max. 5 MB',dzSubVid:'MP4, MOV · Max. 100 MB',appInfo:'Füge die Links zu deiner App ein. Nutzer werden automatisch zum richtigen Store weitergeleitet.',lIos:'iOS App Store Link',lPlay:'Google Play Link',fbInfo:'Füge den Link zu deinem Feedback-Formular ein (z.B. Google Reviews, Typeform, etc.).',lFbUrl:'Feedback-Link',lQrName:'Benenne deinen QR-Code',phQrName:'z.B. Mein Website QR-Code',previewLabel:'Vorschau',s3Title:'QR-Code anpassen',dColors:'Farben',dFg:'Vordergrund',dBg:'Hintergrund',dPresets:'Farbkombinationen',dStyle:'Stil',dLogo:'Logo (optional)',sSquare:'Standard',sRounded:'Abgerundet',sDots:'Punkte',logoUpload:'📁 PNG oder JPG auswählen',logoRemove:'Logo entfernen',btnDl:'PNG herunterladen',btnBack:'← Zurück',btnNext:'Weiter',errSelectType:'Bitte wähle einen QR-Typ.',errFillFields:'Bitte fülle alle Pflichtfelder aus.'},
@@ -438,15 +441,81 @@ function dzDrop(e,fid,el){e.preventDefault();el.classList.remove('dragover');if(
 function dzSelect(input,dzId){if(input.files[0])dzShowFile(input.files[0],document.getElementById(dzId))}
 function dzShowFile(file,el){el.querySelector('.dropzone-title').textContent='✓ '+file.name;el.style.borderColor='var(--teal)';el.style.background='var(--teal-l)'}
 function drawRR(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
-async function renderQR(){const data=getQRData();if(!data)return;const canvas=document.getElementById('qrCanvas'),ctx=canvas.getContext('2d'),SIZE=280;canvas.width=canvas.height=SIZE;let qr;try{qr=QRCode.create(data,{errorCorrectionLevel:'H'})}catch(e){try{await new Promise((res,rej)=>QRCode.toCanvas(canvas,data,{width:SIZE,margin:2,color:{dark:fgColor,light:bgColor}},e=>e?rej(e):res()))}catch(e2){}if(logoImg)drawLogo(ctx,SIZE);return}const mc=qr.modules.size,md=qr.modules.data,margin=3,total=mc+margin*2,ms=SIZE/total,off=margin*ms;ctx.fillStyle=bgColor;ctx.fillRect(0,0,SIZE,SIZE);ctx.fillStyle=fgColor;for(let r=0;r<mc;r++)for(let c=0;c<mc;c++){if(!md[r*mc+c])continue;const x=off+c*ms,y=off+r*ms;if(qrStyle==='dots'){ctx.beginPath();ctx.arc(x+ms/2,y+ms/2,ms/2*.82,0,Math.PI*2);ctx.fill()}else if(qrStyle==='rounded'){drawRR(ctx,x+.5,y+.5,ms-1,ms-1,ms*.35);ctx.fill()}else ctx.fillRect(x,y,ms,ms)}if(logoImg)drawLogo(ctx,SIZE);document.getElementById('qrNameLabel').textContent=document.getElementById('qr-name').value||''}
+function renderQR(){
+  const data=getQRData();
+  const text=data||'https://qr-docs.de';
+  const div=document.getElementById('qr-preview');
+  div.innerHTML='';
+  console.log('renderQR called, data:',text);
+  try{
+    new QRCode(div,{
+      text:text,
+      width:280,
+      height:280,
+      colorDark:fgColor,
+      colorLight:bgColor,
+      correctLevel:QRCode.CorrectLevel.H
+    });
+  }catch(e){console.error('QR render error:',e);return}
+  setTimeout(()=>{
+    if(qrStyle!=='square')applyQRStyle();
+    if(logoImg){const c=div.querySelector('canvas');if(c)drawLogo(c.getContext('2d'),280)}
+    document.getElementById('qrNameLabel').textContent=document.getElementById('qr-name').value||'';
+  },100);
+}
+function applyQRStyle(){
+  const div=document.getElementById('qr-preview');
+  const src=div.querySelector('canvas');
+  if(!src)return;
+  const S=src.width;
+  const srcCtx=src.getContext('2d');
+  const px=srcCtx.getImageData(0,0,S,S).data;
+  function isDark(x,y){if(x<0||y<0||x>=S||y>=S)return false;const i=(y*S+x)*4;return px[i]<128}
+  let ms=0,marginPx=0;
+  outer:for(let x=0;x<S;x++){for(let y=0;y<S;y++){if(isDark(x,y)){marginPx=x;let ex=x;while(ex<S&&isDark(ex,y))ex++;ms=ex-x;break outer}}}
+  if(ms<1)return;
+  const totalM=Math.round((S-2*marginPx)/ms);
+  srcCtx.fillStyle=bgColor;srcCtx.fillRect(0,0,S,S);
+  srcCtx.fillStyle=fgColor;
+  for(let r=0;r<totalM;r++)for(let c=0;c<totalM;c++){
+    const cx=marginPx+c*ms+ms/2,cy=marginPx+r*ms+ms/2;
+    if(!isDark(Math.round(cx),Math.round(cy)))continue;
+    const x=marginPx+c*ms,y=marginPx+r*ms;
+    if(qrStyle==='dots'){srcCtx.beginPath();srcCtx.arc(x+ms/2,y+ms/2,ms/2*.82,0,Math.PI*2);srcCtx.fill()}
+    else if(qrStyle==='rounded'){drawRR(srcCtx,x+.5,y+.5,ms-1,ms-1,ms*.35);srcCtx.fill()}
+  }
+}
 function drawLogo(ctx,S){const ls=S*.22,lx=(S-ls)/2,ly=(S-ls)/2,pad=7;ctx.fillStyle=bgColor;drawRR(ctx,lx-pad,ly-pad,ls+pad*2,ls+pad*2,10);ctx.fill();ctx.drawImage(logoImg,lx,ly,ls,ls)}
 function onColorChange(){fgColor=document.getElementById('cFg').value;bgColor=document.getElementById('cBg').value;document.getElementById('hexFg').textContent=fgColor;document.getElementById('hexBg').textContent=bgColor;document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('active'));renderQR()}
 function applyPreset(fg,bg,el){fgColor=fg;bgColor=bg;document.getElementById('cFg').value=fg;document.getElementById('cBg').value=bg;document.getElementById('hexFg').textContent=fg;document.getElementById('hexBg').textContent=bg;document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('active'));if(el)el.classList.add('active');renderQR()}
 function setStyle(s,btn){qrStyle=s;document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderQR()}
 function handleLogo(input){const f=input.files[0];if(!f)return;const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{logoImg=img;document.getElementById('logoDrop').classList.add('has-logo');document.getElementById('logoDropText').textContent='✓ '+f.name;document.getElementById('btnRmLogo').style.display='inline-block';renderQR()};img.src=e.target.result};reader.readAsDataURL(f)}
 function removeLogo(){logoImg=null;document.getElementById('logoFile').value='';document.getElementById('logoDrop').classList.remove('has-logo');document.getElementById('logoDropText').textContent=t('logoUpload');document.getElementById('btnRmLogo').style.display='none';renderQR()}
-function downloadQR(){const c=document.getElementById('qrCanvas'),a=document.createElement('a');a.download=(document.getElementById('qr-name').value||'qrcode')+'.png';a.href=c.toDataURL('image/png');a.click()}
-function drawAnimCanvas(){const canvas=document.getElementById('animCanvas');if(!canvas)return;const ctx=canvas.getContext('2d'),S=180;try{const qr=QRCode.create('https://qr-docs.de',{errorCorrectionLevel:'M'}),mc=qr.modules.size,md=qr.modules.data,margin=2,total=mc+margin*2,ms=S/total,off=margin*ms;ctx.fillStyle='#fff';ctx.fillRect(0,0,S,S);ctx.fillStyle='#111';for(let r=0;r<mc;r++)for(let c=0;c<mc;c++){if(md[r*mc+c])ctx.fillRect(off+c*ms,off+r*ms,ms,ms)}}catch(e){ctx.fillStyle='#fff';ctx.fillRect(0,0,S,S)}}
+function downloadQR(){
+  const div=document.getElementById('qr-preview');
+  const c=div?div.querySelector('canvas'):null;
+  if(!c){alert('Bitte zuerst QR generieren.');return}
+  const a=document.createElement('a');
+  a.download=(document.getElementById('qr-name').value||'qrcode')+'.png';
+  a.href=c.toDataURL('image/png');
+  a.click()
+}
+function drawAnimCanvas(){
+  const canvas=document.getElementById('animCanvas');
+  if(!canvas)return;
+  const S=180;
+  const tmp=document.createElement('div');
+  tmp.style.cssText='position:absolute;left:-9999px;top:0;width:'+S+'px;height:'+S+'px;visibility:hidden';
+  document.body.appendChild(tmp);
+  try{
+    new QRCode(tmp,{text:'https://qr-docs.de',width:S,height:S,colorDark:'#111',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
+    setTimeout(()=>{
+      const src=tmp.querySelector('canvas');
+      if(src){const ctx=canvas.getContext('2d');ctx.drawImage(src,0,0,S,S)}
+      if(tmp.parentNode)document.body.removeChild(tmp);
+    },200);
+  }catch(e){if(tmp.parentNode)document.body.removeChild(tmp)}
+}
 (function init(){document.getElementById('btnDe').classList.toggle('active',lang==='de');document.getElementById('btnEn').classList.toggle('active',lang==='en');document.documentElement.lang=lang;applyI18n();updateStepUI();setTimeout(drawAnimCanvas,100)})();
 </script>
 </body>
