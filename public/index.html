@@ -221,7 +221,254 @@
     footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
     footer a:hover { color: white; }
 
+    /* ── USE-CASE SECTION ─────────────────────────────── */
+    .usecases {
+      background: #f7f6f2;
+      padding: 100px 24px;
+    }
+    .usecases-inner { max-width: 1100px; margin: 0 auto; }
+    .usecases-header { text-align: center; margin-bottom: 56px; }
+    .usecases-header h2 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800; margin-bottom: 14px;
+    }
+    .usecases-header p { font-size: 1rem; color: var(--gray); }
+
+    .uc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .uc-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      opacity: 0; transform: translateY(24px);
+    }
+    .uc-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.25s, border-color 0.25s; }
+    .uc-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(13,148,136,0.15); border-color: #0d9488; }
+    .uc-illus {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .uc-body { padding: 20px 22px 24px; }
+    .uc-body h3 { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 5px; }
+    .uc-body p  { font-size: 0.85rem; color: var(--gray); }
+
+    /* ── CSS ILLUSTRATION: Restaurant ─────────────────── */
+    .illus-restaurant { background: #fef9f0; }
+    .menu-card {
+      width: 110px; height: 148px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.12);
+      padding: 14px 12px;
+      display: flex; flex-direction: column; gap: 7px;
+      position: relative;
+    }
+    .menu-line { height: 6px; border-radius: 3px; background: #e5e7eb; }
+    .menu-line.title { width: 70%; background: #374151; height: 8px; }
+    .menu-line.short { width: 50%; }
+    .menu-line.medium { width: 80%; }
+    .menu-qr {
+      position: absolute; bottom: 10px; right: 10px;
+      width: 32px; height: 32px;
+    }
+
+    /* ── CSS ILLUSTRATION: Visitenkarte ───────────────── */
+    .illus-bizcard { background: #f0f4ff; }
+    .biz-card {
+      width: 148px; height: 88px;
+      background: #1e3a5f;
+      border-radius: 10px;
+      padding: 14px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 6px 6px 20px rgba(30,58,95,0.3);
+      position: relative; overflow: hidden;
+    }
+    .biz-dots {
+      position: absolute; top: 0; right: 0;
+      width: 60px; height: 60px;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1.5px, transparent 1.5px);
+      background-size: 8px 8px;
+    }
+    .biz-name { font-size: 0.65rem; font-weight: 800; color: white; letter-spacing: 0.05em; z-index: 1; }
+    .biz-title { font-size: 0.55rem; color: rgba(255,255,255,0.5); z-index: 1; }
+    .biz-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+    .biz-line { width: 40px; height: 3px; background: #0d9488; border-radius: 2px; }
+    .biz-qr { width: 28px; height: 28px; }
+
+    /* ── CSS ILLUSTRATION: Flyer ──────────────────────── */
+    .illus-flyer { background: #f0fdf9; }
+    .flyer-card {
+      width: 96px; height: 148px;
+      background: #0d9488;
+      border-radius: 8px;
+      padding: 16px 12px 12px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      box-shadow: 6px 6px 20px rgba(13,148,136,0.3);
+    }
+    .flyer-line { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.35); }
+    .flyer-line.bold { background: white; height: 9px; width: 85%; }
+    .flyer-line.w70 { width: 70%; }
+    .flyer-line.w55 { width: 55%; }
+    .flyer-spacer { flex: 1; }
+    .flyer-qr { width: 48px; height: 48px; }
+
+    /* ── CSS ILLUSTRATION: Verpackung ─────────────────── */
+    .illus-pkg { background: #fff8f0; }
+    .pkg-box {
+      width: 120px; height: 140px;
+      background: linear-gradient(145deg, #f97316 0%, #e85d04 100%);
+      border-radius: 16px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: space-between;
+      padding: 18px 14px 14px;
+      box-shadow: 6px 8px 24px rgba(232,93,4,0.35);
+    }
+    .pkg-label {
+      font-size: 0.55rem; font-weight: 800; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.7); text-transform: uppercase;
+    }
+    .pkg-brand { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; color: white; }
+    .pkg-scan { font-size: 0.5rem; font-weight: 700; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; }
+    .pkg-qr { width: 40px; height: 40px; background: white; border-radius: 6px; }
+
+    /* ── shared mini-QR canvas style ─────────────────── */
+    canvas.mini-qr { display: block; }
+
+    /* ── CTA SPLIT SECTION ────────────────────────────── */
+    .cta-split {
+      background: #f0fdfa;
+      padding: 100px 24px;
+    }
+    .cta-split-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .cta-split-text h2 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .cta-split-text h2 em { font-style: normal; color: #0d9488; }
+    .cta-split-text p {
+      font-size: 1rem; color: var(--gray);
+      line-height: 1.7; margin-bottom: 36px;
+      max-width: 400px;
+    }
+    .btn-teal {
+      display: inline-block;
+      background: #0d9488; color: white;
+      padding: 14px 32px; border-radius: 100px;
+      text-decoration: none; font-size: 1rem; font-weight: 700;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(13,148,136,0.3);
+    }
+    .btn-teal:hover { background: #0f766e; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(13,148,136,0.4); }
+
+    /* floating composition */
+    .cta-visual {
+      position: relative;
+      height: 380px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* decorative dots */
+    .cta-visual::before {
+      content: "";
+      position: absolute; top: 20px; left: 10px;
+      width: 120px; height: 120px;
+      background-image: radial-gradient(circle, #0d9488 1.5px, transparent 1.5px);
+      background-size: 14px 14px;
+      opacity: 0.25;
+    }
+    .cta-visual::after {
+      content: "";
+      position: absolute; bottom: 10px; right: 20px;
+      width: 80px; height: 80px;
+      background-image: radial-gradient(circle, #f97316 2px, transparent 2px);
+      background-size: 12px 12px;
+      opacity: 0.3;
+    }
+    /* phone mockup */
+    .phone-mockup {
+      width: 200px; height: 340px;
+      background: #1a1a2e;
+      border-radius: 32px;
+      border: 8px solid #2d2d44;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.05);
+      display: flex; flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 16px;
+      position: relative; z-index: 2;
+      animation: float 3s ease-in-out infinite alternate;
+    }
+    @keyframes float { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+    .phone-notch {
+      width: 60px; height: 8px;
+      background: #2d2d44; border-radius: 4px;
+      margin-bottom: 18px;
+    }
+    .phone-screen-lines { width: 100%; display: flex; flex-direction: column; gap: 7px; }
+    .phone-line { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.12); }
+    .phone-line.accent { background: rgba(13,148,136,0.6); width: 60%; }
+    .phone-line.short { width: 40%; }
+    .phone-canvas-wrap {
+      margin-top: 14px;
+      background: white; border-radius: 10px;
+      padding: 8px; width: 100px; height: 100px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .phone-btn {
+      margin-top: auto;
+      width: 100%; height: 30px;
+      background: #0d9488; border-radius: 8px;
+    }
+    /* floating business card */
+    .float-card {
+      position: absolute;
+      left: -20px; bottom: 30px;
+      width: 130px; height: 80px;
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 12px 32px rgba(13,148,136,0.4);
+      transform: rotate(-8deg);
+      z-index: 3;
+      display: flex; flex-direction: column; justify-content: space-between;
+      animation: float-card 3s ease-in-out infinite alternate;
+    }
+    @keyframes float-card { from { transform: rotate(-8deg) translateY(0); } to { transform: rotate(-8deg) translateY(-8px); } }
+    .float-card-top { font-size: 0.55rem; font-weight: 800; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; }
+    .float-card-scan { font-size: 0.65rem; font-weight: 800; color: white; }
+    .float-card-qr { width: 28px; height: 28px; background: white; border-radius: 4px; }
+    /* badge */
+    .float-badge {
+      position: absolute;
+      top: 10px; right: -10px;
+      background: #16a34a; color: white;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 5px 12px; border-radius: 100px;
+      box-shadow: 0 4px 12px rgba(22,163,74,0.4);
+      z-index: 4;
+      animation: float-badge 3s ease-in-out infinite alternate;
+    }
+    @keyframes float-badge { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+
+    /* fade-in utility */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
     /* ── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 900px) {
+      .uc-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 720px) {
       nav { padding: 16px 20px; }
       .feature-row { grid-template-columns: 1fr; }
@@ -232,6 +479,10 @@
       .cta-banner { margin: 0 16px 60px; padding: 56px 28px; }
       footer { flex-direction: column; text-align: center; padding: 32px 24px; }
       .hero-cta-group { flex-direction: column; align-items: center; }
+      .uc-grid { grid-template-columns: 1fr; }
+      .cta-split-inner { grid-template-columns: 1fr; }
+      .cta-visual { height: 280px; }
+      .phone-mockup { width: 160px; height: 280px; }
     }
   </style>
 </head>
@@ -476,6 +727,145 @@
     <a href="/generator.html" class="btn-primary">Jetzt starten ⚡</a>
   </div>
 
+  <!-- USE-CASE SECTION -->
+  <section class="usecases">
+    <div class="usecases-inner">
+      <div class="usecases-header fade-in">
+        <div class="section-label">Einsatzbereiche</div>
+        <h2>QR-Codes überall einsetzen</h2>
+        <p>Von der Visitenkarte bis zum Plakat – dein QR-Code passt überall hin.</p>
+      </div>
+
+      <div class="uc-grid">
+
+        <!-- Card 1: Restaurant -->
+        <div class="uc-card">
+          <div class="uc-illus illus-restaurant">
+            <div class="menu-card">
+              <div class="menu-line title"></div>
+              <div class="menu-line medium"></div>
+              <div class="menu-line short"></div>
+              <div class="menu-line medium"></div>
+              <div class="menu-line short"></div>
+              <div class="menu-line medium"></div>
+              <div class="menu-line short"></div>
+              <div class="menu-qr">
+                <canvas class="mini-qr" data-text="https://qrgenerator.de/speisekarte" data-size="32"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="uc-body">
+            <h3>Restaurant & Gastronomie</h3>
+            <p>Speisekarte digital teilen</p>
+          </div>
+        </div>
+
+        <!-- Card 2: Visitenkarte -->
+        <div class="uc-card">
+          <div class="uc-illus illus-bizcard">
+            <div class="biz-card">
+              <div class="biz-dots"></div>
+              <div>
+                <div class="biz-name">MAX MÜLLER</div>
+                <div class="biz-title">Geschäftsführer · GmbH</div>
+              </div>
+              <div class="biz-bottom">
+                <div class="biz-line"></div>
+                <div class="biz-qr">
+                  <canvas class="mini-qr" data-text="BEGIN:VCARD%0AFNA:Max%20Müller%0AEND:VCARD" data-size="28" data-dark="#ffffff" data-light="#1e3a5f"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="uc-body">
+            <h3>Visitenkarte</h3>
+            <p>Kontakt sofort weitergeben</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Flyer -->
+        <div class="uc-card">
+          <div class="uc-illus illus-flyer">
+            <div class="flyer-card">
+              <div class="flyer-line bold"></div>
+              <div class="flyer-line w70" style="background:rgba(255,255,255,0.5)"></div>
+              <div class="flyer-line w55" style="background:rgba(255,255,255,0.35)"></div>
+              <div class="flyer-spacer"></div>
+              <div class="flyer-qr">
+                <canvas class="mini-qr" data-text="https://qrgenerator.de/kampagne" data-size="48" data-dark="#ffffff" data-light="#0d9488"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="uc-body">
+            <h3>Flyer & Poster</h3>
+            <p>Kampagnen interaktiv machen</p>
+          </div>
+        </div>
+
+        <!-- Card 4: Verpackung -->
+        <div class="uc-card">
+          <div class="uc-illus illus-pkg">
+            <div class="pkg-box">
+              <div class="pkg-label">Produkt</div>
+              <div class="pkg-brand">BRAND</div>
+              <div class="pkg-scan">SCAN ME</div>
+              <div class="pkg-qr">
+                <canvas class="mini-qr" data-text="https://qrgenerator.de/produkt" data-size="40"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="uc-body">
+            <h3>Verpackung & Produkt</h3>
+            <p>Kunden direkt erreichen</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SPLIT SECTION -->
+  <section class="cta-split">
+    <div class="cta-split-inner">
+
+      <div class="cta-split-text fade-in">
+        <h2>Bereit für deinen<br><em>perfekten QR-Code?</em></h2>
+        <p>Vollständig anpassbar. Kostenlos. Sofort einsatzbereit – ohne Anmeldung.</p>
+        <a href="/generator.html" class="btn-teal">Jetzt QR erstellen →</a>
+      </div>
+
+      <div class="cta-visual fade-in">
+        <!-- Phone mockup -->
+        <div class="phone-mockup">
+          <div class="phone-notch"></div>
+          <div class="phone-screen-lines">
+            <div class="phone-line accent"></div>
+            <div class="phone-line"></div>
+            <div class="phone-line short"></div>
+            <div class="phone-line"></div>
+          </div>
+          <div class="phone-canvas-wrap">
+            <canvas class="mini-qr" data-text="https://qrgenerator.de" data-size="84"></canvas>
+          </div>
+          <div class="phone-btn"></div>
+        </div>
+
+        <!-- Floating business card -->
+        <div class="float-card">
+          <div class="float-card-top">BUSINESS CARD</div>
+          <div class="float-card-scan">SCAN ME</div>
+          <div class="float-card-qr">
+            <canvas class="mini-qr" data-text="https://qrgenerator.de/card" data-size="28" data-dark="#0d9488" data-light="#ffffff"></canvas>
+          </div>
+        </div>
+
+        <!-- Badge -->
+        <div class="float-badge">✓ Kostenlos</div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">⚡ QRGenerator</div>
@@ -483,12 +873,66 @@
     <div>Powered by <a href="https://qr-docs.de">QR-Docs.de</a></div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script>
+    /* ── FAQ ─────────────────────────────── */
     function toggleFaq(el) {
       const item = el.parentElement;
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
+    }
+
+    /* ── Mini QR canvases ────────────────── */
+    function renderMiniQRs() {
+      document.querySelectorAll('canvas.mini-qr').forEach(function(canvas) {
+        const text  = decodeURIComponent(canvas.dataset.text || 'https://qrgenerator.de');
+        const size  = parseInt(canvas.dataset.size)  || 80;
+        const dark  = canvas.dataset.dark  || '#000000';
+        const light = canvas.dataset.light || '#ffffff';
+        canvas.width  = size;
+        canvas.height = size;
+        QRCode.toCanvas(canvas, text, {
+          width: size,
+          margin: 1,
+          color: { dark: dark, light: light }
+        }, function(err) { if (err) console.warn('QR mini error', err); });
+      });
+    }
+
+    /* ── IntersectionObserver fade-in ────── */
+    function initFadeIn() {
+      const obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
+
+      // Stagger uc-cards
+      const cardObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            const cards = e.target.querySelectorAll('.uc-card');
+            cards.forEach(function(card, i) {
+              setTimeout(function() { card.classList.add('visible'); }, i * 100);
+            });
+            cardObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      const grid = document.querySelector('.uc-grid');
+      if (grid) cardObs.observe(grid);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { renderMiniQRs(); initFadeIn(); });
+    } else {
+      renderMiniQRs(); initFadeIn();
     }
   </script>
 </body>
