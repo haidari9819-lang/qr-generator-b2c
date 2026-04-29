@@ -1,0 +1,47 @@
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+module.exports = async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { email, qr_image_url, target_url } = req.body;
+
+  console.log("Email Request:", { email, qr_image_url, target_url });
+  console.log("Resend Key:", process.env.RESEND_API_KEY ? "vorhanden" : "FEHLT!");
+
+  if (!email || !qr_image_url) {
+    return res.status(400).json({ error: "Email und QR-URL erforderlich" });
+  }
+
+  try {
+    const result = await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: "Dein QR-Code ist fertig!",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #e85d04;">Dein QR-Code ist bereit!</h2>
+          <p>Hier ist dein generierter QR-Code:</p>
+          <img src="${qr_image_url}" alt="QR Code" style="width: 300px; height: 300px;" />
+          <p>Dein QR-Code verweist auf: ${target_url}</p>
+          <hr/>
+          <a href="https://qr-docs.de" 
+             style="background: #e85d04; color: white; padding: 12px 24px; 
+                    text-decoration: none; border-radius: 6px; display: inline-block;">
+            Kostenlos testen auf QR-Docs.de
+          </a>
+        </div>
+      `
+    });
+
+    console.log("Resend Result:", JSON.stringify(result));
+    return res.status(200).json({ success: true, result });
+
+  } catch (error) {
+    console.log("Mail Fehler:", error.message);
+    return res.status(500).json({ error: "Mail Fehler: " + error.message });
+  }
+};

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="QR Code kostenlos erstellen - ohne Anmeldung. Einfach URL eingeben, QR Code generieren und per E-Mail erhalten." />
+  <title>QR Code Generator - Kostenlos & ohne Anmeldung</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">⚡ QR Generator</div>
+    <a href="https://qr-docs.de" class="header-link">Mehr Features →</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>QR Code kostenlos erstellen</h1>
+      <p>Keine Anmeldung. Kein Abo. Einfach URL eingeben und fertig.</p>
+    </section>
+
+    <div class="card">
+
+      <!-- Schritt 1 -->
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <label for="target_url">Deine URL oder Text</label>
+          <input 
+            type="text" 
+            id="target_url" 
+            placeholder="https://deine-website.de" 
+          />
+        </div>
+      </div>
+
+      <button id="generateBtn" onclick="generateQR()">
+        QR Code generieren
+      </button>
+
+      <!-- QR Vorschau -->
+      <div id="preview" class="hidden">
+        <img id="qrImage" src="" alt="QR Code" />
+
+        <!-- Schritt 2 -->
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <label for="email">E-Mail für den QR Code</label>
+            <input 
+              type="email" 
+              id="email" 
+              placeholder="deine@email.de" 
+            />
+          </div>
+        </div>
+
+        <button id="sendBtn" onclick="sendEmail()">
+          QR Code per E-Mail senden 📧
+        </button>
+
+        <a id="downloadBtn" href="#" download="qrcode.png" class="download-btn">
+          ⬇ Direkt herunterladen
+        </a>
+      </div>
+
+      <!-- Status Meldungen -->
+      <div id="status" class="hidden"></div>
+
+    </div>
+
+    <!-- Upsell -->
+    <section class="upsell">
+      <h3>Mehr Features mit QR-Docs</h3>
+      <div class="features">
+        <div class="feature">📊 Scan-Statistiken</div>
+        <div class="feature">🎨 Logo einbinden</div>
+        <div class="feature">📁 Codes verwalten</div>
+        <div class="feature">🔒 SHA-256 Versiegelung</div>
+      </div>
+      <a href="https://qr-docs.de" class="upsell-btn">Kostenlos testen →</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Powered by <a href="https://qr-docs.de">QR-Docs.de</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
