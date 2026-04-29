@@ -6,171 +6,169 @@
   <title>QR Code Generator – Kostenlos & ohne Anmeldung</title>
   <meta name="description" content="Erstelle in Sekunden professionelle QR Codes für URLs, WhatsApp, WLAN und Visitenkarten. 100% kostenlos, keine Anmeldung." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --orange: #e85d04;
-      --orange-dark: #c94f00;
-      --orange-light: #fff3ed;
-      --black: #0f0f0f;
-      --gray: #6b7280;
-      --light: #f9f5f1;
-      --white: #ffffff;
+      --orange: #e85d04; --orange-dark: #c94f00; --orange-light: #fff3ed;
+      --black: #0f0f0f; --gray: #6b7280; --light: #f9f5f1; --white: #ffffff;
+      --teal: #0d9488; --teal-dark: #0f766e; --teal-light: #f0fdfa;
     }
+    body { font-family: "DM Sans", sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
 
-    body {
-      font-family: "DM Sans", sans-serif;
-      background: var(--white);
-      color: var(--black);
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ──────────────────────────────────────────── */
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
       padding: 18px 48px;
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0,0,0,0.07);
     }
-    .nav-logo {
-      font-family: "Syne", sans-serif;
-      font-size: 1.35rem; font-weight: 800;
-      color: var(--orange);
-      display: flex; align-items: center; gap: 8px;
-      text-decoration: none;
-    }
+    .nav-logo { font-family: "Syne", sans-serif; font-size: 1.35rem; font-weight: 800; color: var(--orange); display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .nav-logo span { color: var(--black); }
-    .nav-cta {
-      background: var(--orange); color: white;
-      padding: 10px 24px; border-radius: 100px;
-      text-decoration: none; font-size: 0.9rem; font-weight: 600;
-      transition: background 0.2s, transform 0.15s;
-    }
+    .nav-cta { background: var(--orange); color: white; padding: 10px 24px; border-radius: 100px; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: background 0.2s, transform 0.15s; }
     .nav-cta:hover { background: var(--orange-dark); transform: translateY(-1px); }
 
-    /* ── HERO ─────────────────────────────────────────── */
+    /* ── HERO ── */
     .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 140px 24px 100px;
-      background: var(--light);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 140px 24px 100px; background: var(--light);
       position: relative; overflow: hidden;
     }
     .hero::before {
-      content: "";
-      position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
+      content: ""; position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
       width: 900px; height: 900px;
       background: radial-gradient(circle, rgba(232,93,4,0.1) 0%, transparent 65%);
       pointer-events: none;
     }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--orange-light); border: 1px solid rgba(232,93,4,0.25);
-      color: var(--orange); padding: 6px 18px; border-radius: 100px;
-      font-size: 0.85rem; font-weight: 600; margin-bottom: 30px;
-    }
-    .hero h1 {
-      font-family: "Syne", sans-serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 800; line-height: 1.0;
-      letter-spacing: -0.03em;
-      max-width: 820px; margin-bottom: 22px;
-    }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--orange-light); border: 1px solid rgba(232,93,4,0.25); color: var(--orange); padding: 6px 18px; border-radius: 100px; font-size: 0.85rem; font-weight: 600; margin-bottom: 30px; }
+    .hero h1 { font-family: "Syne", sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; max-width: 820px; margin-bottom: 22px; }
     .hero h1 em { font-style: normal; color: var(--orange); }
-    .hero p {
-      font-size: 1.2rem; color: var(--gray);
-      max-width: 520px; line-height: 1.7; margin-bottom: 44px;
-    }
+    .hero p { font-size: 1.2rem; color: var(--gray); max-width: 520px; line-height: 1.7; margin-bottom: 44px; }
     .hero-cta-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 64px; }
-    .btn-primary {
-      background: var(--orange); color: white;
-      padding: 16px 36px; border-radius: 100px;
-      text-decoration: none; font-size: 1rem; font-weight: 700;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(232,93,4,0.35);
-      display: inline-block;
-    }
+    .btn-primary { background: var(--orange); color: white; padding: 16px 36px; border-radius: 100px; text-decoration: none; font-size: 1rem; font-weight: 700; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(232,93,4,0.35); display: inline-block; }
     .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,93,4,0.45); }
-    .btn-secondary {
-      background: white; color: var(--black);
-      padding: 16px 36px; border-radius: 100px;
-      text-decoration: none; font-size: 1rem; font-weight: 600;
-      border: 2px solid #e5e7eb;
-      transition: border-color 0.2s, transform 0.15s;
-    }
+    .btn-secondary { background: white; color: var(--black); padding: 16px 36px; border-radius: 100px; text-decoration: none; font-size: 1rem; font-weight: 600; border: 2px solid #e5e7eb; transition: border-color 0.2s, transform 0.15s; }
     .btn-secondary:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-2px); }
-
     .hero-stats { display: flex; gap: 48px; flex-wrap: wrap; justify-content: center; }
     .stat { text-align: center; }
     .stat-number { font-family: "Syne", sans-serif; font-size: 2rem; font-weight: 800; color: var(--black); }
     .stat-label { font-size: 0.85rem; color: var(--gray); margin-top: 2px; }
 
-    /* ── TRUST BAR ────────────────────────────────────── */
-    .trust-bar {
-      background: white;
-      border-top: 1px solid #f0f0f0;
-      border-bottom: 1px solid #f0f0f0;
-      padding: 22px 0; overflow: hidden;
-    }
-    .trust-track {
-      display: flex; gap: 64px; align-items: center;
-      animation: scroll-left 22s linear infinite;
-      width: max-content;
-    }
-    @keyframes scroll-left {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .trust-item {
-      font-family: "Syne", sans-serif;
-      font-size: 1rem; font-weight: 800;
-      color: #c0b8b0; white-space: nowrap;
-      letter-spacing: 0.02em;
-    }
+    /* ── TRUST BAR ── */
+    .trust-bar { background: white; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; padding: 22px 0; overflow: hidden; }
+    .trust-track { display: flex; gap: 64px; align-items: center; animation: scroll-left 22s linear infinite; width: max-content; }
+    @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .trust-item { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; color: #c0b8b0; white-space: nowrap; letter-spacing: 0.02em; }
 
-    /* ── FEATURES ─────────────────────────────────────── */
-    .features { padding: 120px 24px; max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-size: 0.78rem; font-weight: 700;
-      color: var(--orange); text-transform: uppercase;
-      letter-spacing: 0.12em; margin-bottom: 14px;
+    /* ── SVG QR ICON ── (pure CSS/SVG, no JS) */
+    .qr-icon { display: block; image-rendering: pixelated; flex-shrink: 0; }
+    .qr-icon .qf { fill: #111; }
+    .qr-icon .qb { fill: #fff; }
+    .qr-icon.inv   .qf { fill: #fff; }
+    .qr-icon.inv   .qb { fill: var(--teal); }
+    .qr-icon.onav  .qf { fill: #fff; }
+    .qr-icon.onav  .qb { fill: #1e3a5f; }
+    .qr-icon.oorg  .qf { fill: #fff; }
+    .qr-icon.oorg  .qb { fill: var(--orange); }
+    .qr-icon.oteal .qf { fill: var(--teal); }
+    .qr-icon.oteal .qb { fill: white; }
+
+    /* ── QR SHOWCASE ── */
+    .qr-showcase { padding: 100px 24px; background: white; }
+    .showcase-inner { max-width: 1100px; margin: 0 auto; }
+    .showcase-header { text-align: center; margin-bottom: 56px; }
+    .section-label { font-size: 0.78rem; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
+    .showcase-header h2 { font-family: "Syne", sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 14px; }
+    .showcase-header p { font-size: 1rem; color: var(--gray); }
+    .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .sc-card {
+      border-radius: 24px; padding: 36px 28px 28px;
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px;
+      border: 1.5px solid #f0f0f0;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .section-title {
-      font-family: "Syne", sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800; line-height: 1.15;
-      max-width: 480px; margin-bottom: 72px;
+    .sc-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+    .sc-card.c1 { background: #fff8f3; }
+    .sc-card.c2 { background: #f0fdf4; }
+    .sc-card.c3 { background: var(--teal-light); }
+    .sc-card.c4 { background: #eff6ff; }
+    .sc-card.c5 { background: #fdf4ff; }
+    .sc-card.c6 { background: #fefce8; }
+    .qr-glow-wrap {
+      position: relative; background: white;
+      border-radius: 14px; padding: 12px;
+      display: inline-flex; align-items: center; justify-content: center;
     }
-    .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-
-    .feat-card {
-      border-radius: 28px; padding: 48px;
-      min-height: 320px;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      position: relative; overflow: hidden;
+    .qr-glow-wrap::before {
+      content: ""; position: absolute; inset: -10px; border-radius: 22px;
+      background: var(--glow); opacity: 0.3; filter: blur(14px); z-index: 0;
     }
-    .feat-card.pink   { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%); }
-    .feat-card.yellow { background: linear-gradient(135deg, #fffde7 0%, #fff176 100%); }
-    .feat-card.blue   { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); }
-    .feat-card.dark   { background: var(--black); color: white; }
-    .feat-card.orange { background: linear-gradient(135deg, #fff3ed 0%, #fed7aa 100%); }
+    .qr-glow-wrap .qr-icon { position: relative; z-index: 1; }
+    .sc-card.c1 .qr-glow-wrap { --glow: #e85d04; }
+    .sc-card.c2 .qr-glow-wrap { --glow: #16a34a; }
+    .sc-card.c3 .qr-glow-wrap { --glow: #0d9488; }
+    .sc-card.c4 .qr-glow-wrap { --glow: #1d4ed8; }
+    .sc-card.c5 .qr-glow-wrap { --glow: #9333ea; }
+    .sc-card.c6 .qr-glow-wrap { --glow: #d97706; }
+    .sc-card h3 { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; }
+    .sc-card p { font-size: 0.85rem; color: var(--gray); line-height: 1.55; }
 
-    .feat-emoji { font-size: 3.5rem; margin-bottom: 20px; }
-    .feat-card h3 { font-family: "Syne", sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
-    .feat-card p { font-size: 0.95rem; line-height: 1.65; opacity: 0.75; max-width: 340px; }
-    .feat-card.dark p { opacity: 0.6; }
+    /* ── USE-CASE SECTION ── */
+    .usecases { background: #f7f6f2; padding: 100px 24px; }
+    .usecases-inner { max-width: 1100px; margin: 0 auto; }
+    .usecases-header { text-align: center; margin-bottom: 56px; }
+    .usecases-header h2 { font-family: "Syne", sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 14px; }
+    .usecases-header p { font-size: 1rem; color: var(--gray); }
+    .uc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .uc-card {
+      background: white; border-radius: 20px; overflow: hidden;
+      border: 2px solid transparent;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      /* NO opacity:0 — always visible */
+    }
+    .uc-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(13,148,136,0.15); border-color: var(--teal); }
+    .uc-illus { height: 180px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .uc-body { padding: 20px 22px 24px; }
+    .uc-body h3 { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 5px; }
+    .uc-body p  { font-size: 0.85rem; color: var(--gray); }
 
-    .feat-card.wide { grid-column: span 2; flex-direction: row; align-items: center; gap: 60px; padding: 56px 64px; }
-    .feat-card.wide .feat-text { max-width: 480px; }
-    .feat-card.wide .feat-visual { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
+    /* CSS Illustrations */
+    .illus-restaurant { background: #fef9f0; }
+    .menu-card { width: 110px; height: 148px; background: white; border-radius: 8px; box-shadow: 4px 4px 16px rgba(0,0,0,0.12); padding: 14px 12px; display: flex; flex-direction: column; gap: 7px; position: relative; }
+    .menu-line { height: 6px; border-radius: 3px; background: #e5e7eb; }
+    .menu-line.title { width: 70%; background: #374151; height: 8px; }
+    .menu-line.short { width: 50%; }
+    .menu-line.medium { width: 80%; }
+    .menu-qr { position: absolute; bottom: 10px; right: 10px; width: 32px; height: 32px; }
 
-    /* ── ADVANTAGES ───────────────────────────────────── */
+    .illus-bizcard { background: #f0f4ff; }
+    .biz-card { width: 148px; height: 88px; background: #1e3a5f; border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 6px 6px 20px rgba(30,58,95,0.3); position: relative; overflow: hidden; }
+    .biz-dots { position: absolute; top: 0; right: 0; width: 60px; height: 60px; background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1.5px, transparent 1.5px); background-size: 8px 8px; }
+    .biz-name { font-size: 0.65rem; font-weight: 800; color: white; letter-spacing: 0.05em; z-index: 1; }
+    .biz-title-sub { font-size: 0.55rem; color: rgba(255,255,255,0.5); z-index: 1; }
+    .biz-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+    .biz-line { width: 40px; height: 3px; background: var(--teal); border-radius: 2px; }
+    .biz-qr { width: 28px; height: 28px; }
+
+    .illus-flyer { background: #f0fdf9; }
+    .flyer-card { width: 96px; height: 148px; background: var(--teal); border-radius: 8px; padding: 16px 12px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 6px 6px 20px rgba(13,148,136,0.3); }
+    .flyer-line { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.35); }
+    .flyer-line.bold { background: white; height: 9px; width: 85%; }
+    .flyer-line.w70 { width: 70%; background: rgba(255,255,255,0.5); }
+    .flyer-line.w55 { width: 55%; background: rgba(255,255,255,0.35); }
+    .flyer-spacer { flex: 1; }
+    .flyer-qr { width: 48px; height: 48px; }
+
+    .illus-pkg { background: #fff8f0; }
+    .pkg-box { width: 120px; height: 140px; background: linear-gradient(145deg, #f97316 0%, var(--orange) 100%); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 18px 14px 14px; box-shadow: 6px 8px 24px rgba(232,93,4,0.35); }
+    .pkg-label { font-size: 0.55rem; font-weight: 800; letter-spacing: 0.12em; color: rgba(255,255,255,0.7); text-transform: uppercase; }
+    .pkg-brand { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; color: white; }
+    .pkg-scan { font-size: 0.5rem; font-weight: 700; color: rgba(255,255,255,0.65); letter-spacing: 0.1em; }
+    .pkg-qr { width: 40px; height: 40px; background: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 4px; }
+
+    /* ── ADVANTAGES ── */
     .advantages { background: var(--light); padding: 100px 24px; }
     .advantages-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
     .advantages h2 { font-family: "Syne", sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.15; margin-bottom: 40px; }
@@ -179,310 +177,53 @@
     .check-icon { width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
     .check-item strong { display: block; font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
     .check-item p { font-size: 0.9rem; color: var(--gray); line-height: 1.55; }
-
     .adv-visual { background: white; border-radius: 28px; padding: 48px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 20px; }
     .adv-stat-row { display: flex; gap: 16px; }
     .adv-stat { flex: 1; background: var(--light); border-radius: 16px; padding: 20px 22px; }
     .adv-stat .num { font-family: "Syne", sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--orange); }
     .adv-stat .lbl { font-size: 0.8rem; color: var(--gray); margin-top: 2px; }
-    .adv-qr-demo { background: var(--black); border-radius: 16px; padding: 24px; text-align: center; color: white; }
-    .qr-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; width: 112px; margin: 0 auto 12px; }
-    .qr-cell { width: 100%; aspect-ratio: 1; border-radius: 2px; }
-    .qr-cell.on { background: white; }
-    .qr-cell.off { background: transparent; }
+    .adv-qr-demo { background: var(--black); border-radius: 16px; padding: 24px; text-align: center; color: white; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .adv-qr-demo span { font-size: 0.8rem; opacity: 0.5; }
 
-    /* ── FAQ ──────────────────────────────────────────── */
+    /* ── FAQ ── */
     .faq { padding: 100px 24px; max-width: 760px; margin: 0 auto; }
     .faq .section-label { text-align: center; }
     .faq h2 { font-family: "Syne", sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; text-align: center; margin-bottom: 56px; }
     .faq-item { border-bottom: 1px solid #e5e7eb; }
-    .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; cursor: pointer; font-size: 1rem; font-weight: 600; gap: 16px; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; cursor: pointer; font-size: 1rem; font-weight: 600; gap: 16px; user-select: none; }
     .faq-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--orange); transition: background 0.2s, transform 0.25s; }
     .faq-item.open .faq-icon { background: var(--orange-light); transform: rotate(45deg); }
     .faq-answer { font-size: 0.95rem; color: var(--gray); line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s; }
     .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 22px; }
 
-    /* ── CTA BANNER ───────────────────────────────────── */
-    .cta-banner {
-      background: var(--black); color: white;
-      margin: 0 24px 80px; border-radius: 32px; padding: 80px 48px;
-      text-align: center; position: relative; overflow: hidden;
-    }
+    /* ── CTA BANNER ── */
+    .cta-banner { background: var(--black); color: white; margin: 0 24px 80px; border-radius: 32px; padding: 80px 48px; text-align: center; position: relative; overflow: hidden; }
     .cta-banner::before { content: ""; position: absolute; top: -120px; right: -80px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(232,93,4,0.28) 0%, transparent 65%); }
     .cta-banner::after  { content: ""; position: absolute; bottom: -80px; left: -60px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(232,93,4,0.15) 0%, transparent 65%); }
     .cta-banner h2 { font-family: "Syne", sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 16px; position: relative; z-index: 1; }
     .cta-banner p  { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 40px; position: relative; z-index: 1; }
     .cta-banner a  { position: relative; z-index: 1; }
 
-    /* ── FOOTER ───────────────────────────────────────── */
+    /* ── FOOTER ── */
     footer { background: var(--black); color: rgba(255,255,255,0.45); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 0.85rem; }
     footer .footer-logo { font-family: "Syne", sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--orange); }
     footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
     footer a:hover { color: white; }
 
-    /* ── USE-CASE SECTION ─────────────────────────────── */
-    .usecases {
-      background: #f7f6f2;
-      padding: 100px 24px;
-    }
-    .usecases-inner { max-width: 1100px; margin: 0 auto; }
-    .usecases-header { text-align: center; margin-bottom: 56px; }
-    .usecases-header h2 {
-      font-family: "Syne", sans-serif;
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      font-weight: 800; margin-bottom: 14px;
-    }
-    .usecases-header p { font-size: 1rem; color: var(--gray); }
-
-    .uc-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    .uc-card {
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 2px solid transparent;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-      opacity: 0; transform: translateY(24px);
-    }
-    .uc-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.25s, border-color 0.25s; }
-    .uc-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(13,148,136,0.15); border-color: #0d9488; }
-    .uc-illus {
-      height: 180px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .uc-body { padding: 20px 22px 24px; }
-    .uc-body h3 { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 5px; }
-    .uc-body p  { font-size: 0.85rem; color: var(--gray); }
-
-    /* ── CSS ILLUSTRATION: Restaurant ─────────────────── */
-    .illus-restaurant { background: #fef9f0; }
-    .menu-card {
-      width: 110px; height: 148px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 4px 4px 16px rgba(0,0,0,0.12);
-      padding: 14px 12px;
-      display: flex; flex-direction: column; gap: 7px;
-      position: relative;
-    }
-    .menu-line { height: 6px; border-radius: 3px; background: #e5e7eb; }
-    .menu-line.title { width: 70%; background: #374151; height: 8px; }
-    .menu-line.short { width: 50%; }
-    .menu-line.medium { width: 80%; }
-    .menu-qr {
-      position: absolute; bottom: 10px; right: 10px;
-      width: 32px; height: 32px;
-    }
-
-    /* ── CSS ILLUSTRATION: Visitenkarte ───────────────── */
-    .illus-bizcard { background: #f0f4ff; }
-    .biz-card {
-      width: 148px; height: 88px;
-      background: #1e3a5f;
-      border-radius: 10px;
-      padding: 14px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      box-shadow: 6px 6px 20px rgba(30,58,95,0.3);
-      position: relative; overflow: hidden;
-    }
-    .biz-dots {
-      position: absolute; top: 0; right: 0;
-      width: 60px; height: 60px;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1.5px, transparent 1.5px);
-      background-size: 8px 8px;
-    }
-    .biz-name { font-size: 0.65rem; font-weight: 800; color: white; letter-spacing: 0.05em; z-index: 1; }
-    .biz-title { font-size: 0.55rem; color: rgba(255,255,255,0.5); z-index: 1; }
-    .biz-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
-    .biz-line { width: 40px; height: 3px; background: #0d9488; border-radius: 2px; }
-    .biz-qr { width: 28px; height: 28px; }
-
-    /* ── CSS ILLUSTRATION: Flyer ──────────────────────── */
-    .illus-flyer { background: #f0fdf9; }
-    .flyer-card {
-      width: 96px; height: 148px;
-      background: #0d9488;
-      border-radius: 8px;
-      padding: 16px 12px 12px;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      box-shadow: 6px 6px 20px rgba(13,148,136,0.3);
-    }
-    .flyer-line { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.35); }
-    .flyer-line.bold { background: white; height: 9px; width: 85%; }
-    .flyer-line.w70 { width: 70%; }
-    .flyer-line.w55 { width: 55%; }
-    .flyer-spacer { flex: 1; }
-    .flyer-qr { width: 48px; height: 48px; }
-
-    /* ── CSS ILLUSTRATION: Verpackung ─────────────────── */
-    .illus-pkg { background: #fff8f0; }
-    .pkg-box {
-      width: 120px; height: 140px;
-      background: linear-gradient(145deg, #f97316 0%, #e85d04 100%);
-      border-radius: 16px;
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: space-between;
-      padding: 18px 14px 14px;
-      box-shadow: 6px 8px 24px rgba(232,93,4,0.35);
-    }
-    .pkg-label {
-      font-size: 0.55rem; font-weight: 800; letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.7); text-transform: uppercase;
-    }
-    .pkg-brand { font-family: "Syne", sans-serif; font-size: 1rem; font-weight: 800; color: white; }
-    .pkg-scan { font-size: 0.5rem; font-weight: 700; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; }
-    .pkg-qr { width: 40px; height: 40px; background: white; border-radius: 6px; }
-
-    /* ── shared mini-QR canvas style ─────────────────── */
-    canvas.mini-qr { display: block; }
-
-    /* ── CTA SPLIT SECTION ────────────────────────────── */
-    .cta-split {
-      background: #f0fdfa;
-      padding: 100px 24px;
-    }
-    .cta-split-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: center;
-    }
-    .cta-split-text h2 {
-      font-family: "Syne", sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800; line-height: 1.1;
-      margin-bottom: 20px;
-    }
-    .cta-split-text h2 em { font-style: normal; color: #0d9488; }
-    .cta-split-text p {
-      font-size: 1rem; color: var(--gray);
-      line-height: 1.7; margin-bottom: 36px;
-      max-width: 400px;
-    }
-    .btn-teal {
-      display: inline-block;
-      background: #0d9488; color: white;
-      padding: 14px 32px; border-radius: 100px;
-      text-decoration: none; font-size: 1rem; font-weight: 700;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(13,148,136,0.3);
-    }
-    .btn-teal:hover { background: #0f766e; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(13,148,136,0.4); }
-
-    /* floating composition */
-    .cta-visual {
-      position: relative;
-      height: 380px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    /* decorative dots */
-    .cta-visual::before {
-      content: "";
-      position: absolute; top: 20px; left: 10px;
-      width: 120px; height: 120px;
-      background-image: radial-gradient(circle, #0d9488 1.5px, transparent 1.5px);
-      background-size: 14px 14px;
-      opacity: 0.25;
-    }
-    .cta-visual::after {
-      content: "";
-      position: absolute; bottom: 10px; right: 20px;
-      width: 80px; height: 80px;
-      background-image: radial-gradient(circle, #f97316 2px, transparent 2px);
-      background-size: 12px 12px;
-      opacity: 0.3;
-    }
-    /* phone mockup */
-    .phone-mockup {
-      width: 200px; height: 340px;
-      background: #1a1a2e;
-      border-radius: 32px;
-      border: 8px solid #2d2d44;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.05);
-      display: flex; flex-direction: column;
-      align-items: center;
-      padding: 24px 16px 16px;
-      position: relative; z-index: 2;
-      animation: float 3s ease-in-out infinite alternate;
-    }
-    @keyframes float { from { transform: translateY(0); } to { transform: translateY(-12px); } }
-    .phone-notch {
-      width: 60px; height: 8px;
-      background: #2d2d44; border-radius: 4px;
-      margin-bottom: 18px;
-    }
-    .phone-screen-lines { width: 100%; display: flex; flex-direction: column; gap: 7px; }
-    .phone-line { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.12); }
-    .phone-line.accent { background: rgba(13,148,136,0.6); width: 60%; }
-    .phone-line.short { width: 40%; }
-    .phone-canvas-wrap {
-      margin-top: 14px;
-      background: white; border-radius: 10px;
-      padding: 8px; width: 100px; height: 100px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .phone-btn {
-      margin-top: auto;
-      width: 100%; height: 30px;
-      background: #0d9488; border-radius: 8px;
-    }
-    /* floating business card */
-    .float-card {
-      position: absolute;
-      left: -20px; bottom: 30px;
-      width: 130px; height: 80px;
-      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 12px 32px rgba(13,148,136,0.4);
-      transform: rotate(-8deg);
-      z-index: 3;
-      display: flex; flex-direction: column; justify-content: space-between;
-      animation: float-card 3s ease-in-out infinite alternate;
-    }
-    @keyframes float-card { from { transform: rotate(-8deg) translateY(0); } to { transform: rotate(-8deg) translateY(-8px); } }
-    .float-card-top { font-size: 0.55rem; font-weight: 800; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; }
-    .float-card-scan { font-size: 0.65rem; font-weight: 800; color: white; }
-    .float-card-qr { width: 28px; height: 28px; background: white; border-radius: 4px; }
-    /* badge */
-    .float-badge {
-      position: absolute;
-      top: 10px; right: -10px;
-      background: #16a34a; color: white;
-      font-size: 0.7rem; font-weight: 700;
-      padding: 5px 12px; border-radius: 100px;
-      box-shadow: 0 4px 12px rgba(22,163,74,0.4);
-      z-index: 4;
-      animation: float-badge 3s ease-in-out infinite alternate;
-    }
-    @keyframes float-badge { from { transform: translateY(0); } to { transform: translateY(-6px); } }
-
-    /* fade-in utility */
-    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── RESPONSIVE ───────────────────────────────────── */
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
+      .showcase-grid { grid-template-columns: repeat(2, 1fr); }
       .uc-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 720px) {
       nav { padding: 16px 20px; }
-      .feature-row { grid-template-columns: 1fr; }
-      .feat-card.wide { grid-column: span 1; flex-direction: column; padding: 40px 32px; }
-      .feat-card.wide .feat-visual { font-size: 4rem; }
       .advantages-inner { grid-template-columns: 1fr; }
       .adv-visual { display: none; }
       .cta-banner { margin: 0 16px 60px; padding: 56px 28px; }
       footer { flex-direction: column; text-align: center; padding: 32px 24px; }
       .hero-cta-group { flex-direction: column; align-items: center; }
+      .showcase-grid { grid-template-columns: 1fr; }
       .uc-grid { grid-template-columns: 1fr; }
-      .cta-split-inner { grid-template-columns: 1fr; }
-      .cta-visual { height: 280px; }
-      .phone-mockup { width: 160px; height: 280px; }
     }
   </style>
 </head>
@@ -499,243 +240,113 @@
     <div class="hero-badge">⚡ 100% kostenlos · keine Anmeldung</div>
     <h1>QR Codes erstellen –<br><em>in Sekunden.</em></h1>
     <p>Professionelle QR Codes für URLs, WhatsApp, WLAN & Visitenkarten. Sofort herunterladen oder per E-Mail erhalten.</p>
-
     <div class="hero-cta-group">
       <a href="/generator.html" class="btn-primary">Jetzt QR Code erstellen ⚡</a>
-      <a href="#features" class="btn-secondary">Mehr erfahren</a>
+      <a href="#showcase" class="btn-secondary">Mehr erfahren</a>
     </div>
-
     <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-number">100%</div>
-        <div class="stat-label">Kostenlos</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">&lt;3s</div>
-        <div class="stat-label">Generierung</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Anmeldung nötig</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">5+</div>
-        <div class="stat-label">QR-Typen</div>
-      </div>
+      <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Kostenlos</div></div>
+      <div class="stat"><div class="stat-number">&lt;3s</div><div class="stat-label">Generierung</div></div>
+      <div class="stat"><div class="stat-number">0</div><div class="stat-label">Anmeldung nötig</div></div>
+      <div class="stat"><div class="stat-number">5+</div><div class="stat-label">QR-Typen</div></div>
     </div>
   </section>
 
   <!-- TRUST BAR -->
   <div class="trust-bar">
     <div class="trust-track">
-      <span class="trust-item">🌐 Website QR</span>
-      <span class="trust-item">💬 WhatsApp QR</span>
-      <span class="trust-item">📶 WLAN QR</span>
-      <span class="trust-item">👤 Visitenkarte</span>
-      <span class="trust-item">📝 Text QR</span>
-      <span class="trust-item">🎨 Farben & Logos</span>
-      <span class="trust-item">⬇ PNG Download</span>
-      <span class="trust-item">📧 Per E-Mail senden</span>
-      <span class="trust-item">🌐 Website QR</span>
-      <span class="trust-item">💬 WhatsApp QR</span>
-      <span class="trust-item">📶 WLAN QR</span>
-      <span class="trust-item">👤 Visitenkarte</span>
-      <span class="trust-item">📝 Text QR</span>
-      <span class="trust-item">🎨 Farben & Logos</span>
-      <span class="trust-item">⬇ PNG Download</span>
-      <span class="trust-item">📧 Per E-Mail senden</span>
+      <span class="trust-item">🌐 Website QR</span><span class="trust-item">💬 WhatsApp QR</span><span class="trust-item">📶 WLAN QR</span><span class="trust-item">👤 Visitenkarte</span><span class="trust-item">📝 Text QR</span><span class="trust-item">🎨 Farben & Logos</span><span class="trust-item">⬇ PNG Download</span><span class="trust-item">📧 Per E-Mail senden</span><span class="trust-item">🌐 Website QR</span><span class="trust-item">💬 WhatsApp QR</span><span class="trust-item">📶 WLAN QR</span><span class="trust-item">👤 Visitenkarte</span><span class="trust-item">📝 Text QR</span><span class="trust-item">🎨 Farben & Logos</span><span class="trust-item">⬇ PNG Download</span><span class="trust-item">📧 Per E-Mail senden</span>
     </div>
   </div>
 
-  <!-- FEATURES -->
-  <div class="features" id="features">
-    <div class="section-label">Was du bekommst</div>
-    <h2 class="section-title">Alles was du brauchst. Nichts was du nicht brauchst.</h2>
+  <!-- QR SHOWCASE — pure SVG QR patterns, zero JS -->
+  <section class="qr-showcase" id="showcase">
+    <div class="showcase-inner">
+      <div class="showcase-header">
+        <div class="section-label">QR-Typen</div>
+        <h2>Für jeden Zweck der richtige QR-Code</h2>
+        <p>Wähle aus 5 Typen – vollständig anpassbar in Farbe, Stil und Logo.</p>
+      </div>
+      <div class="showcase-grid">
 
-    <div class="feature-row">
-      <div class="feat-card pink">
-        <div class="feat-emoji">🌐</div>
-        <h3>Website & Links</h3>
-        <p>Verlinke jede URL, Landingpage oder Social-Media-Profil. Der QR Code führt deine Kunden direkt dorthin.</p>
-      </div>
-      <div class="feat-card yellow">
-        <div class="feat-emoji">💬</div>
-        <h3>WhatsApp QR Code</h3>
-        <p>Kunden scannen und starten sofort einen WhatsApp Chat – ganz ohne Nummer eintippen.</p>
-      </div>
-    </div>
+        <!-- Card 1: Website -->
+        <div class="sc-card c1">
+          <div class="qr-glow-wrap">
+            <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="80" height="80" aria-hidden="true">
+              <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
+            </svg>
+          </div>
+          <h3>Website URL</h3>
+          <p>Verlinke jede Webseite, Landingpage oder Social-Media-Profil direkt per Scan.</p>
+        </div>
 
-    <div class="feature-row">
-      <div class="feat-card wide blue">
-        <div class="feat-text">
-          <div class="feat-emoji">🎨</div>
-          <h3>Dein Design, deine Farben</h3>
-          <p>Wähle Farben, QR-Stil (Standard, Abgerundet, Punkte) und lade dein eigenes Logo hoch. Dein QR Code – deine Marke.</p>
+        <!-- Card 2: WhatsApp -->
+        <div class="sc-card c2">
+          <div class="qr-glow-wrap">
+            <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="80" height="80" aria-hidden="true">
+              <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="4" y="3" width="1" height="1" class="qf"/><rect x="6" y="3" width="1" height="1" class="qf"/><rect x="3" y="4" width="1" height="1" class="qf"/><rect x="5" y="4" width="2" height="1" class="qf"/><rect x="3" y="5" width="2" height="1" class="qf"/><rect x="6" y="5" width="1" height="1" class="qf"/><rect x="4" y="6" width="1" height="1" class="qf"/>
+            </svg>
+          </div>
+          <h3>WhatsApp</h3>
+          <p>Kunden scannen und starten sofort einen Chat – ohne Nummer eintippen.</p>
         </div>
-        <div class="feat-visual">🖌️</div>
-      </div>
-    </div>
 
-    <div class="feature-row">
-      <div class="feat-card orange">
-        <div class="feat-emoji">📶</div>
-        <h3>WLAN QR Code</h3>
-        <p>Gäste verbinden sich automatisch mit deinem WLAN – kein Passwort eintippen nötig.</p>
-      </div>
-      <div class="feat-card dark">
-        <div class="feat-emoji">👤</div>
-        <h3>Digitale Visitenkarte</h3>
-        <p>Kontakt direkt ins Telefon speichern – per Scan, ohne abtippen.</p>
-      </div>
-    </div>
-  </div>
+        <!-- Card 3: WLAN -->
+        <div class="sc-card c3">
+          <div class="qr-glow-wrap">
+            <svg class="qr-icon oteal" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="80" height="80" aria-hidden="true">
+              <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="2" height="1" class="qf"/><rect x="6" y="3" width="1" height="1" class="qf"/><rect x="3" y="4" width="1" height="1" class="qf"/><rect x="5" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="3" height="1" class="qf"/><rect x="3" y="6" width="2" height="1" class="qf"/><rect x="6" y="6" width="1" height="1" class="qf"/>
+            </svg>
+          </div>
+          <h3>WLAN</h3>
+          <p>Gäste verbinden sich automatisch mit deinem Netzwerk – kein Passwort tippen.</p>
+        </div>
 
-  <!-- ADVANTAGES -->
-  <section class="advantages">
-    <div class="advantages-inner">
-      <div>
-        <h2>Warum QR Generator?</h2>
-        <div class="check-list">
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div>
-              <strong>Keine Anmeldung erforderlich</strong>
-              <p>Einfach aufrufen, Daten eingeben, QR Code generieren. Fertig.</p>
-            </div>
+        <!-- Card 4: Visitenkarte -->
+        <div class="sc-card c4">
+          <div class="qr-glow-wrap">
+            <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="80" height="80" aria-hidden="true">
+              <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="1" height="1" class="qf"/><rect x="3" y="5" width="3" height="1" class="qf"/><rect x="4" y="4" width="1" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="3" y="6" width="2" height="1" class="qf"/><rect x="6" y="6" width="1" height="1" class="qf"/>
+            </svg>
           </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div>
-              <strong>Vollständig kostenlos</strong>
-              <p>Kein Abo, keine versteckten Kosten, kein Wasserzeichen.</p>
-            </div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div>
-              <strong>Hochauflösender PNG-Download</strong>
-              <p>Dein QR Code in druckfähiger Qualität – direkt im Browser generiert.</p>
-            </div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div>
-              <strong>Per E-Mail erhalten</strong>
-              <p>QR Code direkt an deine Inbox senden lassen – praktisch unterwegs.</p>
-            </div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div>
-              <strong>DSGVO-konform</strong>
-              <p>Keine Nutzerdaten gespeichert. Hosting in Deutschland.</p>
-            </div>
-          </div>
+          <h3>Visitenkarte</h3>
+          <p>Digitale Visitenkarte als QR – Kontakt wird direkt ins Telefon gespeichert.</p>
         </div>
-      </div>
 
-      <div class="adv-visual">
-        <div class="adv-stat-row">
-          <div class="adv-stat">
-            <div class="num">100%</div>
-            <div class="lbl">Kostenlos</div>
+        <!-- Card 5: Design -->
+        <div class="sc-card c5">
+          <div class="qr-glow-wrap">
+            <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="80" height="80" aria-hidden="true">
+              <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="4" y="3" width="3" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="3" y="5" width="1" height="1" class="qf"/><rect x="5" y="5" width="2" height="1" class="qf"/><rect x="4" y="6" width="3" height="1" class="qf"/>
+            </svg>
           </div>
-          <div class="adv-stat">
-            <div class="num">&lt;3s</div>
-            <div class="lbl">Generierung</div>
+          <h3>Design & Logo</h3>
+          <p>Farben, Stil und eigenes Logo – dein QR Code passend zu deiner Marke.</p>
+        </div>
+
+        <!-- Card 6: E-Mail -->
+        <div class="sc-card c6">
+          <div class="qr-glow-wrap">
+            <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="80" height="80" aria-hidden="true">
+              <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="3" height="1" class="qf"/><rect x="3" y="4" width="1" height="1" class="qf"/><rect x="5" y="4" width="1" height="1" class="qf"/><rect x="3" y="5" width="4" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="6" y="6" width="1" height="1" class="qf"/>
+            </svg>
           </div>
+          <h3>Per E-Mail senden</h3>
+          <p>QR Code direkt in die Inbox – zum Speichern, Drucken oder Weiterschicken.</p>
         </div>
-        <div class="adv-qr-demo">
-          <div class="qr-grid">
-            <div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell on"></div>
-            <div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div>
-            <div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell on"></div>
-            <div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell off"></div>
-            <div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell off"></div>
-            <div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell off"></div><div class="qr-cell on"></div>
-            <div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell off"></div><div class="qr-cell on"></div><div class="qr-cell on"></div><div class="qr-cell on"></div>
-          </div>
-          <span>Dein QR Code – in Sekunden</span>
-        </div>
-        <div style="text-align:center">
-          <a href="/generator.html" class="btn-primary">QR erstellen →</a>
-        </div>
-      </div>
+
+      </div><!-- /showcase-grid -->
     </div>
   </section>
-
-  <!-- FAQ -->
-  <section class="faq">
-    <div class="section-label">Häufige Fragen</div>
-    <h2>FAQ</h2>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        Ist der QR Code Generator wirklich kostenlos?
-        <div class="faq-icon">+</div>
-      </div>
-      <div class="faq-answer">
-        Ja, vollständig kostenlos. Kein Abo, keine Anmeldung, keine versteckten Kosten. Du kannst unbegrenzt QR Codes erstellen und herunterladen.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        Welche QR Code Typen kann ich erstellen?
-        <div class="faq-icon">+</div>
-      </div>
-      <div class="faq-answer">
-        Aktuell unterstützen wir: Website-URLs, WhatsApp-Links, WLAN-Zugangsdaten, digitale Visitenkarten (vCard) und freien Text. Weitere Typen folgen.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        Kann ich mein Logo in den QR Code einbetten?
-        <div class="faq-icon">+</div>
-      </div>
-      <div class="faq-answer">
-        Ja! Im Design-Schritt kannst du ein PNG, JPG oder SVG hochladen. Das Logo wird mittig im QR Code platziert. Der QR Code bleibt dank hoher Fehlerkorrektur scannbar.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        In welchen Formaten kann ich den QR Code herunterladen?
-        <div class="faq-icon">+</div>
-      </div>
-      <div class="faq-answer">
-        Aktuell als PNG – direkt aus dem Browser, ohne Server-Upload. Du kannst ihn auch per E-Mail an dich senden lassen.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        Werden meine Daten gespeichert?
-        <div class="faq-icon">+</div>
-      </div>
-      <div class="faq-answer">
-        Nein. Der QR Code wird direkt in deinem Browser generiert. Wir speichern keine URLs, Inhalte oder personenbezogenen Daten. DSGVO-konform, Hosting in Deutschland.
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BANNER -->
-  <div class="cta-banner">
-    <h2>Bereit? Erstelle deinen ersten QR Code.</h2>
-    <p>Kostenlos, in weniger als 30 Sekunden, ohne Anmeldung.</p>
-    <a href="/generator.html" class="btn-primary">Jetzt starten ⚡</a>
-  </div>
 
   <!-- USE-CASE SECTION -->
   <section class="usecases">
     <div class="usecases-inner">
-      <div class="usecases-header fade-in">
+      <div class="usecases-header">
         <div class="section-label">Einsatzbereiche</div>
         <h2>QR-Codes überall einsetzen</h2>
         <p>Von der Visitenkarte bis zum Plakat – dein QR-Code passt überall hin.</p>
       </div>
-
       <div class="uc-grid">
 
         <!-- Card 1: Restaurant -->
@@ -750,7 +361,9 @@
               <div class="menu-line medium"></div>
               <div class="menu-line short"></div>
               <div class="menu-qr">
-                <canvas class="mini-qr" data-text="https://qrgenerator.de/speisekarte" data-size="32"></canvas>
+                <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
+                  <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
+                </svg>
               </div>
             </div>
           </div>
@@ -765,14 +378,13 @@
           <div class="uc-illus illus-bizcard">
             <div class="biz-card">
               <div class="biz-dots"></div>
-              <div>
-                <div class="biz-name">MAX MÜLLER</div>
-                <div class="biz-title">Geschäftsführer · GmbH</div>
-              </div>
+              <div><div class="biz-name">MAX MÜLLER</div><div class="biz-title-sub">Geschäftsführer · GmbH</div></div>
               <div class="biz-bottom">
                 <div class="biz-line"></div>
                 <div class="biz-qr">
-                  <canvas class="mini-qr" data-text="BEGIN:VCARD%0AFNA:Max%20Müller%0AEND:VCARD" data-size="28" data-dark="#ffffff" data-light="#1e3a5f"></canvas>
+                  <svg class="qr-icon onav" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="28" height="28" aria-hidden="true">
+                    <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
+                  </svg>
                 </div>
               </div>
             </div>
@@ -788,11 +400,13 @@
           <div class="uc-illus illus-flyer">
             <div class="flyer-card">
               <div class="flyer-line bold"></div>
-              <div class="flyer-line w70" style="background:rgba(255,255,255,0.5)"></div>
-              <div class="flyer-line w55" style="background:rgba(255,255,255,0.35)"></div>
+              <div class="flyer-line w70"></div>
+              <div class="flyer-line w55"></div>
               <div class="flyer-spacer"></div>
               <div class="flyer-qr">
-                <canvas class="mini-qr" data-text="https://qrgenerator.de/kampagne" data-size="48" data-dark="#ffffff" data-light="#0d9488"></canvas>
+                <svg class="qr-icon inv" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="48" height="48" aria-hidden="true">
+                  <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
+                </svg>
               </div>
             </div>
           </div>
@@ -810,7 +424,9 @@
               <div class="pkg-brand">BRAND</div>
               <div class="pkg-scan">SCAN ME</div>
               <div class="pkg-qr">
-                <canvas class="mini-qr" data-text="https://qrgenerator.de/produkt" data-size="40"></canvas>
+                <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
+                  <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
+                </svg>
               </div>
             </div>
           </div>
@@ -824,47 +440,69 @@
     </div>
   </section>
 
-  <!-- CTA SPLIT SECTION -->
-  <section class="cta-split">
-    <div class="cta-split-inner">
-
-      <div class="cta-split-text fade-in">
-        <h2>Bereit für deinen<br><em>perfekten QR-Code?</em></h2>
-        <p>Vollständig anpassbar. Kostenlos. Sofort einsatzbereit – ohne Anmeldung.</p>
-        <a href="/generator.html" class="btn-teal">Jetzt QR erstellen →</a>
-      </div>
-
-      <div class="cta-visual fade-in">
-        <!-- Phone mockup -->
-        <div class="phone-mockup">
-          <div class="phone-notch"></div>
-          <div class="phone-screen-lines">
-            <div class="phone-line accent"></div>
-            <div class="phone-line"></div>
-            <div class="phone-line short"></div>
-            <div class="phone-line"></div>
-          </div>
-          <div class="phone-canvas-wrap">
-            <canvas class="mini-qr" data-text="https://qrgenerator.de" data-size="84"></canvas>
-          </div>
-          <div class="phone-btn"></div>
+  <!-- ADVANTAGES -->
+  <section class="advantages">
+    <div class="advantages-inner">
+      <div>
+        <h2>Warum QR Generator?</h2>
+        <div class="check-list">
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Keine Anmeldung erforderlich</strong><p>Einfach aufrufen, Daten eingeben, QR Code generieren. Fertig.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Vollständig kostenlos</strong><p>Kein Abo, keine versteckten Kosten, kein Wasserzeichen.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Hochauflösender PNG-Download</strong><p>Dein QR Code in druckfähiger Qualität – direkt im Browser generiert.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Per E-Mail erhalten</strong><p>QR Code direkt an deine Inbox senden lassen – praktisch unterwegs.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>DSGVO-konform</strong><p>Keine Nutzerdaten gespeichert. Hosting in Deutschland.</p></div></div>
         </div>
-
-        <!-- Floating business card -->
-        <div class="float-card">
-          <div class="float-card-top">BUSINESS CARD</div>
-          <div class="float-card-scan">SCAN ME</div>
-          <div class="float-card-qr">
-            <canvas class="mini-qr" data-text="https://qrgenerator.de/card" data-size="28" data-dark="#0d9488" data-light="#ffffff"></canvas>
-          </div>
-        </div>
-
-        <!-- Badge -->
-        <div class="float-badge">✓ Kostenlos</div>
       </div>
-
+      <div class="adv-visual">
+        <div class="adv-stat-row">
+          <div class="adv-stat"><div class="num">100%</div><div class="lbl">Kostenlos</div></div>
+          <div class="adv-stat"><div class="num">&lt;3s</div><div class="lbl">Generierung</div></div>
+        </div>
+        <div class="adv-qr-demo">
+          <svg class="qr-icon inv" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="96" height="96" aria-hidden="true">
+            <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
+          </svg>
+          <span>Dein QR Code – in Sekunden</span>
+        </div>
+        <div style="text-align:center">
+          <a href="/generator.html" class="btn-primary">QR erstellen →</a>
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="section-label" style="text-align:center">Häufige Fragen</div>
+    <h2>FAQ</h2>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Ist der QR Code Generator wirklich kostenlos?<div class="faq-icon">+</div></div>
+      <div class="faq-answer">Ja, vollständig kostenlos. Kein Abo, keine Anmeldung, keine versteckten Kosten. Du kannst unbegrenzt QR Codes erstellen und herunterladen.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Welche QR Code Typen kann ich erstellen?<div class="faq-icon">+</div></div>
+      <div class="faq-answer">Aktuell unterstützen wir: Website-URLs, WhatsApp-Links, WLAN-Zugangsdaten, digitale Visitenkarten (vCard) und freien Text. Weitere Typen folgen.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Kann ich mein Logo in den QR Code einbetten?<div class="faq-icon">+</div></div>
+      <div class="faq-answer">Ja! Im Design-Schritt kannst du ein PNG, JPG oder SVG hochladen. Das Logo wird mittig platziert. Der QR Code bleibt dank hoher Fehlerkorrektur scannbar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">In welchen Formaten kann ich den QR Code herunterladen?<div class="faq-icon">+</div></div>
+      <div class="faq-answer">Aktuell als PNG – direkt aus dem Browser, ohne Server-Upload. Du kannst ihn auch per E-Mail an dich senden lassen.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Werden meine Daten gespeichert?<div class="faq-icon">+</div></div>
+      <div class="faq-answer">Nein. Der QR Code wird direkt in deinem Browser generiert. Wir speichern keine URLs, Inhalte oder personenbezogenen Daten. DSGVO-konform, Hosting in Deutschland.</div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <h2>Bereit? Erstelle deinen ersten QR Code.</h2>
+    <p>Kostenlos, in weniger als 30 Sekunden, ohne Anmeldung.</p>
+    <a href="/generator.html" class="btn-primary">Jetzt starten ⚡</a>
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -873,66 +511,12 @@
     <div>Powered by <a href="https://qr-docs.de">QR-Docs.de</a></div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script>
-    /* ── FAQ ─────────────────────────────── */
     function toggleFaq(el) {
-      const item = el.parentElement;
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      var item = el.parentElement;
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
       if (!isOpen) item.classList.add('open');
-    }
-
-    /* ── Mini QR canvases ────────────────── */
-    function renderMiniQRs() {
-      document.querySelectorAll('canvas.mini-qr').forEach(function(canvas) {
-        const text  = decodeURIComponent(canvas.dataset.text || 'https://qrgenerator.de');
-        const size  = parseInt(canvas.dataset.size)  || 80;
-        const dark  = canvas.dataset.dark  || '#000000';
-        const light = canvas.dataset.light || '#ffffff';
-        canvas.width  = size;
-        canvas.height = size;
-        QRCode.toCanvas(canvas, text, {
-          width: size,
-          margin: 1,
-          color: { dark: dark, light: light }
-        }, function(err) { if (err) console.warn('QR mini error', err); });
-      });
-    }
-
-    /* ── IntersectionObserver fade-in ────── */
-    function initFadeIn() {
-      const obs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            obs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.12 });
-
-      document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
-
-      // Stagger uc-cards
-      const cardObs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          if (e.isIntersecting) {
-            const cards = e.target.querySelectorAll('.uc-card');
-            cards.forEach(function(card, i) {
-              setTimeout(function() { card.classList.add('visible'); }, i * 100);
-            });
-            cardObs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      const grid = document.querySelector('.uc-grid');
-      if (grid) cardObs.observe(grid);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() { renderMiniQRs(); initFadeIn(); });
-    } else {
-      renderMiniQRs(); initFadeIn();
     }
   </script>
 </body>
