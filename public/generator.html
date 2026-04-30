@@ -5,49 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>QR Code erstellen – QR Generator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{
-    --teal:#0d9488;--teal-d:#0f766e;--teal-l:#f0fdfa;--teal-mid:#ccfbf1;
-    --navy:#1e3a5f;--navy-d:#162d4a;--orange:#f97316;
-    --bg:#f8f9fb;--white:#fff;
-    --g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;
-    --g400:#9ca3af;--g500:#6b7280;--g700:#374151;--g900:#111827;
+    /* qr-docs.de palette */
+    --gold:#B8964A;--gold-d:#9A7A3A;
+    --gold-l:rgba(184,150,74,.08);--gold-mid:rgba(184,150,74,.22);
+    --ink:#1A1A1A;--ink-d:#0f0f0f;
+    --bg:#F5F0E8;--card:#EDE8DC;--white:#fff;
+    --border:#D4CEC5;--muted:#6B5E52;
+    /* legacy aliases — no other CSS needs changing */
+    --teal:var(--gold);--teal-d:var(--gold-d);
+    --teal-l:var(--gold-l);--teal-mid:var(--gold-mid);
+    --navy:var(--ink);--navy-d:var(--ink-d);
+    --orange:var(--gold);
+    --g100:var(--card);--g200:var(--border);--g300:#C4BEB5;
+    --g400:#9c9690;--g500:var(--muted);--g700:#3D3530;--g900:var(--ink);
     --radius:10px;--font:"Inter",system-ui,sans-serif;
+    --serif:"Playfair Display",Georgia,serif;
   }
-  body{font-family:var(--font);background:var(--bg);color:var(--g900);min-height:100vh;display:flex;flex-direction:column}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
   button{font-family:var(--font);cursor:pointer}
   input,select,textarea{font-family:var(--font)}
 
   /* Back bar */
   .back-bar{
-    background:var(--g100);border-bottom:1px solid var(--g200);
+    background:var(--card);border-bottom:1px solid var(--border);
     padding:8px 48px;display:flex;align-items:center;
   }
   .back-link{
     display:inline-flex;align-items:center;gap:6px;
-    color:var(--g500);font-size:.82rem;font-weight:600;text-decoration:none;
+    color:var(--muted);font-size:.82rem;font-weight:600;text-decoration:none;
     transition:color .15s;
   }
-  .back-link:hover{color:var(--g900)}
+  .back-link:hover{color:var(--ink)}
 
   /* NAV */
   .nav{
     position:sticky;top:0;z-index:200;
-    background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--g200);
+    background:rgba(245,240,232,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
     display:flex;align-items:center;justify-content:space-between;
     padding:0 48px;height:60px;
   }
-  .nav-logo{font-size:1.2rem;font-weight:800;color:var(--orange);display:flex;align-items:center;gap:6px;text-decoration:none}
-  .nav-logo span{color:var(--g900)}
+  .nav-logo{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px;text-decoration:none}
+  .nav-logo span{color:var(--ink)}
   .nav-right{display:flex;align-items:center;gap:12px}
   .lang-toggle{display:flex;background:var(--g100);border-radius:100px;padding:3px;gap:2px}
   .lang-btn{background:none;border:none;padding:4px 11px;border-radius:100px;font-size:.75rem;font-weight:700;color:var(--g500);transition:all .15s;letter-spacing:.04em}
   .lang-btn.active{background:var(--white);color:var(--g900);box-shadow:0 1px 3px rgba(0,0,0,.1)}
-  .nav-cta{background:var(--g900);color:#fff;border:none;padding:9px 20px;border-radius:100px;font-size:.85rem;font-weight:600;text-decoration:none;transition:background .2s}
-  .nav-cta:hover{background:var(--navy)}
+  .nav-cta{background:var(--ink);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:opacity .2s}
+  .nav-cta:hover{opacity:.8}
 
   /* STEPPER */
   .stepper-wrap{background:var(--white);border-bottom:1px solid var(--g200);padding:0 48px}
@@ -73,8 +82,8 @@
   .step1-left p{font-size:.9rem;color:var(--g500);margin-bottom:20px}
   .type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .type-card{position:relative;background:var(--white);border:1.5px solid var(--g200);border-radius:var(--radius);padding:16px 14px 14px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;text-align:left}
-  .type-card:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(13,148,136,.12);transform:translateY(-1px)}
-  .type-card.selected{border-color:var(--teal);background:var(--teal-l);box-shadow:0 4px 16px rgba(13,148,136,.15)}
+  .type-card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(184,150,74,.14);transform:translateY(-1px)}
+  .type-card.selected{border-color:var(--gold);background:var(--gold-l);box-shadow:0 4px 16px rgba(184,150,74,.16)}
   .type-badge{position:absolute;top:10px;right:10px;background:var(--orange);color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:100px}
   .type-icon{font-size:1.6rem;margin-bottom:8px;display:block}
   .type-title{font-size:.88rem;font-weight:700;color:var(--g900);margin-bottom:3px}
@@ -94,7 +103,7 @@
   .field{margin-bottom:16px}
   .field label{display:block;font-size:.82rem;font-weight:600;color:var(--g700);margin-bottom:6px}
   .field input,.field select,.field textarea{width:100%;padding:11px 14px;border:1.5px solid var(--g200);border-radius:8px;font-size:.9rem;color:var(--g900);background:var(--white);transition:border-color .15s,box-shadow .15s}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,148,136,.1)}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,150,74,.12)}
   .field textarea{resize:vertical;min-height:80px}
   .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .field-check{display:flex;align-items:center;gap:8px;margin-top:4px}
@@ -127,8 +136,8 @@
   #qr-preview canvas{display:block}
   #qr-preview img{display:none}
   .canvas-name{font-size:.8rem;font-weight:600;color:var(--g500);text-align:center}
-  .btn-dl{width:220px;padding:13px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:.92rem;font-weight:700;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:6px}
-  .btn-dl:hover{background:var(--navy-d)}
+  .btn-dl{width:220px;padding:13px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-size:.92rem;font-weight:700;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-dl:hover{opacity:.8}
   .design-col h3{font-size:1rem;font-weight:700;color:var(--g900);margin-bottom:16px}
   .design-section{margin-bottom:22px}
   .design-label{font-size:.75rem;font-weight:700;color:var(--g500);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
@@ -144,7 +153,7 @@
   .swatches{display:flex;gap:8px;flex-wrap:wrap}
   .swatch{width:36px;height:36px;border-radius:50%;cursor:pointer;border:2.5px solid var(--g200);overflow:hidden;display:flex;transition:transform .15s,border-color .15s,box-shadow .15s;flex-shrink:0}
   .swatch:hover{transform:scale(1.1);border-color:var(--teal)}
-  .swatch.active{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,148,136,.2)}
+  .swatch.active{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,150,74,.22)}
   .sw-h{flex:1}
   .style-btns{display:flex;gap:8px}
   .style-btn{flex:1;padding:9px 6px;border:1.5px solid var(--g200);border-radius:8px;background:#fff;cursor:pointer;font-size:.78rem;font-weight:600;color:var(--g500);transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -161,8 +170,8 @@
   .btn-back{padding:11px 24px;background:none;border:1.5px solid var(--g300);border-radius:8px;font-size:.9rem;font-weight:600;color:var(--g700);transition:all .15s;display:none}
   .btn-back:hover{border-color:var(--g700);color:var(--g900)}
   .btn-back.visible{display:block}
-  .btn-next{padding:11px 28px;background:var(--navy);border:none;border-radius:8px;font-size:.9rem;font-weight:700;color:#fff;transition:background .2s,opacity .2s;display:flex;align-items:center;gap:6px}
-  .btn-next:hover{background:var(--navy-d)}
+  .btn-next{padding:11px 28px;background:var(--ink);border:none;border-radius:8px;font-size:.9rem;font-weight:700;color:#fff;transition:opacity .2s;display:flex;align-items:center;gap:6px}
+  .btn-next:hover{opacity:.8}
   .btn-next:disabled{opacity:.45;cursor:not-allowed}
   .footer-info{font-size:.8rem;color:var(--g400)}
 
@@ -188,7 +197,7 @@
 </div>
 
 <nav class="nav">
-  <a class="nav-logo" href="index.html">⚡ <span>QR Generator</span></a>
+  <a class="nav-logo" href="index.html"><span>QR Generator</span></a>
   <div class="nav-right">
     <div class="lang-toggle">
       <button class="lang-btn active" id="btnDe" onclick="setLang('de')">DE</button>

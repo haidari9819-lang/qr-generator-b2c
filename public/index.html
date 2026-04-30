@@ -6,88 +6,99 @@
   <title>QR Code Generator – Kostenlos & ohne Anmeldung</title>
   <meta name="description" content="Erstelle in Sekunden professionelle QR Codes für URLs, WhatsApp, WLAN und Visitenkarten. 100% kostenlos, keine Anmeldung."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --cream:#faf9f7;--ink:#111111;--ink-mid:#555555;
-  --ink-light:#888888;--ink-faint:#bbbbbb;--border:#e8e8e8;--white:#ffffff;
+  --bg:#F5F0E8;
+  --card:#EDE8DC;
+  --ink:#1A1A1A;
+  --muted:#6B5E52;
+  --border:#D4CEC5;
+  --gold:#B8964A;
+  --white:#FFFFFF;
+  --dark:#1A1A1A;
+  --font:"Inter",system-ui,sans-serif;
+  --serif:"Playfair Display",Georgia,serif;
+  --max:1160px;
+  --pad:clamp(20px,5vw,80px);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* ─────────────────── NAV ─────────────────── */
+/* subtle noise texture */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── NAV ── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
-  padding:18px 48px;
-  transition:background .3s,box-shadow .3s;
+  padding:0 var(--pad);height:64px;
+  transition:background .3s,border-color .3s,box-shadow .3s;
+  border-bottom:1px solid transparent;
 }
-nav.scrolled{background:rgba(250,249,247,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(0,0,0,.06)}
-.nav-logo{font-size:.9rem;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
-.nav-center{
-  display:flex;align-items:center;gap:2px;
-  background:rgba(0,0,0,.06);border-radius:999px;padding:5px 6px;
+nav.scrolled{
+  background:rgba(245,240,232,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom-color:var(--border);box-shadow:0 1px 0 rgba(0,0,0,.04);
 }
-.nav-center a{
-  padding:7px 16px;border-radius:999px;font-size:.82rem;font-weight:500;
-  color:var(--ink-mid);text-decoration:none;transition:background .15s,color .15s;white-space:nowrap;
-}
-.nav-center a:hover{background:var(--white);color:var(--ink)}
-.nav-cta{
-  background:var(--ink);color:var(--white);padding:10px 22px;border-radius:999px;
-  font-size:.82rem;font-weight:600;text-decoration:none;transition:opacity .2s;
-}
-.nav-cta:hover{opacity:.72}
+.nav-logo{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink);color:var(--white);padding:10px 22px;border-radius:8px;font-size:.875rem;font-weight:600;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.8}
 
-/* ─────────────────── HERO ─────────────────── */
-.hero{
-  min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;
-  padding:140px 24px 60px;
-  background:var(--cream);position:relative;overflow:hidden;
-}
-/* Animated gradient blobs */
-.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;will-change:transform}
-.blob-1{width:700px;height:700px;top:-220px;left:-180px;background:rgba(180,190,255,.35);animation:blob1 12s ease-in-out infinite}
-.blob-2{width:600px;height:600px;bottom:-160px;right:-160px;background:rgba(255,200,160,.35);animation:blob2 10s ease-in-out infinite}
-.blob-3{width:500px;height:500px;top:38%;left:32%;background:rgba(255,255,220,.2);transform:translate(-50%,-50%);animation:blob3 8s ease-in-out infinite}
-@keyframes blob1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,80px) scale(1.06)}}
-@keyframes blob2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-80px,-60px) scale(1.08)}}
-@keyframes blob3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(calc(-50% + 40px),calc(-50% - 30px)) scale(.94)}}
-
-.hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%}
+/* ── HERO ── */
+.hero-wrap{padding:120px var(--pad) 80px}
+.hero{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 480px;gap:72px;align-items:center}
 .hero-badge{
   display:inline-flex;align-items:center;gap:8px;
-  border:1px solid var(--border);background:rgba(255,255,255,.72);
-  padding:7px 18px;border-radius:999px;font-size:.82rem;font-weight:500;
-  color:var(--ink-mid);margin-bottom:36px;backdrop-filter:blur(8px);
+  border:1px solid var(--border);padding:6px 16px;border-radius:100px;
+  font-size:.8rem;font-weight:500;color:var(--muted);margin-bottom:28px;
 }
+.hero-badge strong{color:var(--gold)}
 .hero-h1{
-  font-size:clamp(2.8rem,7vw,5.5rem);line-height:1.05;letter-spacing:-.04em;
-  margin-bottom:24px;max-width:820px;
+  font-family:var(--serif);
+  font-size:clamp(2.8rem,5vw,4.6rem);line-height:1.1;letter-spacing:-.02em;
+  color:var(--ink);margin-bottom:22px;
 }
-.hero-h1 .hl{font-weight:300;color:#aaa}
-.hero-h1 .hb{font-weight:700;color:var(--ink)}
-.hero-sub{font-size:1.1rem;color:var(--ink-light);max-width:480px;line-height:1.7;margin-bottom:40px;font-weight:400}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:56px}
-.btn-black{background:var(--ink);color:var(--white);padding:14px 32px;border-radius:999px;text-decoration:none;font-size:.92rem;font-weight:600;transition:opacity .2s;display:inline-block}
-.btn-black:hover{opacity:.75}
-.btn-outline{background:var(--white);color:var(--ink);padding:14px 32px;border-radius:999px;text-decoration:none;font-size:.92rem;font-weight:600;border:1.5px solid var(--border);transition:border-color .2s,background .2s;display:inline-block}
-.btn-outline:hover{border-color:#999;background:rgba(0,0,0,.03)}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:1.05rem;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:460px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px}
+.btn-primary{
+  background:var(--ink);color:var(--white);
+  padding:13px 28px;border-radius:8px;
+  text-decoration:none;font-size:.92rem;font-weight:600;
+  transition:opacity .2s;display:inline-block;
+}
+.btn-primary:hover{opacity:.8}
+.btn-secondary{
+  background:transparent;color:var(--ink);
+  padding:12px 28px;border-radius:8px;
+  text-decoration:none;font-size:.92rem;font-weight:600;
+  border:1.5px solid var(--border);
+  transition:border-color .2s,background .2s;display:inline-block;
+}
+.btn-secondary:hover{border-color:var(--ink);background:rgba(26,26,26,.04)}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap}
+.hero-stat .num{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--ink);display:block;line-height:1}
+.hero-stat .lbl{font-size:.78rem;color:var(--muted);margin-top:3px}
 
-/* Floating mockup */
+/* hero mockup */
 .hero-mockup{
-  width:100%;max-width:660px;
-  background:var(--white);border-radius:20px;
-  box-shadow:0 24px 80px rgba(0,0,0,.13),0 0 0 1px rgba(0,0,0,.06);
+  background:var(--white);border-radius:16px;
+  border:1px solid var(--border);
+  box-shadow:0 24px 64px rgba(26,26,26,.1),0 4px 16px rgba(26,26,26,.06);
   overflow:hidden;
-  -webkit-mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
-  mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
+  mask-image:linear-gradient(to bottom,black 58%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,black 58%,transparent 100%);
 }
 .hm-chrome{
   display:flex;align-items:center;gap:14px;
-  padding:11px 16px;background:#f5f5f5;border-bottom:1px solid #eaeaea;
+  padding:12px 16px;background:var(--card);border-bottom:1px solid var(--border);
 }
 .hm-dots{display:flex;gap:6px}
 .hm-dots span{width:11px;height:11px;border-radius:50%;display:block}
@@ -95,180 +106,206 @@ nav.scrolled{background:rgba(250,249,247,.92);backdrop-filter:blur(16px);-webkit
 .hm-dots span:nth-child(2){background:#febc2e}
 .hm-dots span:nth-child(3){background:#28c840}
 .hm-tabs{display:flex;gap:2px;flex:1}
-.hm-tab{padding:5px 14px;border-radius:7px;font-size:.73rem;font-weight:600;color:#aaa;white-space:nowrap}
-.hm-tab.active{background:white;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.hm-tab.done{color:#16a34a}
+.hm-tab{padding:5px 14px;border-radius:7px;font-size:.73rem;font-weight:600;color:var(--muted);white-space:nowrap}
+.hm-tab.active{background:var(--white);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.hm-tab.done{color:#22c55e}
 .hm-body{padding:24px 20px 0}
-.hm-body-title{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:18px;text-align:left}
+.hm-body-title{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:18px}
 .hm-qr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .hm-qc{
-  background:#f8f8f8;border:1.5px solid #eee;border-radius:10px;
+  background:var(--card);border:1.5px solid var(--border);border-radius:10px;
   padding:13px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;
 }
-.hm-qc.sel{background:#f0f9ff;border-color:#0d9488}
+.hm-qc.sel{background:rgba(184,150,74,.1);border-color:var(--gold)}
 .hm-qc .qc-icon{font-size:1.3rem}
-.hm-qc .qc-label{font-size:.67rem;font-weight:600;color:#666}
+.hm-qc .qc-label{font-size:.67rem;font-weight:600;color:var(--muted)}
+.hm-form{padding:20px 20px 0;display:flex;flex-direction:column;gap:10px}
+.hm-field{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:.78rem;color:var(--muted)}
+.hm-field-label{font-size:.65rem;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em}
+.hm-field-val{font-size:.82rem;color:var(--ink);font-weight:500}
 
-/* ─────────────────── TRUST BAR ─────────────────── */
-.trust-bar{background:var(--white);border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;padding:20px 0;overflow:hidden}
-.trust-track{display:flex;gap:56px;align-items:center;animation:scroll-left 22s linear infinite;width:max-content}
+/* ── STATS BAR ── */
+.stats-bar{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px var(--pad)}
+.stats-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat-item{text-align:center}
+.stat-item .num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--ink);display:block;line-height:1}
+.stat-item .lbl{font-size:.82rem;color:var(--muted);margin-top:7px}
+.stat-item .divider{width:24px;height:2px;background:var(--gold);border-radius:2px;margin:10px auto 0}
+
+/* ── TRUST BAND ── */
+.trust-band{background:var(--bg);padding:18px 0;border-bottom:1px solid var(--border);overflow:hidden}
+.trust-track{display:flex;align-items:center;animation:scroll-left 32s linear infinite;width:max-content}
 @keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.trust-item{font-size:.86rem;font-weight:600;color:#c0b8b0;white-space:nowrap;letter-spacing:.02em}
+.trust-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border);border-radius:100px;
+  padding:6px 18px;margin:0 6px;
+  font-size:.8rem;font-weight:600;color:var(--muted);
+  background:var(--white);white-space:nowrap;
+}
 
-/* ─────────────────── SHARED SECTIONS ─────────────────── */
-.section-wrap{padding:96px 24px}
-.section-inner{max-width:1080px;margin:0 auto}
-.section-header{text-align:center;margin-bottom:52px}
-.eyebrow{font-size:.72rem;font-weight:600;color:var(--ink-mid);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
-.sec-title{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;letter-spacing:-.03em;margin-bottom:14px}
-.sec-title .hl{font-weight:300;color:#aaa}
-.sec-title .hb{font-weight:700;color:var(--ink)}
-.sec-sub{font-size:.98rem;color:var(--ink-light);max-width:500px;margin:0 auto;line-height:1.65}
+/* ── SHARED SECTION ── */
+.section{padding:clamp(72px,10vw,120px) var(--pad)}
+.section-inner{max-width:var(--max);margin:0 auto}
+.section-header{margin-bottom:56px}
+.section-header.centered{text-align:center}
+.eyebrow{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;display:block}
+.sec-title{
+  font-family:var(--serif);
+  font-size:clamp(2rem,4vw,3rem);line-height:1.15;letter-spacing:-.02em;
+  color:var(--ink);margin-bottom:16px;
+}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-sub{font-size:1rem;color:var(--muted);line-height:1.65;max-width:520px}
+.section-header.centered .sec-sub{margin:0 auto}
 
 /* SVG QR icons */
 .qr-icon{display:block;image-rendering:pixelated;flex-shrink:0}
-.qr-icon .qf{fill:#111}
+.qr-icon .qf{fill:#1A1A1A}
 .qr-icon .qb{fill:#fff}
 .qr-icon.inv .qf{fill:#fff}
-.qr-icon.inv .qb{fill:#0d9488}
-.qr-icon.onav .qf{fill:#fff}
-.qr-icon.onav .qb{fill:#1e3a5f}
+.qr-icon.inv .qb{fill:#1A1A1A}
+.qr-icon.gold .qf{fill:var(--gold)}
+.qr-icon.gold .qb{fill:rgba(184,150,74,.1)}
 
-/* ─────────────────── FEATURES — pink/purple gradient ─────────────────── */
-.features-section{background:linear-gradient(135deg,#fce7f3 0%,#e9d5ff 100%)}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+/* ── FEATURES ── */
+.features-section{background:var(--card)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .feat-card{
-  background:var(--white);border-radius:18px;padding:28px 22px 24px;
-  display:flex;flex-direction:column;align-items:flex-start;gap:14px;
-  border:1px solid rgba(255,255,255,.9);
-  transition:transform .2s,box-shadow .2s;
+  background:var(--white);border:1px solid var(--border);border-radius:12px;
+  padding:clamp(20px,2.5vw,32px);
+  display:flex;flex-direction:column;gap:14px;
+  transition:box-shadow .2s,transform .2s;
 }
-.feat-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.09)}
-.feat-icon{
-  width:56px;height:56px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.feat-card h3{font-size:.92rem;font-weight:700;color:var(--ink)}
-.feat-card p{font-size:.82rem;color:var(--ink-light);line-height:1.55}
-.fi-1{background:#f0f0ff}
-.fi-2{background:#f0fdf4}
-.fi-3{background:#f0fdfa}
-.fi-4{background:#eff6ff}
-.fi-5{background:#fdf4ff}
-.fi-6{background:#fefce8}
+.feat-card:hover{box-shadow:0 8px 32px rgba(26,26,26,.09);transform:translateY(-2px)}
+.feat-num{font-family:var(--serif);font-size:.72rem;font-weight:700;color:var(--border);letter-spacing:.1em}
+.feat-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--card);flex-shrink:0}
+.feat-card h3{font-size:.95rem;font-weight:700;color:var(--ink)}
+.feat-card p{font-size:.84rem;color:var(--muted);line-height:1.6}
 
-/* ─────────────────── USE CASES — yellow/orange gradient ─────────────────── */
-.usecases-section{background:linear-gradient(135deg,#fef3c7 0%,#fed7aa 100%)}
-.uc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+/* ── USE CASES — dark ── */
+.usecases-section{background:var(--dark)}
+.usecases-section .eyebrow{color:rgba(184,150,74,.85)}
+.usecases-section .sec-title{color:var(--white)}
+.usecases-section .sec-sub{color:rgba(245,240,232,.5)}
+.uc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .uc-card{
-  background:var(--white);border-radius:18px;overflow:hidden;
-  transition:transform .2s,box-shadow .2s;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);
+  border-radius:12px;overflow:hidden;transition:background .2s,transform .2s;
 }
-.uc-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.08)}
+.uc-card:hover{background:rgba(255,255,255,.07);transform:translateY(-3px)}
 .uc-illus{height:158px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .uc-body{padding:16px 18px 20px}
-.uc-body h3{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:3px}
-.uc-body p{font-size:.78rem;color:var(--ink-light)}
+.uc-body h3{font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:3px}
+.uc-body p{font-size:.78rem;color:rgba(245,240,232,.45)}
 
 /* CSS illustrations */
-.illus-restaurant{background:#fef9f0}
-.menu-card{width:100px;height:132px;background:white;border-radius:8px;box-shadow:4px 4px 16px rgba(0,0,0,.12);padding:12px 10px;display:flex;flex-direction:column;gap:6px;position:relative}
-.menu-line{height:5px;border-radius:3px;background:#e5e7eb}
-.menu-line.title{width:70%;background:#374151;height:7px}
+.illus-restaurant{background:rgba(255,255,255,.04)}
+.menu-card{width:100px;height:132px;background:var(--white);border-radius:8px;box-shadow:4px 4px 20px rgba(0,0,0,.35);padding:12px 10px;display:flex;flex-direction:column;gap:6px;position:relative}
+.menu-line{height:5px;border-radius:3px;background:var(--border)}
+.menu-line.title{width:70%;background:var(--card);height:7px}
 .menu-line.short{width:50%}
 .menu-line.medium{width:80%}
 .menu-qr{position:absolute;bottom:8px;right:8px;width:28px;height:28px}
-.illus-bizcard{background:#f0f4ff}
-.biz-card{width:136px;height:80px;background:#1e3a5f;border-radius:10px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:6px 6px 20px rgba(30,58,95,.3);position:relative;overflow:hidden}
-.biz-dots{position:absolute;top:0;right:0;width:56px;height:56px;background-image:radial-gradient(circle,rgba(255,255,255,.18) 1.5px,transparent 1.5px);background-size:8px 8px}
+.illus-bizcard{background:rgba(255,255,255,.03)}
+.biz-card{width:136px;height:80px;background:#1A1A1A;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:6px 6px 20px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.biz-dots{position:absolute;top:0;right:0;width:56px;height:56px;background-image:radial-gradient(circle,rgba(184,150,74,.25) 1.5px,transparent 1.5px);background-size:8px 8px}
 .biz-name{font-size:.6rem;font-weight:800;color:white;letter-spacing:.05em;z-index:1;position:relative}
-.biz-title-sub{font-size:.5rem;color:rgba(255,255,255,.5);z-index:1;position:relative}
+.biz-title-sub{font-size:.5rem;color:rgba(255,255,255,.4);z-index:1;position:relative}
 .biz-bottom{display:flex;justify-content:space-between;align-items:flex-end}
-.biz-line{width:36px;height:3px;background:#0d9488;border-radius:2px}
+.biz-line{width:36px;height:3px;background:var(--gold);border-radius:2px}
 .biz-qr{width:26px;height:26px}
-.illus-flyer{background:#f0fdf9}
-.flyer-card{width:88px;height:132px;background:#0d9488;border-radius:8px;padding:14px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;box-shadow:6px 6px 20px rgba(13,148,136,.3)}
+.illus-flyer{background:rgba(184,150,74,.12)}
+.flyer-card{width:88px;height:132px;background:var(--gold);border-radius:8px;padding:14px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;box-shadow:6px 6px 20px rgba(184,150,74,.35)}
 .flyer-line{height:5px;border-radius:3px;background:rgba(255,255,255,.35)}
 .flyer-line.bold{background:white;height:8px;width:85%}
 .flyer-line.w70{width:70%;background:rgba(255,255,255,.5)}
 .flyer-line.w55{width:55%;background:rgba(255,255,255,.35)}
 .flyer-spacer{flex:1}
 .flyer-qr{width:44px;height:44px}
-.illus-pkg{background:#fff8f0}
-.pkg-box{width:108px;height:128px;background:linear-gradient(145deg,#f97316,#e85d04);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:16px 12px 12px;box-shadow:6px 8px 24px rgba(232,93,4,.35)}
+.illus-pkg{background:rgba(255,255,255,.03)}
+.pkg-box{width:108px;height:128px;background:linear-gradient(145deg,#C9A35C,#A07832);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:16px 12px 12px;box-shadow:6px 8px 24px rgba(184,150,74,.3)}
 .pkg-label{font-size:.5rem;font-weight:800;letter-spacing:.12em;color:rgba(255,255,255,.7);text-transform:uppercase}
 .pkg-brand{font-size:.95rem;font-weight:800;color:white}
 .pkg-scan{font-size:.45rem;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.1em}
 .pkg-qr{width:36px;height:36px;background:white;border-radius:5px;display:flex;align-items:center;justify-content:center;padding:3px}
 
-/* ─────────────────── ADVANTAGES — blue/purple gradient ─────────────────── */
-.advantages-section{background:linear-gradient(135deg,#dbeafe 0%,#e9d5ff 100%)}
-.adv-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+/* ── ADVANTAGES ── */
+.advantages-section{background:var(--bg)}
+.adv-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 .check-list{display:flex;flex-direction:column;gap:10px}
-.check-item{display:flex;gap:14px;align-items:flex-start;background:var(--white);border-radius:14px;padding:18px 20px}
-.check-icon{width:24px;height:24px;border-radius:50%;background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;flex-shrink:0;margin-top:1px}
-.check-item strong{display:block;font-size:.88rem;font-weight:700;margin-bottom:2px;color:var(--ink)}
-.check-item p{font-size:.82rem;color:var(--ink-light);line-height:1.5}
-.adv-right{display:flex;flex-direction:column;gap:12px}
-.adv-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.adv-stat{background:var(--white);border-radius:16px;padding:22px;text-align:center}
-.adv-stat .num{font-size:2rem;font-weight:800;color:var(--ink);letter-spacing:-.04em}
-.adv-stat .lbl{font-size:.75rem;color:var(--ink-light);margin-top:4px}
-.adv-qr-card{background:var(--ink);border-radius:16px;padding:28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
-.adv-qr-card p{font-size:.78rem;color:rgba(255,255,255,.45)}
-
-/* ─────────────────── FAQ ─────────────────── */
-.faq-section{padding:96px 24px;background:var(--cream)}
-.faq-inner{max-width:700px;margin:0 auto}
-.faq-item{border-bottom:1px solid #e8e8e8}
-.faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 0;cursor:pointer;font-size:.92rem;font-weight:600;color:var(--ink);gap:16px;user-select:none}
-.faq-toggle{width:32px;height:32px;border-radius:50%;background:#f4f4f4;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#555;transition:background .2s,transform .25s;line-height:1}
-.faq-item.open .faq-toggle{background:var(--ink);color:white;transform:rotate(45deg)}
-.faq-a{font-size:.88rem;color:var(--ink-light);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s}
-.faq-item.open .faq-a{max-height:300px;padding-bottom:22px}
-
-/* ─────────────────── CTA BANNER ─────────────────── */
-.cta-wrap{padding:0 24px 80px}
-.cta-card{
-  background:var(--ink);color:white;border-radius:24px;padding:80px 48px;text-align:center;
-  position:relative;overflow:hidden;
+.check-item{
+  display:flex;gap:16px;align-items:flex-start;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:12px;padding:20px 22px;
 }
-.cta-card::before{content:"";position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(180,190,255,.2) 0%,transparent 65%)}
-.cta-card::after{content:"";position:absolute;bottom:-80px;left:-60px;width:350px;height:350px;background:radial-gradient(circle,rgba(255,200,160,.15) 0%,transparent 65%)}
-.cta-card h2{font-size:clamp(2rem,4vw,3.2rem);font-weight:700;letter-spacing:-.04em;margin-bottom:14px;position:relative;z-index:1}
-.cta-card p{color:rgba(255,255,255,.5);font-size:1rem;margin-bottom:36px;position:relative;z-index:1}
-.cta-card a{position:relative;z-index:1}
-.btn-white{background:var(--white);color:var(--ink);padding:14px 32px;border-radius:999px;text-decoration:none;font-size:.92rem;font-weight:700;transition:opacity .2s;display:inline-block}
+.check-icon{width:22px;height:22px;border-radius:50%;background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.check-item strong{display:block;font-size:.9rem;font-weight:700;margin-bottom:3px;color:var(--ink)}
+.check-item p{font-size:.82rem;color:var(--muted);line-height:1.55}
+.adv-right{display:flex;flex-direction:column;gap:14px}
+.adv-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.adv-stat{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+.adv-stat .num{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--ink);letter-spacing:-.04em}
+.adv-stat .lbl{font-size:.75rem;color:var(--muted);margin-top:4px}
+.adv-qr-card{background:var(--dark);border-radius:12px;padding:32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.adv-qr-card p{font-size:.82rem;color:rgba(245,240,232,.4)}
+.btn-white{background:var(--white);color:var(--ink);padding:12px 28px;border-radius:8px;text-decoration:none;font-size:.9rem;font-weight:700;transition:opacity .2s;display:inline-block}
 .btn-white:hover{opacity:.88}
 
-/* ─────────────────── FOOTER ─────────────────── */
-footer{background:var(--ink);color:rgba(255,255,255,.4);padding:36px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:.82rem}
-.footer-logo{font-size:.95rem;font-weight:800;color:var(--white)}
-footer a{color:rgba(255,255,255,.4);text-decoration:none}
-footer a:hover{color:white}
+/* ── FAQ ── */
+.faq-section{background:var(--card);padding:clamp(72px,10vw,120px) var(--pad)}
+.faq-inner{max-width:680px;margin:0 auto}
+.faq-header{text-align:center;margin-bottom:48px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 0;cursor:pointer;font-size:.92rem;font-weight:600;color:var(--ink);gap:16px;user-select:none}
+.faq-toggle{width:30px;height:30px;border-radius:50%;background:var(--white);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--muted);transition:background .2s,transform .25s,border-color .2s;line-height:1}
+.faq-item.open .faq-toggle{background:var(--ink);color:white;transform:rotate(45deg);border-color:var(--ink)}
+.faq-a{font-size:.88rem;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:22px}
 
-/* ─────────────────── RESPONSIVE ─────────────────── */
-@media(max-width:960px){
+/* ── CTA ── */
+.cta-wrap{padding:0 var(--pad) 80px}
+.cta-card{
+  background:var(--dark);color:white;border-radius:16px;
+  padding:clamp(56px,8vw,96px) clamp(32px,5vw,80px);text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-card::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(184,150,74,.14) 0%,transparent 65%)}
+.cta-card::after{content:'';position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(184,150,74,.08) 0%,transparent 65%)}
+.cta-card h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;letter-spacing:-.03em;margin-bottom:14px;position:relative;z-index:1}
+.cta-card h2 em{font-style:italic;color:var(--gold)}
+.cta-card p{color:rgba(245,240,232,.5);font-size:.98rem;margin-bottom:36px;position:relative;z-index:1}
+.cta-card a{position:relative;z-index:1}
+
+/* ── FOOTER ── */
+footer{background:var(--dark);padding:40px var(--pad);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--white)}
+.footer-links{display:flex;gap:24px;align-items:center}
+footer a{color:rgba(245,240,232,.4);text-decoration:none;font-size:.82rem;transition:color .15s}
+footer a:hover{color:var(--white)}
+.footer-copy{font-size:.78rem;color:rgba(245,240,232,.3)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1020px){
+  .hero{grid-template-columns:1fr;max-width:600px}
+  .hero-mockup{display:none}
   .features-grid{grid-template-columns:repeat(2,1fr)}
   .uc-grid{grid-template-columns:repeat(2,1fr)}
   .adv-inner{grid-template-columns:1fr}
   .adv-right{display:none}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:700px){
-  nav{padding:14px 20px}
-  .nav-center{display:none}
-  .section-wrap{padding:72px 20px}
+@media(max-width:640px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .hero-wrap{padding:100px 20px 60px}
   .features-grid{grid-template-columns:1fr}
-  .uc-grid{grid-template-columns:repeat(2,1fr)}
-  .cta-wrap{padding:0 16px 60px}
-  .cta-card{padding:56px 28px}
-  footer{flex-direction:column;text-align:center;padding:32px 24px}
-  .hero-mockup{display:none}
-  .hero-btns{flex-direction:column;align-items:center}
-  .hero{padding:120px 20px 48px}
+  .uc-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center}
+  .footer-links{flex-wrap:wrap;justify-content:center}
 }
 @media(max-width:480px){
-  .uc-grid{grid-template-columns:1fr}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
 }
   </style>
 </head>
@@ -276,32 +313,34 @@ footer a:hover{color:white}
 
 <!-- ── NAV ── -->
 <nav id="nav">
-  <a href="/" class="nav-logo">⚡ QR Generator</a>
-  <div class="nav-center">
+  <a href="/" class="nav-logo">QR Generator</a>
+  <div class="nav-links">
     <a href="#features">Features</a>
-    <a href="#usecases">QR-Typen</a>
+    <a href="#usecases">Anwendungen</a>
     <a href="#faq">FAQ</a>
   </div>
   <a href="/generator.html" class="nav-cta">QR erstellen →</a>
 </nav>
 
 <!-- ── HERO ── -->
-<section class="hero">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="hero-inner">
-    <div class="hero-badge">⚡ 100% kostenlos · keine Anmeldung</div>
-    <h1 class="hero-h1">
-      <span class="hl">QR Codes erstellen –</span><br>
-      <span class="hb">in Sekunden.</span>
-    </h1>
-    <p class="hero-sub">Professionelle QR Codes für URLs, WhatsApp, WLAN & Visitenkarten. Sofort herunterladen.</p>
-    <div class="hero-btns">
-      <a href="/generator.html" class="btn-black">Jetzt QR erstellen ⚡</a>
-      <a href="#features" class="btn-outline">Mehr erfahren</a>
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-badge">⚡ <strong>100% kostenlos</strong> &nbsp;·&nbsp; keine Anmeldung</div>
+      <h1 class="hero-h1">QR Codes erstellen –<br><em>in Sekunden.</em></h1>
+      <p class="hero-sub">Professionelle QR Codes für URLs, WhatsApp, WLAN & Visitenkarten. Sofort herunterladen, kein Konto nötig.</p>
+      <div class="hero-btns">
+        <a href="/generator.html" class="btn-primary">Jetzt QR erstellen</a>
+        <a href="#features" class="btn-secondary">Mehr erfahren</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="num">100%</span><div class="lbl">Kostenlos</div></div>
+        <div class="hero-stat"><span class="num">&lt;3s</span><div class="lbl">Generierung</div></div>
+        <div class="hero-stat"><span class="num">0</span><div class="lbl">Anmeldung</div></div>
+        <div class="hero-stat"><span class="num">9+</span><div class="lbl">QR-Typen</div></div>
+      </div>
     </div>
-    <!-- Floating mockup — pure CSS, no JS -->
+    <!-- Floating CSS mockup -->
     <div class="hero-mockup">
       <div class="hm-chrome">
         <div class="hm-dots"><span></span><span></span><span></span></div>
@@ -322,248 +361,194 @@ footer a:hover{color:white}
           <div class="hm-qc"><div class="qc-icon">⭐</div><div class="qc-label">Feedback</div></div>
         </div>
       </div>
+      <div class="hm-form">
+        <div class="hm-field"><div class="hm-field-label">URL</div><div class="hm-field-val">https://meine-website.de</div></div>
+        <div class="hm-field"><div class="hm-field-label">Name</div><div class="hm-field-val">Meine Website</div></div>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- ── TRUST BAR ── -->
-<div class="trust-bar">
-  <div class="trust-track">
-    <span class="trust-item">🌐 Website QR</span><span class="trust-item">💬 WhatsApp QR</span><span class="trust-item">📶 WLAN QR</span><span class="trust-item">👤 Visitenkarte</span><span class="trust-item">📝 Text QR</span><span class="trust-item">🎨 Farben & Logos</span><span class="trust-item">⬇ PNG Download</span><span class="trust-item">📧 Per E-Mail senden</span><span class="trust-item">🌐 Website QR</span><span class="trust-item">💬 WhatsApp QR</span><span class="trust-item">📶 WLAN QR</span><span class="trust-item">👤 Visitenkarte</span><span class="trust-item">📝 Text QR</span><span class="trust-item">🎨 Farben & Logos</span><span class="trust-item">⬇ PNG Download</span><span class="trust-item">📧 Per E-Mail senden</span>
   </div>
 </div>
 
-<!-- ── FEATURES — pink / purple gradient ── -->
-<section class="section-wrap features-section" id="features">
+<!-- ── STATS BAR ── -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="num">500+</span>
+      <div class="lbl">QR Codes täglich erstellt</div>
+      <div class="divider"></div>
+    </div>
+    <div class="stat-item">
+      <span class="num">100%</span>
+      <div class="lbl">Im Browser generiert</div>
+      <div class="divider"></div>
+    </div>
+    <div class="stat-item">
+      <span class="num">0</span>
+      <div class="lbl">Daten gespeichert</div>
+      <div class="divider"></div>
+    </div>
+    <div class="stat-item">
+      <span class="num">DSGVO</span>
+      <div class="lbl">Konform · Hosting DE 🇩🇪</div>
+      <div class="divider"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TRUST BAND ── -->
+<div class="trust-band">
+  <div class="trust-track">
+    <span class="trust-pill">🌐 Website</span><span class="trust-pill">💬 WhatsApp</span><span class="trust-pill">📶 WLAN</span><span class="trust-pill">👤 Visitenkarte</span><span class="trust-pill">📄 PDF</span><span class="trust-pill">🎨 Design &amp; Logo</span><span class="trust-pill">⬇ PNG Download</span><span class="trust-pill">📧 E-Mail Versand</span><span class="trust-pill">⭐ Feedback QR</span><span class="trust-pill">📱 App-Link</span>
+    <span class="trust-pill">🌐 Website</span><span class="trust-pill">💬 WhatsApp</span><span class="trust-pill">📶 WLAN</span><span class="trust-pill">👤 Visitenkarte</span><span class="trust-pill">📄 PDF</span><span class="trust-pill">🎨 Design &amp; Logo</span><span class="trust-pill">⬇ PNG Download</span><span class="trust-pill">📧 E-Mail Versand</span><span class="trust-pill">⭐ Feedback QR</span><span class="trust-pill">📱 App-Link</span>
+  </div>
+</div>
+
+<!-- ── FEATURES ── -->
+<section class="section features-section" id="features">
   <div class="section-inner">
-    <div class="section-header">
-      <div class="eyebrow">Was du bekommst</div>
-      <h2 class="sec-title">
-        <span class="hl">QR Codes für</span>
-        <span class="hb"> jeden Zweck.</span>
-      </h2>
+    <div class="section-header centered">
+      <span class="eyebrow">Was du bekommst</span>
+      <h2 class="sec-title">QR Codes für <em>jeden Zweck.</em></h2>
       <p class="sec-sub">Wähle aus mehreren Typen – vollständig anpassbar in Farbe, Stil und Logo.</p>
     </div>
     <div class="features-grid">
 
-      <!-- Website -->
       <div class="feat-card">
-        <div class="feat-icon fi-1">
-          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="36" height="36" aria-hidden="true">
+        <div class="feat-num">01</div>
+        <div class="feat-icon">
+          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
             <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
           </svg>
         </div>
-        <div>
-          <h3>Website URL</h3>
-          <p>Verlinke jede Webseite, Landingpage oder Social-Media-Profil direkt per Scan.</p>
-        </div>
+        <div><h3>Website URL</h3><p>Verlinke jede Webseite, Landingpage oder Social-Media-Profil direkt per Scan.</p></div>
       </div>
 
-      <!-- WhatsApp -->
       <div class="feat-card">
-        <div class="feat-icon fi-2">
-          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="36" height="36" aria-hidden="true">
+        <div class="feat-num">02</div>
+        <div class="feat-icon">
+          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
             <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="4" y="3" width="1" height="1" class="qf"/><rect x="6" y="3" width="1" height="1" class="qf"/><rect x="3" y="4" width="1" height="1" class="qf"/><rect x="5" y="4" width="2" height="1" class="qf"/><rect x="3" y="5" width="2" height="1" class="qf"/><rect x="6" y="5" width="1" height="1" class="qf"/><rect x="4" y="6" width="1" height="1" class="qf"/>
           </svg>
         </div>
-        <div>
-          <h3>WhatsApp</h3>
-          <p>Kunden scannen und starten sofort einen Chat – ohne Nummer eintippen.</p>
-        </div>
+        <div><h3>WhatsApp</h3><p>Kunden scannen und starten sofort einen Chat – ohne Nummer eintippen.</p></div>
       </div>
 
-      <!-- WLAN -->
       <div class="feat-card">
-        <div class="feat-icon fi-3">
-          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="36" height="36" aria-hidden="true">
+        <div class="feat-num">03</div>
+        <div class="feat-icon">
+          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
             <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="2" height="1" class="qf"/><rect x="6" y="3" width="1" height="1" class="qf"/><rect x="3" y="4" width="1" height="1" class="qf"/><rect x="5" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="3" height="1" class="qf"/><rect x="3" y="6" width="2" height="1" class="qf"/><rect x="6" y="6" width="1" height="1" class="qf"/>
           </svg>
         </div>
-        <div>
-          <h3>WLAN</h3>
-          <p>Gäste verbinden sich automatisch mit deinem Netzwerk – kein Passwort tippen.</p>
-        </div>
+        <div><h3>WLAN</h3><p>Gäste verbinden sich automatisch mit deinem Netzwerk – kein Passwort tippen.</p></div>
       </div>
 
-      <!-- Visitenkarte -->
       <div class="feat-card">
-        <div class="feat-icon fi-4">
-          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="36" height="36" aria-hidden="true">
+        <div class="feat-num">04</div>
+        <div class="feat-icon">
+          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
             <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="1" height="1" class="qf"/><rect x="3" y="5" width="3" height="1" class="qf"/><rect x="4" y="4" width="1" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="3" y="6" width="2" height="1" class="qf"/><rect x="6" y="6" width="1" height="1" class="qf"/>
           </svg>
         </div>
-        <div>
-          <h3>Visitenkarte (vCard)</h3>
-          <p>Digitale Visitenkarte als QR – Kontakt wird direkt ins Telefon gespeichert.</p>
-        </div>
+        <div><h3>Visitenkarte (vCard)</h3><p>Digitale Visitenkarte als QR – Kontakt wird direkt ins Telefon gespeichert.</p></div>
       </div>
 
-      <!-- Design -->
       <div class="feat-card">
-        <div class="feat-icon fi-5">
-          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="36" height="36" aria-hidden="true">
+        <div class="feat-num">05</div>
+        <div class="feat-icon">
+          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
             <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="4" y="3" width="3" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="3" y="5" width="1" height="1" class="qf"/><rect x="5" y="5" width="2" height="1" class="qf"/><rect x="4" y="6" width="3" height="1" class="qf"/>
           </svg>
         </div>
-        <div>
-          <h3>Design & Logo</h3>
-          <p>Farben, Stil (Standard, Dots, Abgerundet) und eigenes Logo – passend zu deiner Marke.</p>
-        </div>
+        <div><h3>Design & Logo</h3><p>Farben, Stil (Standard, Dots, Abgerundet) und eigenes Logo – passend zu deiner Marke.</p></div>
       </div>
 
-      <!-- E-Mail -->
       <div class="feat-card">
-        <div class="feat-icon fi-6">
-          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="36" height="36" aria-hidden="true">
+        <div class="feat-num">06</div>
+        <div class="feat-icon">
+          <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" aria-hidden="true">
             <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="3" height="1" class="qf"/><rect x="3" y="4" width="1" height="1" class="qf"/><rect x="5" y="4" width="1" height="1" class="qf"/><rect x="3" y="5" width="4" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="6" y="6" width="1" height="1" class="qf"/>
           </svg>
         </div>
-        <div>
-          <h3>Per E-Mail senden</h3>
-          <p>QR Code direkt in die Inbox – zum Speichern, Drucken oder Weiterschicken.</p>
-        </div>
+        <div><h3>Per E-Mail senden</h3><p>QR Code direkt in die Inbox – zum Speichern, Drucken oder Weiterschicken.</p></div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ── USE CASES — yellow / orange gradient ── -->
-<section class="section-wrap usecases-section" id="usecases">
+<!-- ── USE CASES — dark section ── -->
+<section class="section usecases-section" id="usecases">
   <div class="section-inner">
-    <div class="section-header">
-      <div class="eyebrow">Einsatzbereiche</div>
-      <h2 class="sec-title">
-        <span class="hl">QR Codes</span>
-        <span class="hb"> überall einsetzen.</span>
-      </h2>
+    <div class="section-header centered">
+      <span class="eyebrow">Einsatzbereiche</span>
+      <h2 class="sec-title">QR Codes <em>überall einsetzen.</em></h2>
       <p class="sec-sub">Von der Visitenkarte bis zum Plakat – dein QR Code passt überall hin.</p>
     </div>
     <div class="uc-grid">
 
-      <!-- Restaurant -->
       <div class="uc-card">
         <div class="uc-illus illus-restaurant">
           <div class="menu-card">
-            <div class="menu-line title"></div>
-            <div class="menu-line medium"></div>
-            <div class="menu-line short"></div>
-            <div class="menu-line medium"></div>
-            <div class="menu-line short"></div>
-            <div class="menu-line medium"></div>
-            <div class="menu-qr">
-              <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="28" height="28" aria-hidden="true">
-                <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
-              </svg>
-            </div>
+            <div class="menu-line title"></div><div class="menu-line medium"></div><div class="menu-line short"></div><div class="menu-line medium"></div><div class="menu-line short"></div><div class="menu-line medium"></div>
+            <div class="menu-qr"><svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="28" height="28" aria-hidden="true"><rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/></svg></div>
           </div>
         </div>
-        <div class="uc-body">
-          <h3>Restaurant & Gastronomie</h3>
-          <p>Speisekarte digital teilen</p>
-        </div>
+        <div class="uc-body"><h3>Restaurant & Gastronomie</h3><p>Speisekarte digital teilen</p></div>
       </div>
 
-      <!-- Visitenkarte -->
       <div class="uc-card">
         <div class="uc-illus illus-bizcard">
           <div class="biz-card">
             <div class="biz-dots"></div>
             <div><div class="biz-name">MAX MÜLLER</div><div class="biz-title-sub">Geschäftsführer · GmbH</div></div>
-            <div class="biz-bottom">
-              <div class="biz-line"></div>
-              <div class="biz-qr">
-                <svg class="qr-icon onav" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="26" height="26" aria-hidden="true">
-                  <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
-                </svg>
-              </div>
+            <div class="biz-bottom"><div class="biz-line"></div>
+              <div class="biz-qr"><svg class="qr-icon inv" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="26" height="26" aria-hidden="true"><rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/></svg></div>
             </div>
           </div>
         </div>
-        <div class="uc-body">
-          <h3>Visitenkarte</h3>
-          <p>Kontakt sofort weitergeben</p>
-        </div>
+        <div class="uc-body"><h3>Visitenkarte</h3><p>Kontakt sofort weitergeben</p></div>
       </div>
 
-      <!-- Flyer -->
       <div class="uc-card">
         <div class="uc-illus illus-flyer">
           <div class="flyer-card">
-            <div class="flyer-line bold"></div>
-            <div class="flyer-line w70"></div>
-            <div class="flyer-line w55"></div>
-            <div class="flyer-spacer"></div>
-            <div class="flyer-qr">
-              <svg class="qr-icon inv" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="44" height="44" aria-hidden="true">
-                <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
-              </svg>
-            </div>
+            <div class="flyer-line bold"></div><div class="flyer-line w70"></div><div class="flyer-line w55"></div><div class="flyer-spacer"></div>
+            <div class="flyer-qr"><svg class="qr-icon inv" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="44" height="44" aria-hidden="true"><rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/></svg></div>
           </div>
         </div>
-        <div class="uc-body">
-          <h3>Flyer & Poster</h3>
-          <p>Kampagnen interaktiv machen</p>
-        </div>
+        <div class="uc-body"><h3>Flyer & Poster</h3><p>Kampagnen interaktiv machen</p></div>
       </div>
 
-      <!-- Verpackung -->
       <div class="uc-card">
         <div class="uc-illus illus-pkg">
           <div class="pkg-box">
-            <div class="pkg-label">Produkt</div>
-            <div class="pkg-brand">BRAND</div>
-            <div class="pkg-scan">SCAN ME</div>
-            <div class="pkg-qr">
-              <svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="30" height="30" aria-hidden="true">
-                <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
-              </svg>
-            </div>
+            <div class="pkg-label">Produkt</div><div class="pkg-brand">BRAND</div><div class="pkg-scan">SCAN ME</div>
+            <div class="pkg-qr"><svg class="qr-icon" viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" width="30" height="30" aria-hidden="true"><rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/></svg></div>
           </div>
         </div>
-        <div class="uc-body">
-          <h3>Verpackung & Produkt</h3>
-          <p>Kunden direkt erreichen</p>
-        </div>
+        <div class="uc-body"><h3>Verpackung & Produkt</h3><p>Kunden direkt erreichen</p></div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ── ADVANTAGES — blue / purple gradient ── -->
-<section class="section-wrap advantages-section">
+<!-- ── ADVANTAGES ── -->
+<section class="section advantages-section">
   <div class="section-inner">
     <div class="section-header">
-      <div class="eyebrow">Warum QR Generator</div>
-      <h2 class="sec-title">
-        <span class="hl">Einfach, schnell</span>
-        <span class="hb"> und kostenlos.</span>
-      </h2>
+      <span class="eyebrow">Warum QR Generator</span>
+      <h2 class="sec-title">Einfach, schnell<br><em>und kostenlos.</em></h2>
     </div>
     <div class="adv-inner">
       <div class="adv-left">
         <div class="check-list">
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div><strong>Keine Anmeldung erforderlich</strong><p>Einfach aufrufen, Daten eingeben, QR Code generieren. Fertig.</p></div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div><strong>Vollständig kostenlos</strong><p>Kein Abo, keine versteckten Kosten, kein Wasserzeichen.</p></div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div><strong>Hochauflösender PNG-Download</strong><p>Dein QR Code in druckfähiger Qualität – direkt im Browser generiert.</p></div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div><strong>Per E-Mail erhalten</strong><p>QR Code direkt an deine Inbox senden lassen – praktisch unterwegs.</p></div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div><strong>DSGVO-konform</strong><p>Keine Nutzerdaten gespeichert. Hosting in Deutschland.</p></div>
-          </div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Keine Anmeldung erforderlich</strong><p>Einfach aufrufen, Daten eingeben, QR Code generieren. Fertig.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Vollständig kostenlos</strong><p>Kein Abo, keine versteckten Kosten, kein Wasserzeichen.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Hochauflösender PNG-Download</strong><p>Dein QR Code in druckfähiger Qualität – direkt im Browser generiert.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>Per E-Mail erhalten</strong><p>QR Code direkt an deine Inbox senden lassen – praktisch unterwegs.</p></div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div><strong>DSGVO-konform</strong><p>Keine Nutzerdaten gespeichert. Hosting in Deutschland.</p></div></div>
         </div>
       </div>
       <div class="adv-right">
@@ -578,7 +563,7 @@ footer a:hover{color:white}
             <rect width="7" height="7" class="qb"/><rect x="0" y="0" width="3" height="3" class="qf"/><rect x="1" y="1" width="1" height="1" class="qb"/><rect x="4" y="0" width="3" height="3" class="qf"/><rect x="5" y="1" width="1" height="1" class="qb"/><rect x="0" y="4" width="3" height="3" class="qf"/><rect x="1" y="5" width="1" height="1" class="qb"/><rect x="3" y="3" width="1" height="1" class="qf"/><rect x="5" y="3" width="2" height="1" class="qf"/><rect x="3" y="4" width="2" height="1" class="qf"/><rect x="6" y="4" width="1" height="1" class="qf"/><rect x="4" y="5" width="2" height="1" class="qf"/><rect x="3" y="6" width="1" height="1" class="qf"/><rect x="5" y="6" width="1" height="1" class="qf"/>
           </svg>
           <p>Dein QR Code – in Sekunden</p>
-          <a href="/generator.html" class="btn-white" style="font-size:.84rem;padding:11px 26px">QR erstellen →</a>
+          <a href="/generator.html" class="btn-white" style="font-size:.85rem;padding:11px 26px">QR erstellen →</a>
         </div>
       </div>
     </div>
@@ -588,58 +573,44 @@ footer a:hover{color:white}
 <!-- ── FAQ ── -->
 <section class="faq-section" id="faq">
   <div class="faq-inner">
-    <div class="section-header">
-      <div class="eyebrow">Häufige Fragen</div>
-      <h2 class="sec-title">
-        <span class="hb">FAQ</span>
-      </h2>
+    <div class="faq-header">
+      <span class="eyebrow" style="display:block;text-align:center">Häufige Fragen</span>
+      <h2 class="sec-title" style="text-align:center">FAQ</h2>
     </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Ist der QR Code Generator wirklich kostenlos?<div class="faq-toggle">+</div></div>
-      <div class="faq-a">Ja, vollständig kostenlos. Kein Abo, keine Anmeldung, keine versteckten Kosten. Du kannst unbegrenzt QR Codes erstellen und herunterladen.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Welche QR Code Typen kann ich erstellen?<div class="faq-toggle">+</div></div>
-      <div class="faq-a">Aktuell unterstützen wir: Website-URLs, WhatsApp-Links, WLAN-Zugangsdaten, digitale Visitenkarten (vCard), PDF, Bild, Video, App-Link und Feedback-Links.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Kann ich mein Logo in den QR Code einbetten?<div class="faq-toggle">+</div></div>
-      <div class="faq-a">Ja! Im Design-Schritt kannst du ein PNG oder JPG hochladen. Das Logo wird mittig platziert. Der QR Code bleibt dank hoher Fehlerkorrektur scannbar.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">In welchen Formaten kann ich den QR Code herunterladen?<div class="faq-toggle">+</div></div>
-      <div class="faq-a">Aktuell als PNG – direkt aus dem Browser, ohne Server-Upload. Du kannst ihn auch per E-Mail an dich senden lassen.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Werden meine Daten gespeichert?<div class="faq-toggle">+</div></div>
-      <div class="faq-a">Nein. Der QR Code wird direkt in deinem Browser generiert. Wir speichern keine URLs, Inhalte oder personenbezogenen Daten. DSGVO-konform, Hosting in Deutschland.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ist der QR Code Generator wirklich kostenlos?<div class="faq-toggle">+</div></div><div class="faq-a">Ja, vollständig kostenlos. Kein Abo, keine Anmeldung, keine versteckten Kosten. Du kannst unbegrenzt QR Codes erstellen und herunterladen.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Welche QR Code Typen kann ich erstellen?<div class="faq-toggle">+</div></div><div class="faq-a">Aktuell unterstützen wir: Website-URLs, WhatsApp-Links, WLAN-Zugangsdaten, digitale Visitenkarten (vCard), PDF, Bild, Video, App-Link und Feedback-Links.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kann ich mein Logo in den QR Code einbetten?<div class="faq-toggle">+</div></div><div class="faq-a">Ja! Im Design-Schritt kannst du ein PNG oder JPG hochladen. Das Logo wird mittig platziert. Der QR Code bleibt dank hoher Fehlerkorrektur scannbar.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">In welchen Formaten kann ich den QR Code herunterladen?<div class="faq-toggle">+</div></div><div class="faq-a">Aktuell als PNG – direkt aus dem Browser, ohne Server-Upload. Du kannst ihn auch per E-Mail an dich senden lassen.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Werden meine Daten gespeichert?<div class="faq-toggle">+</div></div><div class="faq-a">Nein. Der QR Code wird direkt in deinem Browser generiert. Wir speichern keine URLs, Inhalte oder personenbezogenen Daten. DSGVO-konform, Hosting in Deutschland.</div></div>
   </div>
 </section>
 
-<!-- ── CTA BANNER ── -->
+<!-- ── CTA ── -->
 <div class="cta-wrap">
   <div class="cta-card">
-    <h2>Bereit? Erstelle deinen<br>ersten QR Code.</h2>
+    <h2>Bereit? Erstelle deinen<br>ersten <em>QR Code.</em></h2>
     <p>Kostenlos, in weniger als 30 Sekunden, ohne Anmeldung.</p>
-    <a href="/generator.html" class="btn-white">Jetzt starten ⚡</a>
+    <a href="/generator.html" class="btn-white">Jetzt starten →</a>
   </div>
 </div>
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div class="footer-logo">⚡ QR Generator</div>
-  <div>© 2026 QR Generator · DSGVO konform · Hosting in Deutschland 🇩🇪</div>
-  <div>Powered by <a href="https://qr-docs.de">QR-Docs.de</a></div>
+  <div class="footer-logo">QR Generator</div>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#usecases">Anwendungen</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://qr-docs.de">QR-Docs.de</a>
+  </div>
+  <div class="footer-copy">© 2026 QR Generator · DSGVO konform · Hosting in Deutschland 🇩🇪</div>
 </footer>
 
 <script>
-  // Nav: add glass bg on scroll
   window.addEventListener('scroll', function() {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
   }, {passive: true});
 
-  // FAQ accordion
   function toggleFaq(el) {
     var item = el.parentElement;
     var isOpen = item.classList.contains('open');
