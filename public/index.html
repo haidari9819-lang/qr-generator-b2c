@@ -626,6 +626,96 @@ footer a:hover{color:white}
   </div>
 </div>
 
+<!-- ── PRICING ── -->
+<section id="pricing" style="padding:80px 24px;background:#faf9f7;">
+  <div style="max-width:1000px;margin:0 auto;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e8e8e8;border-radius:999px;padding:6px 16px;font-size:13px;color:#555;margin-bottom:20px;">💳 Jederzeit kündbar</div>
+    <h2 style="font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-0.03em;margin-bottom:12px;">Einfache Preise.<br/>Keine Überraschungen.</h2>
+    <p style="font-size:16px;color:#666;margin-bottom:48px;">Starte kostenlos. Upgrade wenn du mehr brauchst.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+
+      <!-- FREE -->
+      <div style="background:#fff;border:1px solid #e8e8e8;border-radius:20px;padding:32px;text-align:left;">
+        <div style="font-size:12px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Free</div>
+        <div style="font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px;">0€ <span style="font-size:15px;font-weight:500;color:#666;">/ Monat</span></div>
+        <p style="font-size:14px;color:#666;margin-bottom:24px;line-height:1.6;">Für alle die schnell QR Codes brauchen.</p>
+        <a href="/generator.html" style="display:block;text-align:center;padding:12px;border-radius:999px;font-size:14px;font-weight:700;background:transparent;color:#111;border:1.5px solid #e8e8e8;text-decoration:none;margin-bottom:24px;">Kostenlos starten</a>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> QR Codes erstellen</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> PNG Download</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> URL, WhatsApp, WLAN, vCard</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> Keine Anmeldung nötig</div>
+          <div style="display:flex;gap:8px;font-size:14px;color:#aaa;"><span>✗</span> Dynamische QR Codes</div>
+          <div style="display:flex;gap:8px;font-size:14px;color:#aaa;"><span>✗</span> Scan-Statistiken</div>
+          <div style="display:flex;gap:8px;font-size:14px;color:#aaa;"><span>✗</span> Bulk Generator</div>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div style="background:#fff;border:2px solid #111;border-radius:20px;padding:32px;text-align:left;position:relative;">
+        <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#111;color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;white-space:nowrap;">⚡ Beliebteste Wahl</div>
+        <div style="font-size:12px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Pro</div>
+        <div style="font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px;">9€ <span style="font-size:15px;font-weight:500;color:#666;">/ Monat</span></div>
+        <p style="font-size:14px;color:#666;margin-bottom:24px;line-height:1.6;">Für Selbstständige und kleine Unternehmen.</p>
+        <button onclick="pricingCheckout('pro')" style="display:block;width:100%;text-align:center;padding:12px;border-radius:999px;font-size:14px;font-weight:700;background:#111;color:#fff;border:none;cursor:pointer;margin-bottom:24px;font-family:inherit;">Jetzt Pro starten</button>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> Alles aus Free</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> <strong>Dynamische QR Codes</strong></div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> <strong>Scan-Statistiken</strong></div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> <strong>Logo im QR Code</strong></div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> Farben & Design anpassen</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> <strong>Bulk Generator</strong> (100 QR Codes)</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> Kein Wasserzeichen</div>
+        </div>
+      </div>
+
+      <!-- BUSINESS -->
+      <div style="background:#fff;border:1px solid #e8e8e8;border-radius:20px;padding:32px;text-align:left;">
+        <div style="font-size:12px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Business</div>
+        <div style="font-size:44px;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px;">29€ <span style="font-size:15px;font-weight:500;color:#666;">/ Monat</span></div>
+        <p style="font-size:14px;color:#666;margin-bottom:24px;line-height:1.6;">Für Unternehmen die QR Codes im großen Stil einsetzen.</p>
+        <button onclick="pricingCheckout('business')" style="display:block;width:100%;text-align:center;padding:12px;border-radius:999px;font-size:14px;font-weight:700;background:#111;color:#fff;border:none;cursor:pointer;margin-bottom:24px;font-family:inherit;">Business starten</button>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> Alles aus Pro</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> <strong>Unbegrenzte QR Codes</strong></div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> <strong>Team-Zugang</strong> (5 Nutzer)</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> <strong>API Zugang</strong></div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> White-Label</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> SHA-256 Versiegelung</div>
+          <div style="display:flex;gap:8px;font-size:14px;"><span style="color:#22c55e;">✓</span> Priority Support</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  const PRICING_IDS = {
+    pro: 'price_1TSDwLBI2awMMTEs3Pct43wr',
+    business: 'price_1TSDxGBI2awMMTEsXuMp0s3G'
+  }
+  async function pricingCheckout(plan) {
+    const btn = event.target
+    btn.textContent = 'Wird geladen...'
+    btn.style.opacity = '.7'
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId: PRICING_IDS[plan] })
+      })
+      const data = await res.json()
+      if (data.url) { window.location.href = data.url }
+      else { alert('Fehler: ' + (data.error || 'Unbekannter Fehler')); btn.textContent = plan === 'pro' ? 'Jetzt Pro starten' : 'Business starten'; btn.style.opacity = '1' }
+    } catch(e) {
+      alert('Verbindungsfehler.')
+      btn.textContent = plan === 'pro' ? 'Jetzt Pro starten' : 'Business starten'
+      btn.style.opacity = '1'
+    }
+  }
+</script>
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-logo">⚡ QR Generator</div>
@@ -649,4 +739,5 @@ footer a:hover{color:white}
 </script>
 </body>
 </html>
+
 
