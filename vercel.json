@@ -1,23 +1,21 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "api/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
-    }
+    { "src": "api/*.js", "use": "@vercel/node" },
+    { "src": "public/**", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1.js" },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1.js"
+      "src": "/sitemap.xml",
+      "dest": "/public/sitemap.xml",
+      "headers": { "Content-Type": "application/xml; charset=utf-8" }
     },
     {
-      "src": "/(.*)",
-      "dest": "/public/$1"
-    }
+      "src": "/robots.txt",
+      "dest": "/public/robots.txt",
+      "headers": { "Content-Type": "text/plain; charset=utf-8" }
+    },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
