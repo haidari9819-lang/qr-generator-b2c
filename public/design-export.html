@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Design System – QR Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DESIGN SYSTEM CSS — extracted from generator.html
+       Copy the entire <style> block into any new page to get
+       the full component library.
+  ════════════════════════════════════════════════════════════════ -->
+  <style>
+
+  /* ─────────────────────────────────────────────────────────────
+     1. RESET + BASE
+  ───────────────────────────────────────────────────────────── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body    { font-family: var(--font); background: var(--bg); color: var(--g900); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  button  { font-family: var(--font); cursor: pointer; }
+  input, select, textarea { font-family: var(--font); }
+
+  /* ─────────────────────────────────────────────────────────────
+     2. DESIGN TOKENS  (CSS custom properties)
+     Usage: var(--teal), var(--navy), var(--g500) …
+  ───────────────────────────────────────────────────────────── */
+  :root {
+    /* Brand colours */
+    --teal:     #0d9488;   /* primary accent – teal-600  */
+    --teal-d:   #0f766e;   /* teal-700 – hover/active    */
+    --teal-l:   #f0fdfa;   /* teal-50  – subtle bg tint  */
+    --teal-mid: #ccfbf1;   /* teal-100 – border/info box */
+    --navy:     #1e3a5f;   /* CTA button bg              */
+    --navy-d:   #162d4a;   /* CTA button hover           */
+    --orange:   #f97316;   /* badge / logo accent        */
+
+    /* Neutral greys (Tailwind-inspired scale) */
+    --bg:   #f8f9fb;       /* page background            */
+    --white:#ffffff;
+    --g100: #f3f4f6;       /* lightest surface           */
+    --g200: #e5e7eb;       /* borders                    */
+    --g300: #d1d5db;       /* secondary borders          */
+    --g400: #9ca3af;       /* placeholder / disabled     */
+    --g500: #6b7280;       /* secondary text             */
+    --g700: #374151;       /* label text                 */
+    --g900: #111827;       /* body text / headings       */
+
+    /* Misc tokens */
+    --radius: 10px;                      /* default border-radius   */
+    --font:   "Inter", system-ui, sans-serif;
+    --shadow-card:  0 4px 16px rgba(0,0,0,.07);
+    --shadow-hover: 0 8px 28px rgba(0,0,0,.12);
+    --ring-teal:    0 0 0 3px rgba(13,148,136,.15);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     3. BACK BAR  (.back-bar, .back-link)
+     Thin strip above the nav, links back to homepage.
+  ───────────────────────────────────────────────────────────── */
+  .back-bar {
+    background: var(--g100); border-bottom: 1px solid var(--g200);
+    padding: 8px 48px; display: flex; align-items: center;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--g500); font-size: .82rem; font-weight: 600;
+    text-decoration: none; transition: color .15s;
+  }
+  .back-link:hover { color: var(--g900); }
+
+  /* ─────────────────────────────────────────────────────────────
+     4. NAV  (.nav, .nav-logo, .nav-right, .lang-toggle, .nav-cta)
+     Sticky top bar with logo, language switcher and CTA.
+  ───────────────────────────────────────────────────────────── */
+  .nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--g200);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 60px;
+  }
+  .nav-logo {
+    font-size: 1.2rem; font-weight: 800; color: var(--orange);
+    display: flex; align-items: center; gap: 6px; text-decoration: none;
+  }
+  .nav-logo span { color: var(--g900); }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  /* Language toggle — pill with two buttons */
+  .lang-toggle {
+    display: flex; background: var(--g100); border-radius: 100px;
+    padding: 3px; gap: 2px;
+  }
+  .lang-btn {
+    background: none; border: none; padding: 4px 11px; border-radius: 100px;
+    font-size: .75rem; font-weight: 700; color: var(--g500);
+    transition: all .15s; letter-spacing: .04em;
+  }
+  .lang-btn.active {
+    background: var(--white); color: var(--g900);
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  }
+
+  /* Nav CTA pill button */
+  .nav-cta {
+    background: var(--g900); color: #fff; border: none;
+    padding: 9px 20px; border-radius: 100px;
+    font-size: .85rem; font-weight: 600; text-decoration: none;
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--navy); }
+
+  /* ─────────────────────────────────────────────────────────────
+     5. STEPPER  (.stepper-wrap, .stepper, .step-item …)
+     3-step progress indicator. States: default / .active / .done
+  ───────────────────────────────────────────────────────────── */
+  .stepper-wrap {
+    background: var(--white); border-bottom: 1px solid var(--g200);
+    padding: 0 48px;
+  }
+  .stepper {
+    display: flex; align-items: center; max-width: 860px;
+    margin: 0 auto; height: 64px;
+  }
+  .step-item   { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  .step-circle {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 2px solid var(--g300);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .78rem; font-weight: 700; color: var(--g400);
+    transition: all .25s; flex-shrink: 0;
+  }
+  .step-circle.active { border-color: var(--teal); background: var(--teal); color: #fff; }
+  .step-circle.done   { border-color: var(--teal); background: var(--teal-l); color: var(--teal); }
+
+  .step-text        { font-size: .82rem; font-weight: 600; color: var(--g400); white-space: nowrap; }
+  .step-text.active { color: var(--teal); }
+  .step-text.done   { color: var(--teal); }
+
+  .step-line {
+    flex: 1; height: 2px; background: var(--g200);
+    margin: 0 16px; transition: background .25s; min-width: 20px;
+  }
+  .step-line.done { background: var(--teal); }
+
+  /* ─────────────────────────────────────────────────────────────
+     6. WIZARD LAYOUT  (.wizard-body, .step-panel)
+     Panels hide/show via .active class toggled by JS.
+  ───────────────────────────────────────────────────────────── */
+  .wizard-body {
+    flex: 1; padding: 32px 48px;
+    max-width: 1100px; width: 100%; margin: 0 auto;
+  }
+  .step-panel        { display: none; }
+  .step-panel.active { display: block; }
+
+  /* Step 1 — two-column grid: type cards left, QR preview right */
+  .step1-layout { display: grid; grid-template-columns: 1fr 280px; gap: 32px; align-items: start; }
+  .step1-left h2 { font-size: 1.45rem; font-weight: 800; color: var(--g900); margin-bottom: 6px; }
+  .step1-left p  { font-size: .9rem;   color: var(--g500); margin-bottom: 20px; }
+
+  /* Step 2 — form left, phone preview right */
+  .step2-layout { display: grid; grid-template-columns: 1fr 260px; gap: 32px; align-items: start; }
+  .form-col h2  { font-size: 1.3rem; font-weight: 800; color: var(--g900); margin-bottom: 20px; }
+
+  /* Step 3 — QR canvas left, design options right */
+  .step3-layout { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start; }
+
+  /* ─────────────────────────────────────────────────────────────
+     7. QR TYPE CARDS  (.type-grid, .type-card, .type-badge)
+     3×3 grid. States: default / :hover / .selected + badge pill.
+  ───────────────────────────────────────────────────────────── */
+  .type-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  }
+  .type-card {
+    position: relative; background: var(--white);
+    border: 1.5px solid var(--g200); border-radius: var(--radius);
+    padding: 16px 14px 14px; cursor: pointer; text-align: left;
+    transition: border-color .15s, box-shadow .15s, transform .12s;
+  }
+  .type-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 4px 16px rgba(13,148,136,.12);
+    transform: translateY(-1px);
+  }
+  .type-card.selected {
+    border-color: var(--teal); background: var(--teal-l);
+    box-shadow: 0 4px 16px rgba(13,148,136,.15);
+  }
+  /* Badge (e.g. "BELIEBT" / "POPULAR") */
+  .type-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: var(--orange); color: #fff;
+    font-size: .6rem; font-weight: 700; letter-spacing: .06em;
+    padding: 2px 7px; border-radius: 100px;
+  }
+  .type-icon  { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+  .type-title { font-size: .88rem; font-weight: 700; color: var(--g900); margin-bottom: 3px; }
+  .type-desc  { font-size: .75rem; color: var(--g500); line-height: 1.4; }
+
+  /* ─────────────────────────────────────────────────────────────
+     8. ANIMATED QR PREVIEW COL  (.qr-preview-col, .scan-line)
+     Sticky column on Step 1 right side.
+  ───────────────────────────────────────────────────────────── */
+  .qr-preview-col {
+    background: var(--white); border: 1px solid var(--g200);
+    border-radius: 14px; padding: 28px 20px;
+    text-align: center; position: sticky; top: 80px;
+  }
+  .qr-preview-col p {
+    font-size: .82rem; color: var(--g500);
+    margin-top: 14px; line-height: 1.5; font-weight: 500;
+  }
+  .qr-anim-wrap { position: relative; display: inline-block; }
+  #animCanvas   { border-radius: 8px; display: block; }
+
+  /* Scanning line animation */
+  .scan-line {
+    position: absolute; left: 8px; right: 8px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    animation: scan 2s ease-in-out infinite;
+    top: 8px; box-shadow: 0 0 8px var(--teal);
+  }
+  @keyframes scan {
+    0%   { top: 8px;              opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: calc(100% - 10px); opacity: 0; }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     9. FORM FIELDS  (.field, .field-row, .field-check)
+     Standard label + input / select / textarea pattern.
+  ───────────────────────────────────────────────────────────── */
+  .type-form        { display: none; }
+  .type-form.active { display: block; }
+
+  .field        { margin-bottom: 16px; }
+  .field label  { display: block; font-size: .82rem; font-weight: 600; color: var(--g700); margin-bottom: 6px; }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid var(--g200); border-radius: 8px;
+    font-size: .9rem; color: var(--g900); background: var(--white);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(13,148,136,.1);
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+
+  /* Two inputs side by side */
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Checkbox row */
+  .field-check { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .field-check input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--teal); }
+  .field-check label { font-size: .85rem; color: var(--g700); cursor: pointer; margin: 0; }
+
+  /* Horizontal divider inside form */
+  .field-divider { border: none; border-top: 1px solid var(--g200); margin: 20px 0; }
+
+  /* ─────────────────────────────────────────────────────────────
+     10. INFO BOX  (.info-box)
+     Teal-tinted callout for contextual hints.
+  ───────────────────────────────────────────────────────────── */
+  .info-box {
+    background: var(--teal-l); border: 1px solid var(--teal-mid);
+    border-radius: 8px; padding: 12px 14px;
+    font-size: .82rem; color: var(--teal-d);
+    margin-bottom: 16px; line-height: 1.5;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     11. DROPZONE  (.dropzone, .dropzone.dragover)
+     Click-to-upload area with drag-over state.
+  ───────────────────────────────────────────────────────────── */
+  .dropzone {
+    border: 2px dashed var(--g300); border-radius: 10px;
+    padding: 32px 20px; text-align: center; cursor: pointer;
+    transition: border-color .15s, background .15s; margin-bottom: 16px;
+  }
+  .dropzone:hover,
+  .dropzone.dragover { border-color: var(--teal); background: var(--teal-l); }
+  .dropzone-icon  { font-size: 2rem; margin-bottom: 8px; }
+  .dropzone-title { font-size: .9rem; font-weight: 600; color: var(--g700); }
+  .dropzone-sub   { font-size: .78rem; color: var(--g400); margin-top: 4px; }
+  .dropzone-file  { display: none; }
+
+  /* ─────────────────────────────────────────────────────────────
+     12. PHONE PREVIEW MOCKUP  (.phone-frame, .phone-screen …)
+     CSS-only smartphone illustration used as live preview in Step 2.
+  ───────────────────────────────────────────────────────────── */
+  .preview-col {
+    position: sticky; top: 80px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .preview-col-label {
+    font-size: .75rem; font-weight: 600; color: var(--g400);
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .phone-wrap  { position: relative; width: 170px; }
+  .phone-frame {
+    width: 170px; height: 300px;
+    background: #1a1a2e; border-radius: 28px;
+    border: 5px solid #2d2d44; position: relative;
+    overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  }
+  .phone-notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 18px;
+    background: #1a1a2e; border-radius: 0 0 12px 12px; z-index: 2;
+  }
+  .phone-screen {
+    position: absolute; inset: 0; background: #f8f9fb;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: flex-start; padding: 22px 10px 10px; overflow: hidden;
+  }
+  .phone-browser-bar {
+    width: 100%; background: #fff; border-radius: 6px;
+    padding: 4px 8px; font-size: .5rem; color: var(--g400);
+    border: 1px solid var(--g200); margin-bottom: 8px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .phone-content {
+    width: 100%; flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 6px; text-align: center;
+  }
+  .phone-icon { font-size: 1.8rem; }
+  .phone-text { font-size: .55rem; color: var(--g500); padding: 0 4px; word-break: break-all; line-height: 1.4; }
+  .phone-cta  { background: var(--teal); color: #fff; border-radius: 6px; padding: 4px 10px; font-size: .5rem; font-weight: 700; }
+
+  /* ─────────────────────────────────────────────────────────────
+     13. QR PREVIEW + DOWNLOAD  (#qr-preview, .btn-dl)
+     280×280 container for the qrcodejs-generated canvas.
+  ───────────────────────────────────────────────────────────── */
+  .canvas-col { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  #qr-preview {
+    width: 280px; height: 280px; border-radius: 12px;
+    border: 1.5px solid var(--g200); background: #fff;
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+  }
+  #qr-preview canvas { display: block; }
+  #qr-preview img    { display: none; }   /* qrcodejs also creates an <img>; hide it */
+  .canvas-name { font-size: .8rem; font-weight: 600; color: var(--g500); text-align: center; }
+
+  /* Download button (navy, full-width of .canvas-col) */
+  .btn-dl {
+    width: 220px; padding: 13px;
+    background: var(--navy); color: #fff; border: none;
+    border-radius: 8px; font-size: .92rem; font-weight: 700;
+    transition: background .2s; display: flex; align-items: center;
+    justify-content: center; gap: 6px;
+  }
+  .btn-dl:hover { background: var(--navy-d); }
+
+  /* ─────────────────────────────────────────────────────────────
+     14. DESIGN PANEL — colour pickers, swatches, style, logo
+     (.design-col, .design-section, .design-label,
+      .color-row, .color-pick-wrap, .chex,
+      .swatches, .swatch, .sw-h,
+      .style-btns, .style-btn,
+      .logo-drop, .btn-rm-logo)
+  ───────────────────────────────────────────────────────────── */
+  .design-col h3     { font-size: 1rem; font-weight: 700; color: var(--g900); margin-bottom: 16px; }
+  .design-section    { margin-bottom: 22px; }
+  .design-label      { font-size: .75rem; font-weight: 700; color: var(--g500); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+
+  /* Foreground / background colour pickers */
+  .color-row { display: flex; gap: 10px; }
+  .color-item { flex: 1; }
+  .color-item label { display: block; font-size: .8rem; font-weight: 600; color: var(--g700); margin-bottom: 6px; }
+  .color-pick-wrap {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 10px; border: 1.5px solid var(--g200);
+    border-radius: 8px; background: #fff; cursor: pointer;
+    transition: border-color .15s;
+  }
+  .color-pick-wrap:hover { border-color: var(--teal); }
+  .color-pick-wrap input[type=color] {
+    width: 26px; height: 26px; border: none; padding: 0;
+    background: none; cursor: pointer; border-radius: 5px;
+    -webkit-appearance: none; appearance: none;
+  }
+  .color-pick-wrap input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
+  .color-pick-wrap input[type=color]::-webkit-color-swatch { border: none; border-radius: 4px; }
+  .chex { font-size: .75rem; font-weight: 600; color: var(--g500); font-family: monospace; }
+
+  /* Colour preset swatches (circular, split top/bottom) */
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch {
+    width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+    border: 2.5px solid var(--g200); overflow: hidden; display: flex;
+    transition: transform .15s, border-color .15s, box-shadow .15s; flex-shrink: 0;
+  }
+  .swatch:hover  { transform: scale(1.1); border-color: var(--teal); }
+  .swatch.active { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(13,148,136,.2); }
+  .sw-h { flex: 1; }  /* Half of swatch — set background inline */
+
+  /* Module style buttons (Standard / Abgerundet / Punkte) */
+  .style-btns { display: flex; gap: 8px; }
+  .style-btn {
+    flex: 1; padding: 9px 6px; border: 1.5px solid var(--g200);
+    border-radius: 8px; background: #fff; cursor: pointer;
+    font-size: .78rem; font-weight: 600; color: var(--g500);
+    transition: all .15s; display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+  }
+  .style-btn:hover        { border-color: var(--teal); color: var(--teal); }
+  .style-btn.active       { border-color: var(--teal); background: var(--teal-l); color: var(--teal); }
+  .style-icon { font-size: .95rem; letter-spacing: 2px; }
+
+  /* Logo upload drop area */
+  .logo-drop {
+    padding: 12px 14px; border: 1.5px dashed var(--g300);
+    border-radius: 8px; text-align: center; cursor: pointer;
+    font-size: .82rem; color: var(--g500);
+    transition: border-color .15s, background .15s; font-weight: 500;
+  }
+  .logo-drop:hover,
+  .logo-drop.has-logo { border-color: var(--teal); background: var(--teal-l); color: var(--teal); }
+
+  /* Remove logo button (danger style on hover) */
+  .btn-rm-logo {
+    display: none; margin-top: 6px; padding: 5px 12px;
+    background: none; border: 1px solid var(--g200);
+    border-radius: 6px; font-size: .75rem; color: var(--g500); cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-rm-logo:hover { border-color: #ef4444; color: #ef4444; }
+
+  /* ─────────────────────────────────────────────────────────────
+     15. STICKY WIZARD FOOTER  (.wizard-footer, .btn-back, .btn-next)
+  ───────────────────────────────────────────────────────────── */
+  .wizard-footer {
+    position: sticky; bottom: 0;
+    background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
+    border-top: 1px solid var(--g200); padding: 16px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .btn-back {
+    padding: 11px 24px; background: none;
+    border: 1.5px solid var(--g300); border-radius: 8px;
+    font-size: .9rem; font-weight: 600; color: var(--g700);
+    transition: all .15s; display: none;
+  }
+  .btn-back:hover       { border-color: var(--g700); color: var(--g900); }
+  .btn-back.visible     { display: block; }
+
+  .btn-next {
+    padding: 11px 28px; background: var(--navy); border: none;
+    border-radius: 8px; font-size: .9rem; font-weight: 700; color: #fff;
+    transition: background .2s, opacity .2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-next:hover    { background: var(--navy-d); }
+  .btn-next:disabled { opacity: .45; cursor: not-allowed; }
+
+  .footer-info { font-size: .8rem; color: var(--g400); }
+
+  /* ─────────────────────────────────────────────────────────────
+     16. RESPONSIVE BREAKPOINTS
+  ───────────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .back-bar, .nav, .stepper-wrap, .wizard-body, .wizard-footer { padding-left: 20px; padding-right: 20px; }
+    .step1-layout, .step2-layout, .step3-layout { grid-template-columns: 1fr; }
+    .qr-preview-col, .preview-col { display: none; }
+    .type-grid { grid-template-columns: repeat(3, 1fr); }
+    #qr-preview { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1; }
+    #qr-preview canvas { width: 100% !important; height: auto !important; }
+  }
+  @media (max-width: 560px) {
+    .type-grid  { grid-template-columns: repeat(2, 1fr); }
+    .field-row  { grid-template-columns: 1fr; }
+    .color-row  { flex-direction: column; }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SHOWCASE-ONLY styles (not part of generator.html)
+     These are only used in this design-export page.
+  ═══════════════════════════════════════════════════════════ */
+  .ds-page      { max-width: 1060px; margin: 0 auto; padding: 48px 32px 120px; }
+  .ds-section   { margin-bottom: 72px; }
+  .ds-title     { font-size: 1.4rem; font-weight: 800; color: var(--g900); margin-bottom: 6px; border-bottom: 2px solid var(--g200); padding-bottom: 12px; margin-bottom: 28px; }
+  .ds-sub-title { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--g400); margin: 24px 0 10px; }
+  .ds-row       { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+  .ds-col       { display: flex; flex-direction: column; gap: 10px; }
+  .ds-label     { font-size: .7rem; color: var(--g400); margin-top: 4px; font-family: monospace; }
+  .token-grid   { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .token-chip   { border-radius: 8px; padding: 14px 16px; font-size: .78rem; font-weight: 600; border: 1px solid rgba(0,0,0,.06); }
+  .type-grid-demo { display: grid; grid-template-columns: repeat(3, minmax(0, 200px)); gap: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     COMPONENT SHOWCASE
+     Below is a visual inventory of every UI component.
+     All styles above are the canonical source — copy them as-is.
+════════════════════════════════════════════════════════════════ -->
+
+<!-- ── Back bar ── -->
+<div class="back-bar">
+  <a href="index.html" class="back-link">← Zurück zur Startseite</a>
+</div>
+
+<!-- ── Sticky nav ── -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html">⚡ <span>QR Generator</span></a>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active">DE</button>
+      <button class="lang-btn">EN</button>
+    </div>
+    <a href="#" class="nav-cta">Mehr Features →</a>
+  </div>
+</nav>
+
+<!-- ── Stepper ── -->
+<div class="stepper-wrap">
+  <div class="stepper">
+    <div class="step-item">
+      <div class="step-circle done">✓</div>
+      <div class="step-text done">QR-Typ wählen</div>
+    </div>
+    <div class="step-line done"></div>
+    <div class="step-item">
+      <div class="step-circle active">2</div>
+      <div class="step-text active">Inhalt vervollständigen</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-circle">3</div>
+      <div class="step-text">QR anpassen</div>
+    </div>
+  </div>
+</div>
+
+<div class="ds-page">
+
+  <!-- ─── 1. DESIGN TOKENS ─── -->
+  <div class="ds-section">
+    <div class="ds-title">1. Design Tokens</div>
+
+    <div class="ds-sub-title">Brand & Accent Colours</div>
+    <div class="token-grid">
+      <div class="token-chip" style="background:#0d9488;color:#fff">--teal #0d9488</div>
+      <div class="token-chip" style="background:#0f766e;color:#fff">--teal-d #0f766e</div>
+      <div class="token-chip" style="background:#f0fdfa;color:#0d9488">--teal-l #f0fdfa</div>
+      <div class="token-chip" style="background:#ccfbf1;color:#0d9488">--teal-mid #ccfbf1</div>
+      <div class="token-chip" style="background:#1e3a5f;color:#fff">--navy #1e3a5f</div>
+      <div class="token-chip" style="background:#162d4a;color:#fff">--navy-d #162d4a</div>
+      <div class="token-chip" style="background:#f97316;color:#fff">--orange #f97316</div>
+    </div>
+
+    <div class="ds-sub-title">Neutral Grey Scale</div>
+    <div class="token-grid">
+      <div class="token-chip" style="background:#f8f9fb;color:#374151">--bg #f8f9fb</div>
+      <div class="token-chip" style="background:#f3f4f6;color:#374151">--g100 #f3f4f6</div>
+      <div class="token-chip" style="background:#e5e7eb;color:#374151">--g200 #e5e7eb</div>
+      <div class="token-chip" style="background:#d1d5db;color:#374151">--g300 #d1d5db</div>
+      <div class="token-chip" style="background:#9ca3af;color:#fff">--g400 #9ca3af</div>
+      <div class="token-chip" style="background:#6b7280;color:#fff">--g500 #6b7280</div>
+      <div class="token-chip" style="background:#374151;color:#fff">--g700 #374151</div>
+      <div class="token-chip" style="background:#111827;color:#fff">--g900 #111827</div>
+    </div>
+
+    <div class="ds-sub-title">Font</div>
+    <p style="font-size:.85rem;color:var(--g500)">
+      <code style="background:var(--g100);padding:2px 8px;border-radius:4px">
+        --font: "Inter", system-ui, sans-serif
+      </code>
+      &nbsp; Weights used: 400 · 500 · 600 · 700 · 800
+    </p>
+  </div>
+
+  <!-- ─── 2. BUTTONS ─── -->
+  <div class="ds-section">
+    <div class="ds-title">2. Buttons</div>
+
+    <div class="ds-sub-title">Primary — Navy CTA (.btn-next / .btn-dl)</div>
+    <div class="ds-row">
+      <div class="ds-col">
+        <button class="btn-next">Weiter →</button>
+        <span class="ds-label">.btn-next — default</span>
+      </div>
+      <div class="ds-col">
+        <button class="btn-next" disabled>Weiter →</button>
+        <span class="ds-label">.btn-next:disabled</span>
+      </div>
+      <div class="ds-col">
+        <button class="btn-dl">⬇ PNG herunterladen</button>
+        <span class="ds-label">.btn-dl</span>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Secondary — Ghost (.btn-back)</div>
+    <div class="ds-row">
+      <div class="ds-col">
+        <button class="btn-back visible">← Zurück</button>
+        <span class="ds-label">.btn-back.visible</span>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Nav pill (.nav-cta)</div>
+    <div class="ds-row">
+      <div class="ds-col">
+        <a href="#" class="nav-cta" style="display:inline-block">Mehr Features →</a>
+        <span class="ds-label">.nav-cta</span>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Language toggle (.lang-toggle)</div>
+    <div class="ds-row">
+      <div class="lang-toggle">
+        <button class="lang-btn active">DE</button>
+        <button class="lang-btn">EN</button>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Logo remove — danger hover (.btn-rm-logo)</div>
+    <div class="ds-row">
+      <div class="ds-col">
+        <button class="btn-rm-logo" style="display:inline-block">✕ Logo entfernen</button>
+        <span class="ds-label">.btn-rm-logo (hover → red)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 3. STEPPER ─── -->
+  <div class="ds-section">
+    <div class="ds-title">3. Stepper — All States</div>
+    <div style="background:var(--white);border:1px solid var(--g200);border-radius:12px;padding:0 32px;margin-bottom:16px">
+      <div class="stepper" style="position:static">
+        <div class="step-item">
+          <div class="step-circle done">✓</div>
+          <div class="step-text done">Schritt 1 (done)</div>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step-item">
+          <div class="step-circle active">2</div>
+          <div class="step-text active">Schritt 2 (active)</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <div class="step-text">Schritt 3 (pending)</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:.82rem;color:var(--g500)">
+      <code style="background:var(--g100);padding:2px 8px;border-radius:4px">.step-circle</code> +
+      <code style="background:var(--g100);padding:2px 8px;border-radius:4px">.active</code> /
+      <code style="background:var(--g100);padding:2px 8px;border-radius:4px">.done</code> toggled by JS.
+    </p>
+  </div>
+
+  <!-- ─── 4. TYPE CARDS ─── -->
+  <div class="ds-section">
+    <div class="ds-title">4. QR Type Cards</div>
+
+    <div class="ds-sub-title">Default / Hover (lift) / Selected</div>
+    <div class="type-grid-demo">
+      <div class="type-card">
+        <span class="type-icon">📄</span>
+        <div class="type-title">PDF</div>
+        <div class="type-desc">Ein PDF-Dokument öffnen</div>
+      </div>
+      <div class="type-card" style="border-color:var(--teal);box-shadow:0 4px 16px rgba(13,148,136,.12);transform:translateY(-1px)">
+        <span class="type-icon">💬</span>
+        <div class="type-title">WhatsApp</div>
+        <div class="type-desc">Hover state (simulated)</div>
+      </div>
+      <div class="type-card selected">
+        <span class="type-badge">BELIEBT</span>
+        <span class="type-icon">🌐</span>
+        <div class="type-title">Website</div>
+        <div class="type-desc">.selected + .type-badge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 5. FORM FIELDS ─── -->
+  <div class="ds-section">
+    <div class="ds-title">5. Form Fields</div>
+    <div style="max-width:480px;display:flex;flex-direction:column;gap:0">
+      <div class="field">
+        <label>URL</label>
+        <input type="url" placeholder="https://ihre-website.de"/>
+      </div>
+      <div class="field">
+        <label>Passwort</label>
+        <input type="password" placeholder="••••••••"/>
+      </div>
+      <div class="field">
+        <label>Sicherheitstyp</label>
+        <select>
+          <option>WPA / WPA2</option>
+          <option>WEP</option>
+          <option>Kein Passwort</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nachricht</label>
+        <textarea placeholder="Hallo! Ich interessiere mich für…"></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Vorname</label>
+          <input type="text" placeholder="Max"/>
+        </div>
+        <div class="field">
+          <label>Nachname</label>
+          <input type="text" placeholder="Mustermann"/>
+        </div>
+      </div>
+      <div class="field-check">
+        <input type="checkbox" id="demo-cb"/>
+        <label for="demo-cb">Verstecktes Netzwerk</label>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Info box (.info-box)</div>
+    <div class="info-box" style="max-width:480px">
+      Füge die Links zu deiner App ein. Nutzer werden automatisch zum richtigen Store weitergeleitet.
+    </div>
+  </div>
+
+  <!-- ─── 6. DROPZONE ─── -->
+  <div class="ds-section">
+    <div class="ds-title">6. Dropzone</div>
+    <div style="max-width:480px">
+      <div class="dropzone">
+        <div class="dropzone-icon">📄</div>
+        <div class="dropzone-title">Klicke zum Hochladen oder ziehe hierher</div>
+        <div class="dropzone-sub">PDF · Max. 10 MB</div>
+      </div>
+      <div class="dropzone dragover">
+        <div class="dropzone-icon">✅</div>
+        <div class="dropzone-title">Lass los zum Hochladen</div>
+        <div class="dropzone-sub">.dragover state (drop active)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 7. COLOUR PICKER + SWATCHES ─── -->
+  <div class="ds-section">
+    <div class="ds-title">7. Colour Picker &amp; Swatches</div>
+    <div style="max-width:360px">
+      <div class="design-label">Farben</div>
+      <div class="color-row">
+        <div class="color-item">
+          <label>Vordergrund</label>
+          <div class="color-pick-wrap">
+            <input type="color" value="#000000"/>
+            <span class="chex">#000000</span>
+          </div>
+        </div>
+        <div class="color-item">
+          <label>Hintergrund</label>
+          <div class="color-pick-wrap">
+            <input type="color" value="#ffffff"/>
+            <span class="chex">#ffffff</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="design-label" style="margin-top:20px">Farbkombinationen</div>
+      <div class="swatches">
+        <div class="swatch active"><div class="sw-h" style="background:#000"></div><div class="sw-h" style="background:#fff"></div></div>
+        <div class="swatch"><div class="sw-h" style="background:#1d4ed8"></div><div class="sw-h" style="background:#fff"></div></div>
+        <div class="swatch"><div class="sw-h" style="background:#0d9488"></div><div class="sw-h" style="background:#fff"></div></div>
+        <div class="swatch"><div class="sw-h" style="background:#16a34a"></div><div class="sw-h" style="background:#000"></div></div>
+        <div class="swatch"><div class="sw-h" style="background:#d97706"></div><div class="sw-h" style="background:#000"></div></div>
+        <div class="swatch"><div class="sw-h" style="background:#7c3aed"></div><div class="sw-h" style="background:#fff"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 8. STYLE BUTTONS ─── -->
+  <div class="ds-section">
+    <div class="ds-title">8. QR Style Buttons</div>
+    <div class="style-btns" style="max-width:360px">
+      <button class="style-btn active"><span class="style-icon">▪▪▪</span><span>Standard</span></button>
+      <button class="style-btn"><span class="style-icon">◻◻◻</span><span>Abgerundet</span></button>
+      <button class="style-btn"><span class="style-icon">•&thinsp;•&thinsp;•</span><span>Punkte</span></button>
+    </div>
+  </div>
+
+  <!-- ─── 9. LOGO DROP ─── -->
+  <div class="ds-section">
+    <div class="ds-title">9. Logo Upload</div>
+    <div style="max-width:320px;display:flex;flex-direction:column;gap:6px">
+      <div class="logo-drop">📁 PNG oder JPG auswählen</div>
+      <div class="logo-drop has-logo">✓ logo.png</div>
+      <button class="btn-rm-logo" style="display:inline-block">✕ Logo entfernen</button>
+    </div>
+  </div>
+
+  <!-- ─── 10. PHONE MOCKUP ─── -->
+  <div class="ds-section">
+    <div class="ds-title">10. Smartphone Preview Mockup</div>
+    <div class="ds-row">
+      <div class="preview-col" style="position:static">
+        <div class="preview-col-label">Vorschau</div>
+        <div class="phone-wrap">
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="phone-browser-bar">https://ihre-website.de</div>
+              <div class="phone-content">
+                <div class="phone-icon">🌐</div>
+                <div class="phone-text">Meine Website</div>
+                <div class="phone-cta">Öffnen</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.82rem;color:var(--g500);max-width:340px;line-height:1.6;margin-top:8px">
+        Pure CSS mockup — no images.<br>
+        <code style="background:var(--g100);padding:2px 8px;border-radius:4px">#phonebar</code>,
+        <code style="background:var(--g100);padding:2px 8px;border-radius:4px">#phone-icon</code>,
+        <code style="background:var(--g100);padding:2px 8px;border-radius:4px">#phone-text</code>,
+        <code style="background:var(--g100);padding:2px 8px;border-radius:4px">#phone-cta</code>
+        are updated live by <code>updatePhonePreview()</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 11. QR PREVIEW BOX ─── -->
+  <div class="ds-section">
+    <div class="ds-title">11. QR Preview Box</div>
+    <div class="canvas-col" style="align-items:flex-start">
+      <div id="qr-preview" style="background:var(--g100);display:flex;align-items:center;justify-content:center">
+        <span style="font-size:.8rem;color:var(--g400)">QR rendered by qrcodejs</span>
+      </div>
+      <div class="canvas-name">Mein Website QR-Code</div>
+      <button class="btn-dl">⬇ PNG herunterladen</button>
+    </div>
+  </div>
+
+  <!-- ─── 12. ANIMATED SCAN PREVIEW ─── -->
+  <div class="ds-section">
+    <div class="ds-title">12. Animated Scan Preview (Step 1)</div>
+    <div class="qr-preview-col" style="display:inline-block;width:240px">
+      <div class="qr-anim-wrap">
+        <canvas id="animCanvas" width="180" height="180" style="background:var(--g100);border-radius:8px"></canvas>
+        <div class="scan-line"></div>
+      </div>
+      <p>Erstelle deinen<br>perfekten QR-Code</p>
+    </div>
+  </div>
+
+  <!-- ─── 13. WIZARD FOOTER ─── -->
+  <div class="ds-section">
+    <div class="ds-title">13. Wizard Footer</div>
+    <div style="border:1px solid var(--g200);border-radius:12px;overflow:hidden">
+      <div class="wizard-footer" style="position:static">
+        <button class="btn-back visible">← Zurück</button>
+        <div class="footer-info">Schritt 2 von 3</div>
+        <button class="btn-next">Weiter →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /ds-page -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     REUSABLE JS FUNCTIONS — extracted from generator.html
+     Copy this <script> block (plus the i18n table T) into any page
+     that uses the same HTML structure.
+════════════════════════════════════════════════════════════════= -->
+<script>
+/*
+ * ─────────────────────────────────────────────────────────────
+ * i18n TRANSLATION TABLE
+ * Access with: t('key')  → returns current lang string or DE fallback
+ * ─────────────────────────────────────────────────────────────
+ */
+const T = {
+  de: {
+    backHome:'Zurück zur Startseite', navCta:'Mehr Features →',
+    step1:'QR-Typ wählen', step2:'Inhalt vervollständigen', step3:'QR anpassen',
+    s1Title:'Welchen QR-Code möchtest du erstellen?',
+    s1Sub:'Wähle den passenden Typ – du kannst ihn später noch ändern.',
+    badge:'BELIEBT',
+    tWebsite:'Website',   dWebsite:'Eine Website oder Landingpage öffnen',
+    tPdf:'PDF',           dPdf:'Ein PDF-Dokument öffnen',
+    tImage:'Bild',        dImage:'Ein Bild oder Foto anzeigen',
+    tVcard:'vCard',       dVcard:'Eine digitale Visitenkarte teilen',
+    tVideo:'Video',       dVideo:'Ein Video mit einem Scan abspielen',
+    tApplink:'App-Link',  dApplink:'Weiterleitung zu verschiedenen App Stores',
+    tWhatsapp:'WhatsApp', dWhatsapp:'Sofort einen WhatsApp-Chat starten',
+    tWifi:'WLAN',         dWifi:'Mit einem WLAN-Netzwerk verbinden',
+    tFeedback:'Feedback', dFeedback:'Feedback oder eine Bewertung anfragen',
+    s1PreviewText:'Erstelle deinen<br>perfekten QR-Code',
+    s2Title:'Inhalt vervollständigen',
+    lUrl:'URL', phUrl:'https://ihre-website.de',
+    lWebName:'Name der Webseite', phWebName:'z.B. Meine Website',
+    lPhone:'Telefonnummer', lMsg:'Nachricht (optional)', phMsg:'Hallo! Ich interessiere mich für...',
+    lSsid:'Netzwerkname (SSID)', phSsid:'Mein WLAN',
+    lSecurity:'Sicherheitstyp', secNone:'Kein Passwort',
+    lPass:'Passwort', phPass:'Passwort', lHidden:'Verstecktes Netzwerk',
+    lFirst:'Vorname', phFirst:'Max', lLast:'Nachname', phLast:'Mustermann',
+    lEmail:'E-Mail', lWebsite:'Website', lCompany:'Firma', phCompany:'Muster GmbH',
+    dzTitle:'Klicke zum Hochladen oder ziehe hierher',
+    dzSubPdf:'PDF · Max. 10 MB', dzSubImg:'JPG, PNG, GIF · Max. 5 MB', dzSubVid:'MP4, MOV · Max. 100 MB',
+    appInfo:'Füge die Links zu deiner App ein. Nutzer werden automatisch zum richtigen Store weitergeleitet.',
+    lIos:'iOS App Store Link', lPlay:'Google Play Link',
+    fbInfo:'Füge den Link zu deinem Feedback-Formular ein (z.B. Google Reviews, Typeform, etc.).',
+    lFbUrl:'Feedback-Link',
+    lQrName:'Benenne deinen QR-Code', phQrName:'z.B. Mein Website QR-Code',
+    previewLabel:'Vorschau', s3Title:'QR-Code anpassen',
+    dColors:'Farben', dFg:'Vordergrund', dBg:'Hintergrund',
+    dPresets:'Farbkombinationen', dStyle:'Stil', dLogo:'Logo (optional)',
+    sSquare:'Standard', sRounded:'Abgerundet', sDots:'Punkte',
+    logoUpload:'📁 PNG oder JPG auswählen', logoRemove:'Logo entfernen',
+    btnDl:'PNG herunterladen', btnBack:'← Zurück', btnNext:'Weiter',
+    errSelectType:'Bitte wähle einen QR-Typ.',
+    errFillFields:'Bitte fülle alle Pflichtfelder aus.'
+  },
+  en: {
+    backHome:'Back to homepage', navCta:'More Features →',
+    step1:'Choose QR type', step2:'Add content', step3:'Customize QR',
+    s1Title:'What kind of QR code do you want to create?',
+    s1Sub:'Choose the matching type – you can change it later.',
+    badge:'POPULAR',
+    tWebsite:'Website',   dWebsite:'Open a website or landing page',
+    tPdf:'PDF',           dPdf:'Open a PDF document',
+    tImage:'Image',       dImage:'Display an image or photo',
+    tVcard:'vCard',       dVcard:'Share a digital business card',
+    tVideo:'Video',       dVideo:'Play a video with a scan',
+    tApplink:'App Link',  dApplink:'Redirect to different app stores',
+    tWhatsapp:'WhatsApp', dWhatsapp:'Start a WhatsApp chat instantly',
+    tWifi:'WiFi',         dWifi:'Connect to a WiFi network',
+    tFeedback:'Feedback', dFeedback:'Request feedback or a review',
+    s1PreviewText:'Create your<br>perfect QR code',
+    s2Title:'Add content',
+    lUrl:'URL', phUrl:'https://your-website.com',
+    lWebName:'Website name', phWebName:'e.g. My Website',
+    lPhone:'Phone number', lMsg:'Message (optional)', phMsg:"Hello! I'm interested in...",
+    lSsid:'Network name (SSID)', phSsid:'My WiFi',
+    lSecurity:'Security type', secNone:'No password',
+    lPass:'Password', phPass:'Password', lHidden:'Hidden network',
+    lFirst:'First name', phFirst:'John', lLast:'Last name', phLast:'Doe',
+    lEmail:'Email', lWebsite:'Website', lCompany:'Company', phCompany:'My Company Ltd.',
+    dzTitle:'Click to upload or drag here',
+    dzSubPdf:'PDF · Max. 10 MB', dzSubImg:'JPG, PNG, GIF · Max. 5 MB', dzSubVid:'MP4, MOV · Max. 100 MB',
+    appInfo:'Add the links to your app. Users will be automatically redirected to the correct store.',
+    lIos:'iOS App Store link', lPlay:'Google Play link',
+    fbInfo:'Add the link to your review or feedback form (e.g. Google Reviews, Typeform, etc.).',
+    lFbUrl:'Feedback link',
+    lQrName:'Name your QR code', phQrName:'e.g. My Website QR Code',
+    previewLabel:'Preview', s3Title:'Customize QR code',
+    dColors:'Colors', dFg:'Foreground', dBg:'Background',
+    dPresets:'Color presets', dStyle:'Style', dLogo:'Logo (optional)',
+    sSquare:'Standard', sRounded:'Rounded', sDots:'Dots',
+    logoUpload:'📁 Choose PNG or JPG', logoRemove:'Remove logo',
+    btnDl:'Download PNG', btnBack:'← Back', btnNext:'Next',
+    errSelectType:'Please select a QR type.',
+    errFillFields:'Please fill in all required fields.'
+  }
+};
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * STATE — wizard state lives here
+ * ─────────────────────────────────────────────────────────────
+ */
+let lang         = localStorage.getItem('qrLang') || 'de';
+let step         = 1;
+let selectedType = 'website';
+let fgColor      = '#000000';
+let bgColor      = '#ffffff';
+let qrStyle      = 'square';
+let logoImg      = null;
+
+/** Translate a key using the current language, fallback to 'de'. */
+function t(k) {
+  return (T[lang] && T[lang][k]) || T.de[k] || k;
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * LANGUAGE SWITCHING
+ * ─────────────────────────────────────────────────────────────
+ */
+/** Switch UI language and re-render all i18n strings. */
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('qrLang', l);
+  document.documentElement.lang = l;
+  document.getElementById('btnDe').classList.toggle('active', l === 'de');
+  document.getElementById('btnEn').classList.toggle('active', l === 'en');
+  applyI18n();
+}
+
+/** Apply all data-i18n / data-i18n-ph attributes to the DOM. */
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n'));
+    if (v) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n-ph'));
+    if (v) el.placeholder = v;
+  });
+  // Update Next button label: "Weiter" on steps 1–2, "PNG herunterladen" on step 3
+  const lbl = document.getElementById('btnNextLabel');
+  if (lbl) lbl.textContent = step === 3 ? t('btnDl') : t('btnNext');
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * WIZARD NAVIGATION
+ * ─────────────────────────────────────────────────────────────
+ */
+/** Move forward: validate, advance step, or trigger download on step 3. */
+function goNext() {
+  if (step === 1) {
+    if (!selectedType) { alert(t('errSelectType')); return; }
+    activateForm(selectedType);
+    showStep(2);
+  } else if (step === 2) {
+    const data = getQRData();
+    if (!data) { alert(t('errFillFields')); return; }
+    showStep(3);
+    setTimeout(() => renderQR(), 50); // let panel paint first
+  } else if (step === 3) {
+    downloadQR();
+  }
+}
+
+/** Move backward one step. */
+function goBack() {
+  if (step > 1) showStep(step - 1);
+}
+
+/**
+ * Activate a specific step panel.
+ * Hides all .step-panel, shows #panelN, updates stepper UI.
+ */
+function showStep(n) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel' + n).classList.add('active');
+  step = n;
+  updateStepUI();
+  applyI18n();
+}
+
+/** Sync all stepper circles/lines/text to the current step number. */
+function updateStepUI() {
+  for (let i = 1; i <= 3; i++) {
+    const sc = document.getElementById('sc' + i);
+    const st = document.getElementById('st' + i);
+    const sl = document.getElementById('sl' + i);
+    sc.className = 'step-circle' + (i < step ? ' done' : i === step ? ' active' : '');
+    sc.textContent = i < step ? '✓' : String(i);
+    st.className = 'step-text' + (i < step ? ' done' : i === step ? ' active' : '');
+    if (sl) sl.classList.toggle('done', i < step);
+  }
+  document.getElementById('btnBack').classList.toggle('visible', step > 1);
+  document.getElementById('btnNext').style.display = step === 1 ? 'none' : 'flex';
+  const lbl = document.getElementById('btnNextLabel');
+  if (lbl) lbl.textContent = step === 3 ? t('btnDl') : t('btnNext');
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * TYPE CARD SELECTION
+ * ─────────────────────────────────────────────────────────────
+ */
+const typeIcons = {
+  website:'🌐', pdf:'📄', image:'🖼️', vcard:'👤',
+  video:'🎥', applink:'📱', whatsapp:'💬', wifi:'📶', feedback:'⭐'
+};
+
+/**
+ * Called by onclick="selectType(this)" on each .type-card.
+ * Selects the card, stores type, immediately advances to step 2.
+ */
+function selectType(card) {
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedType = card.dataset.type;
+  goNext(); // auto-advance — no separate "Weiter" needed on step 1
+}
+
+/** Show the matching form section for the selected type. */
+function activateForm(type) {
+  document.querySelectorAll('.type-form').forEach(f => f.classList.remove('active'));
+  const f = document.getElementById('form-' + type);
+  if (f) f.classList.add('active');
+  document.getElementById('phone-icon').textContent = typeIcons[type] || '🌐';
+  updatePhonePreview();
+  // Special: toggle WiFi password field based on security type
+  if (type === 'wifi') {
+    document.getElementById('wifi-sec').onchange = () => {
+      document.getElementById('wifiPassField').style.display =
+        document.getElementById('wifi-sec').value === 'nopass' ? 'none' : 'block';
+    };
+  }
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * PHONE PREVIEW  (Step 2 right column)
+ * ─────────────────────────────────────────────────────────────
+ */
+/** Update the CSS phone mockup to reflect current form values. */
+function updatePhonePreview() {
+  const bar = document.getElementById('phonebar');
+  const txt = document.getElementById('phone-text');
+  const cta = document.getElementById('phone-cta');
+  switch (selectedType) {
+    case 'website': {
+      const url  = document.getElementById('w-url')?.value  || '';
+      const name = document.getElementById('w-name')?.value || '';
+      bar.textContent = url || 'https://';
+      txt.textContent = name || url || 'Ihre Website';
+      cta.textContent = lang === 'de' ? 'Öffnen' : 'Open';
+      break;
+    }
+    case 'whatsapp': {
+      const ph = document.getElementById('wa-phone')?.value || '';
+      bar.textContent = 'wa.me/' + ph.replace(/\s/g,'').replace('+','');
+      txt.textContent = ph ? 'WhatsApp: ' + ph : 'Ihre Nummer';
+      cta.textContent = 'Chat starten';
+      break;
+    }
+    case 'wifi': {
+      const ssid = document.getElementById('wifi-ssid')?.value || '';
+      bar.textContent = ssid ? 'WLAN: ' + ssid : 'Netzwerkname';
+      txt.textContent = ssid || 'Ihr WLAN';
+      cta.textContent = lang === 'de' ? 'Verbinden' : 'Connect';
+      break;
+    }
+    case 'vcard': {
+      const fn = document.getElementById('vc-first')?.value   || '';
+      const ln = document.getElementById('vc-last')?.value    || '';
+      const co = document.getElementById('vc-company')?.value || '';
+      bar.textContent = 'vCard';
+      txt.textContent = [fn, ln].filter(Boolean).join(' ') || 'Visitenkarte';
+      if (co) txt.textContent += '\n' + co;
+      cta.textContent = lang === 'de' ? 'Speichern' : 'Save';
+      break;
+    }
+    case 'applink': {
+      const ios = document.getElementById('app-ios')?.value || '';
+      try { bar.textContent = ios ? new URL(ios).hostname : 'App Store'; }
+      catch { bar.textContent = 'App Store'; }
+      txt.textContent = lang === 'de' ? 'App herunterladen' : 'Download App';
+      cta.textContent = lang === 'de' ? 'Zum Store' : 'Open Store';
+      break;
+    }
+    case 'feedback': {
+      const fb = document.getElementById('fb-url')?.value || '';
+      bar.textContent = fb || 'Feedback';
+      txt.textContent = lang === 'de' ? 'Bewertung hinterlassen' : 'Leave a review';
+      cta.textContent = lang === 'de' ? 'Jetzt bewerten' : 'Rate now';
+      break;
+    }
+    default: {
+      bar.textContent = '–'; txt.textContent = ''; cta.textContent = '';
+    }
+  }
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * QR DATA BUILDER  (assembles the string encoded in the QR)
+ * ─────────────────────────────────────────────────────────────
+ */
+/** Returns the encoded QR string for the current type + form values. */
+function getQRData() {
+  switch (selectedType) {
+    case 'website':
+      return document.getElementById('w-url').value.trim();
+
+    case 'whatsapp': {
+      const p = document.getElementById('wa-phone').value.replace(/\s/g,'').replace('+','');
+      if (!p) return '';
+      const m = encodeURIComponent(document.getElementById('wa-msg').value);
+      return 'https://wa.me/' + p + (m ? '?text=' + m : '');
+    }
+    case 'wifi': {
+      const s   = document.getElementById('wifi-ssid').value;
+      if (!s) return '';
+      const sec = document.getElementById('wifi-sec').value;
+      const pw  = sec === 'nopass' ? '' : document.getElementById('wifi-pass').value;
+      const h   = document.getElementById('wifi-hidden').checked ? 'true' : 'false';
+      return 'WIFI:T:' + sec + ';S:' + s + ';P:' + pw + ';H:' + h + ';;';
+    }
+    case 'vcard': {
+      const fn = document.getElementById('vc-first').value;
+      const ln = document.getElementById('vc-last').value;
+      if (!fn && !ln) return '';
+      return [
+        'BEGIN:VCARD', 'VERSION:3.0',
+        'FN:' + fn + ' ' + ln,
+        'N:'  + ln + ';' + fn,
+        'TEL:' + document.getElementById('vc-phone').value,
+        'EMAIL:' + document.getElementById('vc-email').value,
+        'URL:' + document.getElementById('vc-web').value,
+        'ORG:' + document.getElementById('vc-company').value,
+        'END:VCARD'
+      ].join('\n');
+    }
+    case 'applink':
+      return document.getElementById('app-ios').value.trim()
+          || document.getElementById('app-play').value.trim();
+
+    case 'feedback':
+      return document.getElementById('fb-url').value.trim();
+
+    case 'pdf': case 'image': case 'video': {
+      const ids = { pdf:'fi-pdf', image:'fi-img', video:'fi-vid' };
+      const fi  = document.getElementById(ids[selectedType]);
+      return fi && fi.files[0]
+        ? 'https://qr-docs.de/upload/' + encodeURIComponent(fi.files[0].name)
+        : 'https://qr-docs.de';
+    }
+    default:
+      return '';
+  }
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * DRAG-AND-DROP HELPERS
+ * ─────────────────────────────────────────────────────────────
+ */
+function dzDrag(e, el)       { e.preventDefault(); el.classList.add('dragover'); }
+function dzLeave(el)         { el.classList.remove('dragover'); }
+function dzDrop(e, fid, el) {
+  e.preventDefault(); el.classList.remove('dragover');
+  if (e.dataTransfer.files[0]) dzShowFile(e.dataTransfer.files[0], el);
+}
+function dzSelect(input, dzId) {
+  if (input.files[0]) dzShowFile(input.files[0], document.getElementById(dzId));
+}
+function dzShowFile(file, el) {
+  el.querySelector('.dropzone-title').textContent = '✓ ' + file.name;
+  el.style.borderColor = 'var(--teal)';
+  el.style.background  = 'var(--teal-l)';
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * QR RENDERING  (requires qrcodejs CDN)
+ * CDN: https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js
+ * ─────────────────────────────────────────────────────────────
+ */
+/** Render (or re-render) the QR code into #qr-preview. */
+function renderQR() {
+  const data = getQRData();
+  const text = data || 'https://qr-docs.de'; // fallback so preview always shows
+  const div  = document.getElementById('qr-preview');
+  div.innerHTML = '';
+  try {
+    new QRCode(div, {
+      text, width: 280, height: 280,
+      colorDark: fgColor, colorLight: bgColor,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  } catch(e) { console.error('QR render error:', e); return; }
+
+  setTimeout(() => {
+    if (qrStyle !== 'square') applyQRStyle();
+    if (logoImg) {
+      const c = div.querySelector('canvas');
+      if (c) drawLogo(c.getContext('2d'), 280);
+    }
+    const lbl = document.getElementById('qrNameLabel');
+    if (lbl) lbl.textContent = document.getElementById('qr-name')?.value || '';
+  }, 100);
+}
+
+/**
+ * Post-process the qrcodejs canvas for dots / rounded corner modules.
+ * Strategy: read pixel data → detect module grid → redraw with custom shapes.
+ */
+function applyQRStyle() {
+  const div = document.getElementById('qr-preview');
+  const src = div.querySelector('canvas');
+  if (!src) return;
+  const S      = src.width;
+  const srcCtx = src.getContext('2d');
+  const px     = srcCtx.getImageData(0, 0, S, S).data;
+
+  function isDark(x, y) {
+    if (x < 0 || y < 0 || x >= S || y >= S) return false;
+    return px[(y * S + x) * 4] < 128;
+  }
+
+  // Auto-detect module size and margin from first dark pixel
+  let ms = 0, marginPx = 0;
+  outer: for (let x = 0; x < S; x++) {
+    for (let y = 0; y < S; y++) {
+      if (isDark(x, y)) {
+        marginPx = x;
+        let ex = x;
+        while (ex < S && isDark(ex, y)) ex++;
+        ms = ex - x;
+        break outer;
+      }
+    }
+  }
+  if (ms < 1) return;
+
+  const totalM = Math.round((S - 2 * marginPx) / ms);
+  srcCtx.fillStyle = bgColor; srcCtx.fillRect(0, 0, S, S);
+  srcCtx.fillStyle = fgColor;
+
+  for (let r = 0; r < totalM; r++) {
+    for (let c = 0; c < totalM; c++) {
+      const cx = marginPx + c * ms + ms / 2;
+      const cy = marginPx + r * ms + ms / 2;
+      if (!isDark(Math.round(cx), Math.round(cy))) continue;
+      const x = marginPx + c * ms;
+      const y = marginPx + r * ms;
+      if (qrStyle === 'dots') {
+        srcCtx.beginPath();
+        srcCtx.arc(x + ms/2, y + ms/2, ms/2 * .82, 0, Math.PI * 2);
+        srcCtx.fill();
+      } else if (qrStyle === 'rounded') {
+        drawRR(srcCtx, x + .5, y + .5, ms - 1, ms - 1, ms * .35);
+        srcCtx.fill();
+      }
+    }
+  }
+}
+
+/** Draw a rounded rectangle path onto ctx (used for 'rounded' module style). */
+function drawRR(ctx, x, y, w, h, r) {
+  r = Math.min(r, w/2, h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);      ctx.quadraticCurveTo(x+w, y,   x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h);      ctx.quadraticCurveTo(x,   y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);        ctx.quadraticCurveTo(x,   y,   x+r, y);
+  ctx.closePath();
+}
+
+/** Overlay a logo image centred on the QR canvas with a white padding halo. */
+function drawLogo(ctx, S) {
+  const ls = S * .22, lx = (S-ls)/2, ly = (S-ls)/2, pad = 7;
+  ctx.fillStyle = bgColor;
+  drawRR(ctx, lx-pad, ly-pad, ls+pad*2, ls+pad*2, 10);
+  ctx.fill();
+  ctx.drawImage(logoImg, lx, ly, ls, ls);
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * DESIGN PANEL EVENT HANDLERS
+ * ─────────────────────────────────────────────────────────────
+ */
+/** Fired by oninput on color pickers. Reads both values, re-renders QR. */
+function onColorChange() {
+  fgColor = document.getElementById('cFg').value;
+  bgColor = document.getElementById('cBg').value;
+  document.getElementById('hexFg').textContent = fgColor;
+  document.getElementById('hexBg').textContent = bgColor;
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+  renderQR();
+}
+
+/**
+ * Apply a preset colour pair and mark the swatch as active.
+ * Called by onclick="applyPreset('#000','#fff',this)" on each swatch.
+ */
+function applyPreset(fg, bg, el) {
+  fgColor = fg; bgColor = bg;
+  document.getElementById('cFg').value = fg;
+  document.getElementById('cBg').value = bg;
+  document.getElementById('hexFg').textContent = fg;
+  document.getElementById('hexBg').textContent = bg;
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderQR();
+}
+
+/**
+ * Switch module style ('square' | 'rounded' | 'dots').
+ * Called by onclick="setStyle('dots',this)" on .style-btn elements.
+ */
+function setStyle(s, btn) {
+  qrStyle = s;
+  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderQR();
+}
+
+/** Handle logo file selection → read as DataURL → store in logoImg → re-render. */
+function handleLogo(input) {
+  const f = input.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      logoImg = img;
+      document.getElementById('logoDrop').classList.add('has-logo');
+      document.getElementById('logoDropText').textContent = '✓ ' + f.name;
+      document.getElementById('btnRmLogo').style.display = 'inline-block';
+      renderQR();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(f);
+}
+
+/** Remove the current logo and re-render. */
+function removeLogo() {
+  logoImg = null;
+  document.getElementById('logoFile').value = '';
+  document.getElementById('logoDrop').classList.remove('has-logo');
+  document.getElementById('logoDropText').textContent = t('logoUpload');
+  document.getElementById('btnRmLogo').style.display = 'none';
+  renderQR();
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * DOWNLOAD
+ * ─────────────────────────────────────────────────────────────
+ */
+/** Trigger a PNG download of the QR canvas. */
+function downloadQR() {
+  const div = document.getElementById('qr-preview');
+  const c   = div ? div.querySelector('canvas') : null;
+  if (!c) { alert('Bitte zuerst QR generieren.'); return; }
+  const a      = document.createElement('a');
+  a.download   = (document.getElementById('qr-name')?.value || 'qrcode') + '.png';
+  a.href       = c.toDataURL('image/png');
+  a.click();
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * ANIMATED CANVAS (Step 1 right column)
+ * Renders a sample QR via qrcodejs into a hidden div, then copies
+ * the result onto #animCanvas.
+ * ─────────────────────────────────────────────────────────────
+ */
+function drawAnimCanvas() {
+  const canvas = document.getElementById('animCanvas');
+  if (!canvas) return;
+  const S   = 180;
+  const tmp = document.createElement('div');
+  tmp.style.cssText = 'position:absolute;left:-9999px;top:0;width:' + S + 'px;height:' + S + 'px;visibility:hidden';
+  document.body.appendChild(tmp);
+  try {
+    new QRCode(tmp, {
+      text: 'https://qr-docs.de', width: S, height: S,
+      colorDark: '#111', colorLight: '#fff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    setTimeout(() => {
+      const src = tmp.querySelector('canvas');
+      if (src) {
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(src, 0, 0, S, S);
+      }
+      if (tmp.parentNode) document.body.removeChild(tmp);
+    }, 200);
+  } catch(e) {
+    if (tmp.parentNode) document.body.removeChild(tmp);
+  }
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ * INIT — runs once on page load
+ * ─────────────────────────────────────────────────────────────
+ */
+(function init() {
+  // Sync lang buttons
+  const btnDe = document.getElementById('btnDe');
+  const btnEn = document.getElementById('btnEn');
+  if (btnDe) btnDe.classList.toggle('active', lang === 'de');
+  if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+  applyI18n();
+  updateStepUI();
+  // Draw animated QR after a short delay (qrcodejs needs the DOM)
+  setTimeout(drawAnimCanvas, 100);
+})();
+</script>
+</body>
+</html>

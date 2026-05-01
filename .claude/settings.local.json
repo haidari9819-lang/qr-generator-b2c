@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/mnt/c/Users/Student/**)",
+      "Read(//c/Users/Student//**)",
+      "Read(//c/mnt/**)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(wsl ls:*)",
+      "Bash(wsl find:*)"
+    ]
+  }
+}
