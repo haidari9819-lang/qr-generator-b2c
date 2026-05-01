@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>https://qracode-generator.com/</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://qracode-generator.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://qracode-generator.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://qracode-generator.com/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://qracode-generator.com/fr/"/>
-    <lastmod>2026-05-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://qracode-generator.com/en/</loc>
-    <lastmod>2026-05-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://qracode-generator.com/generator.html</loc>
-    <lastmod>2026-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <url><loc>https://qracode-generator.com/</loc><lastmod>2026-05-01</lastmod><priority>1.0</priority></url>
+  <url><loc>https://qracode-generator.com/en/</loc><lastmod>2026-05-01</lastmod><priority>0.9</priority></url>
+  <url><loc>https://qracode-generator.com/es/</loc><lastmod>2026-05-01</lastmod><priority>0.9</priority></url>
+  <url><loc>https://qracode-generator.com/fr/</loc><lastmod>2026-05-01</lastmod><priority>0.9</priority></url>
+  <url><loc>https://qracode-generator.com/whatsapp-qr-code/</loc><lastmod>2026-05-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://qracode-generator.com/wlan-qr-code/</loc><lastmod>2026-05-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://qracode-generator.com/vcard-qr-code/</loc><lastmod>2026-05-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://qracode-generator.com/qr-code-generator-free/</loc><lastmod>2026-05-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://qracode-generator.com/wifi-qr-code/</loc><lastmod>2026-05-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://qracode-generator.com/generator.html</loc><lastmod>2026-05-01</lastmod><priority>0.7</priority></url>
 </urlset>
