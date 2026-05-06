@@ -8,7 +8,9 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(wsl ls:*)",
-      "Bash(wsl find:*)"
+      "Bash(wsl find:*)",
+      "Bash(xargs grep:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

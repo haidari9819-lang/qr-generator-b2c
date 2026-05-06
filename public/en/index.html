@@ -3,55 +3,108 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/favicon.svg">
   <title>Free QR Code Generator – No Registration Required</title>
-  <meta name="description" content="Create QR codes instantly for free. No signup, no account needed. Generate QR codes for URLs, WhatsApp, WiFi & business cards. Download instantly."/>
-  <meta name="robots" content="index, follow"/>
+  <meta name="description" content="Create QR codes instantly for free. No signup, no registration needed. Generate QR codes for URLs, WhatsApp, WiFi & business cards. Download instantly."/>
   <link rel="canonical" href="https://qracode-generator.com/en/"/>
   <link rel="alternate" hreflang="de" href="https://qracode-generator.com/"/>
   <link rel="alternate" hreflang="en" href="https://qracode-generator.com/en/"/>
-  <link rel="alternate" hreflang="es" href="https://qracode-generator.com/es/"/>
-  <link rel="alternate" hreflang="fr" href="https://qracode-generator.com/fr/"/>
   <link rel="alternate" hreflang="x-default" href="https://qracode-generator.com/"/>
-  <meta property="og:title" content="Free QR Code Generator – No Registration Required"/>
-  <meta property="og:description" content="Create QR codes instantly for free. No signup, no account needed. Generate QR codes for URLs, WhatsApp, WiFi & business cards. Download instantly."/>
-  <meta property="og:url" content="https://qracode-generator.com/en/"/>
-  <meta property="og:type" content="website"/>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Free QR Code Generator",
-    "url": "https://qracode-generator.com/en/",
-    "description": "Create QR codes instantly for free. No signup, no account needed. Generate QR codes for URLs, WhatsApp, WiFi & business cards. Download instantly.",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Web",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
-  }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',system-ui,sans-serif;background:#faf9f7;color:#111;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
-    .badge{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e8e8e8;border-radius:999px;padding:6px 16px;font-size:13px;color:#555;margin-bottom:24px}
-    h1{font-size:clamp(32px,6vw,56px);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:16px}
-    p{font-size:16px;color:#666;margin-bottom:32px;max-width:500px}
-    .btn{display:inline-flex;align-items:center;gap:8px;background:#111;color:#fff;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;text-decoration:none;transition:opacity .2s}
-    .btn:hover{opacity:.85}
-    .features{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:32px}
-    .feature{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:12px 20px;font-size:13px;color:#444}
+    body{font-family:'Inter',system-ui,sans-serif;background:#faf9f7;color:#111;overflow-x:hidden}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(250,249,247,.92);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(0,0,0,.06)}
+    .nav-logo{font-size:.9rem;font-weight:700;color:#111;text-decoration:none}
+    .nav-cta{background:#111;color:#fff;padding:10px 22px;border-radius:999px;font-size:.82rem;font-weight:600;text-decoration:none}
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 24px 80px;text-align:center}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e8e8e8;border-radius:999px;padding:8px 18px;font-size:13px;color:#555;margin-bottom:28px}
+    h1{font-size:clamp(36px,6vw,72px);font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:20px}
+    .sub{font-size:18px;color:#555;max-width:520px;line-height:1.6;margin-bottom:36px}
+    .btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .btn-dark{background:#111;color:#fff;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;text-decoration:none}
+    .btn-light{background:#fff;color:#111;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;text-decoration:none;border:1px solid #e8e8e8}
+    .features{padding:80px 24px;max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+    .feature{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:28px}
+    .feature-icon{font-size:28px;margin-bottom:12px}
+    .feature h3{font-size:17px;font-weight:700;margin-bottom:8px}
+    .feature p{font-size:14px;color:#666;line-height:1.6}
+    .types{padding:80px 24px;background:#fff}
+    .types-inner{max-width:900px;margin:0 auto;text-align:center}
+    .types h2{font-size:36px;font-weight:800;margin-bottom:48px}
+    .types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px}
+    .type{background:#faf9f7;border:1px solid #e8e8e8;border-radius:12px;padding:20px;text-align:center}
+    .type-icon{font-size:24px;margin-bottom:8px}
+    .type p{font-size:13px;font-weight:600}
+    footer{text-align:center;padding:40px 24px;color:#999;font-size:13px}
+    footer a{color:#666;text-decoration:none}
   </style>
 </head>
 <body>
-  <div class="badge">⚡ 100% kostenlos · keine Anmeldung</div>
-  <h1>Free QR Code Generator</h1>
-  <p>No registration. No account. Just instant QR codes.</p>
-  <a href="https://qracode-generator.com/" class="btn">Jetzt QR Code erstellen ⚡</a>
-  <div class="features">
-    <div class="feature">✓ Keine Anmeldung</div>
-    <div class="feature">✓ Sofort downloaden</div>
-    <div class="feature">✓ 100% kostenlos</div>
-    <div class="feature">✓ Professionelle Qualität</div>
+  <nav>
+    <a href="/en/" class="nav-logo">⚡ QR Generator</a>
+    <a href="/" class="nav-logo" style="font-size:12px;color:#666;">🇩🇪 Deutsch</a>
+    <a href="/en/#generator" class="nav-cta">Create QR Code →</a>
+  </nav>
+
+  <div class="hero">
+    <div class="badge">⚡ 100% free · no registration required</div>
+    <h1>Free QR Code<br/>Generator</h1>
+    <p class="sub">Create professional QR codes instantly for URLs, WhatsApp, WiFi & business cards. No signup needed. Download in seconds.</p>
+    <div class="btns">
+      <a href="/" class="btn-dark">Create QR Code ⚡</a>
+      <a href="/en/#features" class="btn-light">Learn more</a>
+    </div>
   </div>
+
+  <section class="features" id="features">
+    <div class="feature">
+      <div class="feature-icon">🔗</div>
+      <h3>URL QR Codes</h3>
+      <p>Turn any website link into a scannable QR code. Perfect for business cards, flyers and marketing materials.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">💬</div>
+      <h3>WhatsApp QR Codes</h3>
+      <p>Let customers contact you on WhatsApp instantly by scanning a QR code. No phone number needed.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📶</div>
+      <h3>WiFi QR Codes</h3>
+      <p>Share your WiFi password easily. Guests scan the code and connect instantly — no typing required.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">👤</div>
+      <h3>Business Card QR Codes</h3>
+      <p>Share your contact information digitally. Create a vCard QR code with name, phone and email.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🚀</div>
+      <h3>Instant Download</h3>
+      <p>Download your QR code immediately as a high-quality PNG file. No waiting, no email required.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔒</div>
+      <h3>Privacy First</h3>
+      <p>Your data stays on your device. We don't store any URLs or personal information. GDPR compliant.</p>
+    </div>
+  </section>
+
+  <section class="types">
+    <div class="types-inner">
+      <h2>All QR Code Types</h2>
+      <div class="types-grid">
+        <div class="type"><div class="type-icon">🌐</div><p>Website</p></div>
+        <div class="type"><div class="type-icon">💬</div><p>WhatsApp</p></div>
+        <div class="type"><div class="type-icon">📶</div><p>WiFi</p></div>
+        <div class="type"><div class="type-icon">👤</div><p>vCard</p></div>
+        <div class="type"><div class="type-icon">📄</div><p>PDF</p></div>
+        <div class="type"><div class="type-icon">⭐</div><p>Feedback</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 QR Generator · Free QR code generator without registration · <a href="/">🇩🇪 Deutsch</a> · Powered by <a href="https://qr-docs.de">QR-Docs</a></p>
+  </footer>
 </body>
 </html>
