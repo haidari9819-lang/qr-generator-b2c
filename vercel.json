@@ -22,7 +22,7 @@
       "headers": { "Cache-Control": "no-store, max-age=0" }
     },
     {
-      "src": "/([a-z0-9][a-z0-9-]*)",
+      "src": "/([a-z0-9][a-z0-9-]*)$",
       "status": 301,
       "headers": { "Location": "/$1/" }
     },
