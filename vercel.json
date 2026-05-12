@@ -22,6 +22,16 @@
       "headers": { "Cache-Control": "no-store, max-age=0" }
     },
     {
+      "src": "/([a-z0-9][a-z0-9-]*)",
+      "status": 301,
+      "headers": { "Location": "/$1/" }
+    },
+    {
+      "src": "/([^.]+)/",
+      "dest": "/public/$1/index.html",
+      "headers": { "Cache-Control": "public, max-age=0, must-revalidate" }
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/$1",
       "headers": { "Cache-Control": "public, max-age=0, must-revalidate" }
